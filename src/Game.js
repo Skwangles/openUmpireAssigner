@@ -1,42 +1,49 @@
 import { useState } from "react";
 import { Droppable } from "react-drag-and-drop";
 
-function Game(props) {
-    let [ump1, setUmp1] = useState("---")
-    let [ump2, setUmp2] = useState("---")
+
+
+function Game({game, setSelectedGame}) {
+    let [ump1, setUmp1] = useState({})
+    let [ump2, setUmp2] = useState({})
+
+    let handleFocus = (data, event) => {
+      console.log("Click!" + game.A)
+      setSelectedGame(game)
+      
+    }
+
+    let handleDrop = (data, event) => {
+      let info = JSON.parse(data.umpire)
+      if(event.target.id === "ump1name"){
+          setUmp1(info)
+      }
+      else if (event.target.id === "ump2name"){
+          setUmp2(info)
+      }
+  }
+
     return (
-      <tr>
-        <td> {props.a} </td>
-        <td> {props.b} </td>
-        <td> {props.time} </td>
-        <td> {props.turf} </td>
+      <tr onClick={handleFocus}>
+        <td> {game.A} </td>
+        <td> {game.B} </td>
+        <td> {game.Time} </td>
+        <td> {game.Turf} </td>
         <td>
-            <Droppable types={['umpire']} id="ump1name" onDrop={(data, event)=>handleDrop(data, event, setUmp1, setUmp2)}>
-            {ump1}
+            <Droppable types={['umpire']} id="ump1name" onDrop={handleDrop}>
+            {typeof ump1.name === "undefined" ? "---" : ump1.name}
             </Droppable>
         </td>
 
         <td>
-            <Droppable types={['umpire']} id="ump2name" onDrop={(data, event)=>handleDrop(data, event, setUmp1, setUmp2)}>
-            {ump2}
+            <Droppable types={['umpire']} id="ump2name" onDrop={handleDrop}>
+            {typeof ump2.name === "undefined" ? "---" : ump2.name}
             </Droppable>
         </td>
       </tr>
     );
   }
   
-  function handleDrop(data, event, setUmp1, setUmp2) {
-    let info = JSON.parse(data.umpire)
-    if(event.target.id === "ump1name"){
-        setUmp1(info.name)
-    }
-    else if (event.target.id === "ump2name"){
-        setUmp2(info.name)
-    }
-    console.log(event)
-    // This method runs when the data drops
-    console.log(data); // 'bar'
-
-}
+ 
   
   export default Game;
