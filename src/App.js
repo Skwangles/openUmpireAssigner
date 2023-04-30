@@ -28,7 +28,7 @@ function App() {
   let gameLength_min = 60
   
  function convertToCsv(game){
-  return game.A + "," + game.B + "," + game.Time + "," + game.Turf + "," + game.ump1 ?? "-" + "," + game.ump2 ?? "-" + "," 
+  return game.A + "," + game.B + "," + game.Time + "," + game.Turf + "," + game.ump1?.name ?? "-" + "," + game.ump2?.name ?? "-" + "," 
  }
 
   return (
