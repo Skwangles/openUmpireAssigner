@@ -27,10 +27,18 @@ function App() {
   ])
   let gameLength_min = 60
   
+ function convertToCsv(game){
+  return game.A + "," + game.B + "," + game.Time + "," + game.Turf + "," + game.ump1 ?? "-" + "," + game.ump2 ?? "-" + "," 
+ }
+
   return (
     <div className="App">
+      <div>
+        Enter Games
+      <textarea rows={4} cols={30} value={games.map(game => convertToCsv(game))}></textarea>
+      </div>
       <Stack direction="horizontal" gap={2} className="col-5 mx-auto container border">
-      <Games className="col-7 mx-auto" setUsed={setUsedUmpires} setSelectedGame={setSelectedGame} gameLength={gameLength_min} getGames={games}>
+      <Games className="col-7 mx-auto" setUsed={setUsedUmpires} setSelectedGame={setSelectedGame} setGames={setGames} gameLength={gameLength_min} getGames={games}>
       </Games>
       <Umpires className="col-5 mx-auto"  getUsed={usedUmpires} getSelectedGame={selectedGame} games={games} gameLength={gameLength_min}>
       </Umpires>

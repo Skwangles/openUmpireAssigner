@@ -13,9 +13,21 @@ let umpires = [{
     "canWomens": true,
     "teams":["Old boys"],
     "skillLevel":"R2"
+}, 
+{
+  "name":"Emilio",
+  "canMens":true,
+  "canWomens": true,
+  "teams":[""],
+  "skillLevel":"R2"
 }]
 
-
+/**
+ * Get 'avoid' times based on the 'teams' an umpire is set to work with
+ * @param {Team names to avoid games with} umpTeams 
+ * @param {Array of all games} games 
+ * @returns 
+ */
 let getTimes = (umpTeams, games) => {
   let avoidTimes = []
   games.forEach(game => {

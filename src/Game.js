@@ -7,10 +7,12 @@ function Game({game, setSelectedGame}) {
     let [ump1, setUmp1] = useState({})
     let [ump2, setUmp2] = useState({})
 
+    game.ump1 = ump1
+    game.ump2 = ump2
+
     let handleFocus = (data, event) => {
       console.log("Click!" + game.A)
       setSelectedGame(game)
-      
     }
 
     let handleDrop = (data, event) => {
