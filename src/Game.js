@@ -3,12 +3,11 @@ import { Droppable } from "react-drag-and-drop";
 
 
 
-function Game({game, setSelectedGame}) {
+function Game({game, updateGameValue, setSelectedGame, key}) {
     let [ump1, setUmp1] = useState({})
     let [ump2, setUmp2] = useState({})
 
-    game.ump1 = ump1
-    game.ump2 = ump2
+
 
     let handleFocus = (data, event) => {
       console.log("Click!" + game.A)
@@ -23,7 +22,7 @@ function Game({game, setSelectedGame}) {
       else if (event.target.id === "ump2name"){
           setUmp2(info)
       }
-  }
+    }
 
     return (
       <tr onClick={handleFocus}>
@@ -33,13 +32,13 @@ function Game({game, setSelectedGame}) {
         <td> {game.Turf} </td>
         <td>
             <Droppable types={['umpire']} id="ump1name" onDrop={handleDrop}>
-            {typeof ump1.name === "undefined" ? "---" : ump1.name}
+            {ump1.hasOwnProperty("name" ? ump1.name : "---"}
             </Droppable>
         </td>
 
         <td>
             <Droppable types={['umpire']} id="ump2name" onDrop={handleDrop}>
-            {typeof ump2.name === "undefined" ? "---" : ump2.name}
+            {ump2.hasOwnProperty("name") ? ump2.name :  "---" }
             </Droppable>
         </td>
       </tr>
