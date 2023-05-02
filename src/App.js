@@ -6,7 +6,12 @@ import Games from './Games';
 import { useState } from 'react';
 
 function App() {
+
+  let [highlightType, setHighlightType] = useState("ump")
+
   let [selectedGame, setSelectedGame] = useState({})
+  let [selectedUmpire, setSelecteUmpire] = useState({})
+
   let [usedUmpires, setUsedUmpires] = useState([])
 
 
@@ -15,11 +20,15 @@ function App() {
       "A": "Morrinsville",
       "B": "Old boys",
       "Time": "16:00",
-      "Turf":"GHC1"
+      "Turf":"GHC1",
+      "Grade":"M2",
+      "ump1":null,
+      "ump2":null
   }, {
       "A": "Varsity",
       "B": "Old boys",
       "Time": "15:30",
+      "Grade":"M3",
       "Turf":"GHC2",
       "ump1": null,
       "ump2":null
@@ -38,9 +47,9 @@ function App() {
       <textarea rows={4} cols={30} value={games.map(game => convertToCsv(game))}></textarea>
       </div>
       <Stack direction="horizontal" gap={2} className="col-5 mx-auto container border">
-      <Games className="col-7 mx-auto" setUsed={setUsedUmpires} setSelectedGame={setSelectedGame} setGames={setGames} gameLength={gameLength_min} getGames={games}>
+      <Games className="col-7 mx-auto" setUsed={setUsedUmpires} selectedUmpire={selectedUmpire} setSelectedGame={setSelectedGame} setGames={setGames} gameLength={gameLength_min} getGames={games} highlightType={highlightType}>
       </Games>
-      <Umpires className="col-5 mx-auto"  getUsed={usedUmpires} getSelectedGame={selectedGame} games={games} gameLength={gameLength_min}>
+      <Umpires className="col-5 mx-auto"  usedUmpires={usedUmpires} setSelecteUmpire={setSelecteUmpire} getSelectedGame={selectedGame} games={games} gameLength={gameLength_min} highlightType={highlightType}>
       </Umpires>
       </Stack>
     </div>
