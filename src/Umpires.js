@@ -5,21 +5,24 @@ let umpires = [{
     "canMens":true,
     "canWomens": false,
     "teams":["Morrinsville"],
-    "skillLevel":"R2"
+    "skillLevel":"M1",
+    "restrictedTurf":[]
 },
 {
     "name":"Danielle",
     "canMens":false,
     "canWomens": true,
     "teams":["Old boys"],
-    "skillLevel":"R2"
+    "skillLevel":"W1",
+    "restrictedTurf":[]
 }, 
 {
   "name":"Emilio",
   "canMens":true,
   "canWomens": true,
   "teams":[""],
-  "skillLevel":"R2"
+  "skillLevel":"M2",
+  "restrictedTurf":["St Pauls"]
 }]
 
 /**
@@ -72,16 +75,16 @@ function timeLessThanEqual(time1, time2){
   return false
 }
 
-let isCrossover = (umpire, getSelectedGame, games, gameLength) => {
+let isTimewiseAvailable = (umpire, selectedGame, games, gameLength) => {
   console.log("Checking cross over")
   //Handle no specified 'selectedGame'
-  if(typeof getSelectedGame.Time === "undefined") return false;
+  if(typeof selectedGame.Time === "undefined") return true;
 
   //Calc areas Umpire can't play in
   let avoidTimes = getTimes(umpire.teams, games);
 
   //Parse game time
-  let time = getSelectedGame.Time.split(':');
+  let time = selectedGame.Time.split(':');
   let gameStart = {"hour": parseInt(time[0]), "min":parseInt(time[1])}
   let gameEnd = getEndTime(gameStart, gameLength)
 
@@ -89,19 +92,51 @@ let isCrossover = (umpire, getSelectedGame, games, gameLength) => {
     //Check if any edges overlap
       if ((timeLessThanEqual(gameStart, avoid.end) && timeLessThanEqual(avoid.start, gameEnd)) || (timeLessThanEqual(avoid.start, gameEnd) && timeLessThanEqual(gameStart, avoid.end))) {
           //Overlap
-          console.log("WE GOT OVERLAP" + umpire.name)
-          return true;
+          return false;
       }
   }
-  
-  console.log("But not removed" + umpire.name)
-  return false;
+  return true;
 }
 
-function Umpires({getUsed, getSelectedGame, games, gameLength}) {
-  console.log(getSelectedGame)
-  let availableUmps = umpires.filter(ump => !isCrossover(ump, getSelectedGame, games, gameLength))
+const levels = {
+  "W1": 0,
+  "W2": 1,//Approx same as Mens 3
+  "M3": 1,
+  "M2": 2,
+  "M1": 3,
+  "Prem": 4
+}
+
+
+let fitsUmpirePreferences = (umpire, getSelectedGame) => {
+
+  //Check if wants to do this level
+  if(canWomens == false && getSelectedGame.Grade.includes("W")) return false
+  if(canMens == false && getSelectedGame.Grade.includes("M")) return false
+
+  //Check if can attend venue
+  if(getSelectedGame.Turf in umpire.restrictedTurf) return false
+
+  //Skill level check
+  if(levels[umpire.skillLevel] < levels[getSelectedGame.Grade]) return false
+}
+
+
+let alreadyPicked = (umpire, usedUmpires) => {
+  if(usedUmpires[umpire.name] > 0) return true
+}
+
+function Umpires({getUsed/*Disable if already selected*/, getSelectedGame, games, gameLength, highlightType}) {
+
+  availableUmps = umpires
+  
+  //Mode will eliminate unavailable umpires
+  if(highlightType == "game" && (getSelectedGame != null && getSelectedGame !== {})){
+    availableUmps = umpires.filter(ump => !alreadyPicked(ump, getUsed) && fitsUmpirePreferences(ump, getSelectedGame) && !isTimewiseAvailable(ump, getSelectedGame, games, gameLength) )
+  }
+
   let umpComponents = availableUmps.map(info => <Umpire  key={info.name} info={info}></Umpire>)
+
   console.log(availableUmps)
   return (
     <div className="Umpires" style={{border: '1px dashed red'}}>
