@@ -2,15 +2,26 @@ import { Draggable, Droppable } from 'react-drag-and-drop';
 import Game from './Game';
 import "./Games.css"
 
- 
+function updateUsedUmpires(games, setUsedUmpires){
+    // Keep track of umpires
+    let usedUmpires = {}
+    games.forEach(game => {
+        if(game.ump1 != null)
+            usedUmpires[game.ump1.name] > 0 ? usedUmpires[game.ump1.name] += 1 : usedUmpires[game.ump1.name] = 1
+        if(game.ump2 != null)
+            usedUmpires[game.ump2.name] > 0 ? usedUmpires[game.ump2.name] += 1 : usedUmpires[game.ump2.name] = 1   
+    });
+    setUsedUmpires(usedUmpires)
+} 
 
-function Games({getGames, setGames, setUsedUmpires, gameLength, setSelectedGame}) {
+
+function Games({games, setGames, setUsedUmpires, gameLength, setSelectedGame, highlightType}) {
 
     let updateGameValue = (key, newGame) => {
         let indexOfGame = -1;
-        for(const index in getGames)
+        for(const index in games)
         {
-            let item = getGames[index]
+            let item = games[index]
             if(item.Time + "|" + item.Turf === key)
             {
                 indexOfGame = index
@@ -18,16 +29,17 @@ function Games({getGames, setGames, setUsedUmpires, gameLength, setSelectedGame}
             }
         }
         if(indexOfGame < 0) return false
-        getGames[indexOfGame] = newGame
-        setGames(getGames)
+        games[indexOfGame] = newGame
+        setGames(games)
     }
 
+    updateUsedUmpires(games, setUsedUmpires)
 
   return (
     <div className="Games" style={{border: '1px dashed red'}}>
         <table>
             <tbody>
-                {getGames.map(info => <Game key={info.Time + "|" + info.Turf} game={info} setSelectedGame={setSelectedGame}></Game> )}
+                {games.map(info => <Game key={info.Time + "|" + info.Turf} game={info} setSelectedGame={setSelectedGame}></Game> )}
                 <Game game={{"A":"--", "B":"--", "Time":"00:00"}} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game>
             </tbody>
         </table>
