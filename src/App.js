@@ -4,14 +4,15 @@ import {Stack} from "react-bootstrap"
 import Umpires from './Umpires';
 import Games from './Games';
 import { useState } from 'react';
+import parseUmpire from './parseUmpires';
+const gameLength_min = 60
 
 function App() {
 
-  let [highlightType, setHighlightType] = useState("ump")
+  let [highlightType, setHighlightType] = useState("umpire")
 
   let [selectedGame, setSelectedGame] = useState({})
-  let [selectedUmpire, setSelecteUmpire] = useState({})
-
+  let [selectedUmpire, setSelectedUmpire] = useState({})
   let [usedUmpires, setUsedUmpires] = useState([])
 
 
@@ -34,11 +35,39 @@ function App() {
       "ump2":null
   }
   ])
-  let gameLength_min = 60
+
+  let [umpires, setUmpires] = useState([{
+    "name":"Alexander",
+    "canMens":true,
+    "canWomens": false,
+    "teams":["Morrinsville"],
+    "skillLevel":"M1",
+    "restrictedTurf":[]
+},
+{
+    "name":"Danielle",
+    "canMens":false,
+    "canWomens": true,
+    "teams":["Old boys"],
+    "skillLevel":"W1",
+    "restrictedTurf":[]
+}, 
+{
+  "name":"Emilio",
+  "canMens":true,
+  "canWomens": true,
+  "teams":[""],
+  "skillLevel":"M2",
+  "restrictedTurf":["St Pauls"]
+}]);
+
+
   
  function convertToCsv(game){
   return game.A + "," + game.B + "," + game.Time + "," + game.Turf + "," + game.ump1?.name ?? "-" + "," + game.ump2?.name ?? "-" + "," 
  }
+
+ let [parsedUmpires, setParsedUmpires] = useState(umpires.map(umpire => umpire["games"] = parsedUmpires(umpire, games, gameLength_min)))
 
   return (
     <div className="App">
@@ -47,9 +76,9 @@ function App() {
       <textarea rows={4} cols={30} value={games.map(game => convertToCsv(game))}></textarea>
       </div>
       <Stack direction="horizontal" gap={2} className="col-5 mx-auto container border">
-      <Games className="col-7 mx-auto" setUsed={setUsedUmpires} selectedUmpire={selectedUmpire} setSelectedGame={setSelectedGame} setGames={setGames} gameLength={gameLength_min} getGames={games} highlightType={highlightType}>
+      <Games className="col-7 mx-auto" games={games} setGames={setGames} highlightType={highlightType} setSelectedGame={setSelectedGame}>
       </Games>
-      <Umpires className="col-5 mx-auto"  usedUmpires={usedUmpires} setSelecteUmpire={setSelecteUmpire} getSelectedGame={selectedGame} games={games} gameLength={gameLength_min} highlightType={highlightType}>
+      <Umpires className="col-5 mx-auto" umpires={umpires} highlightType={highlightType} setSelectedUmpire={setSelectedUmpire}>
       </Umpires>
       </Stack>
     </div>

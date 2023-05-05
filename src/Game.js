@@ -26,8 +26,8 @@ function Game({game, updateGameValue, setSelectedGame, key}) {
 
     //Handle real time updates to game
     game.ump1 = ump1
-    game.ump2 = ump2;
-    updateGameValue(game)  
+    game.ump2 = ump2
+    updateGameValue(key, game)  
 
     return (
       <tr onClick={handleClickToFocus}>
@@ -37,7 +37,7 @@ function Game({game, updateGameValue, setSelectedGame, key}) {
         <td> {game.Turf} </td>
         <td>
             <Droppable types={['umpire']} id="ump1name" onDrop={handleDropfromDrag}>
-            {ump1.hasOwnProperty("name" ? ump1.name : "---"}
+            {ump1.hasOwnProperty("name" ? ump1.name : "---")}
             </Droppable>
         </td>
 

@@ -15,7 +15,7 @@ function updateUsedUmpires(games, setUsedUmpires){
 } 
 
 
-function Games({games, setGames, setUsedUmpires, gameLength, setSelectedGame, highlightType}) {
+function Games({games, highlightType, setGames}) {
 
     let updateGameValue = (key, newGame) => {
         let indexOfGame = -1;
@@ -33,13 +33,11 @@ function Games({games, setGames, setUsedUmpires, gameLength, setSelectedGame, hi
         setGames(games)
     }
 
-    updateUsedUmpires(games, setUsedUmpires)
-
   return (
     <div className="Games" style={{border: '1px dashed red'}}>
         <table>
             <tbody>
-                {games.map(info => <Game key={info.Time + "|" + info.Turf} game={info} setSelectedGame={setSelectedGame}></Game> )}
+                {games.map(info => <Game key={info.Time + "|" + info.Turf} game={info} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game> )}
                 <Game game={{"A":"--", "B":"--", "Time":"00:00"}} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game>
             </tbody>
         </table>
