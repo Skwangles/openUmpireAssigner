@@ -101,14 +101,16 @@ const levels = {
   let fitsUmpirePreferences = (umpire, checkedGame) => {
   
     //Check if wants to do this level
-    if(umpire.canWomens == false && checkedGame.Grade.includes("W")) return false
-    if(umpire.canMens == false && checkedGame.Grade.includes("M")) return false
+    if(umpire.canWomens === false && checkedGame.Grade.includes("W")) return false
+    if(umpire.canMens === false && checkedGame.Grade.includes("M")) return false
   
     //Check if can attend venue
     if(checkedGame.Turf in umpire.restrictedTurf) return false
   
     //Skill level check
     if(levels[umpire.skillLevel] < levels[checkedGame.Grade]) return false
+    
+    return true //It fits! 
   }
   
   

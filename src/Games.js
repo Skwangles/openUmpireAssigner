@@ -1,5 +1,6 @@
 import { Draggable, Droppable } from 'react-drag-and-drop';
 import Game from './Game';
+import {gameToId} from './uniqueIds.js'
 import "./Games.css"
 
 function updateUsedUmpires(games, setUsedUmpires){
@@ -15,7 +16,7 @@ function updateUsedUmpires(games, setUsedUmpires){
 } 
 
 
-function Games({games, highlightType, setGames}) {
+function Games({games, highlightType, setGames, setSelectedGame, selectedUmpire}) {
 
     let updateGameValue = (key, newGame) => {
         let indexOfGame = -1;
@@ -32,14 +33,19 @@ function Games({games, highlightType, setGames}) {
         games[indexOfGame] = newGame
         setGames(games)
     }
+    
+    let filteredGames = games;
+    if(highlightType === "umpire" && selectedUmpire.hasOwnProperty("name")){
+        console.log("Filtering out games")
+        filteredGames = selectedUmpire.games
+    }
 
   return (
-    <div className="Games" style={{border: '1px dashed red'}}>
+    <div className="Games">
         <table>
             <tbody>
-                {games.map(info => <Game key={info.Time + "|" + info.Turf} game={info} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game> )}
-                <Game game={{"A":"--", "B":"--", "Time":"00:00"}} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game>
-            </tbody>
+                {filteredGames.map(info => <Game key={gameToId(info)} id={gameToId(info)} game={info} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game> )}
+                </tbody>
         </table>
     </div>
   );
