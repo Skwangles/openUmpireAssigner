@@ -14,7 +14,7 @@ function Umpires({umpires, highlightType, setSelectedUmpire, selectedGame}) {
     console.log(filteredUmpires)
   }
 
-  let umpComponents = filteredUmpires.map(info => <Umpire key={info.name} info={info} setSelectedUmpire={setSelectedUmpire}></Umpire>)
+  let umpComponents = filteredUmpires.length > 0 ? filteredUmpires.map(info => <Umpire key={info.name} info={info} setSelectedUmpire={setSelectedUmpire}></Umpire>) : <td>No umpires Found</td>
 
   return (
     <div className="Umpires">

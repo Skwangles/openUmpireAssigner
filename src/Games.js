@@ -44,7 +44,7 @@ function Games({games, highlightType, setGames, setSelectedGame, selectedUmpire}
     <div className="Games">
         <table>
             <tbody>
-                {filteredGames.map(info => <Game key={gameToId(info)} id={gameToId(info)} game={info} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game> )}
+                {filteredGames.length > 0 ? filteredGames.map(info => <Game key={gameToId(info)} id={gameToId(info)} game={info} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game> ): <td>"No Games Found."</td>}
                 </tbody>
         </table>
     </div>
