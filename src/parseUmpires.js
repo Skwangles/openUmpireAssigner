@@ -120,6 +120,8 @@ const levels = {
 
 
 function parseUmpire(umpire, games, gameLength){
+  console.log("Games...")
+  console.log(games)
     return games.filter(game => /*!alreadyPicked(umpire, getUsed) &&*/ fitsUmpirePreferences(umpire, game) && !isTimewiseAvailable(umpire, game, games, gameLength))
 }
 

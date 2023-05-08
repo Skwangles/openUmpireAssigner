@@ -1,6 +1,6 @@
 import { Draggable, Droppable } from 'react-drag-and-drop';
 import Game from './Game';
-import {gameToId} from './uniqueIds.js'
+import {gameToId} from './utils.js'
 import "./Games.css"
 
 function updateUsedUmpires(games, setUsedUmpires){

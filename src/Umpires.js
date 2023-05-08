@@ -1,6 +1,6 @@
 import { Draggable, Droppable } from 'react-drag-and-drop';
 import Umpire from './Umpire';
-import { gameToId } from './uniqueIds';
+import { gameToId } from './utils';
 
 
 function Umpires({umpires, highlightType, setSelectedUmpire, selectedGame}) {
