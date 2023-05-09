@@ -9,9 +9,13 @@ function Umpire(props) {
   let {name, canMens, canWomens} = props.info
 
   return (
+    <tr>
+      <td>
     <Draggable type="umpire" data={JSON.stringify(props.info)} onClick={handleClickToFocus}>
         {name}:{canMens ? "M" : "-"}/{canWomens ? "W" : "-"}/{"Teams:" + props.info.teams.join(', ')}
     </Draggable>
+    </td>
+    </tr>
   );
 }
 

@@ -17,9 +17,11 @@ function Umpires({umpires, highlightType, setSelectedUmpire, selectedGame}) {
   let umpComponents = filteredUmpires.length > 0 ? filteredUmpires.map(info => <Umpire key={info.name} info={info} setSelectedUmpire={setSelectedUmpire}></Umpire>) : <td>No umpires Found</td>
 
   return (
-    <div className="Umpires">
+    <table className=''>
+      <tbody>
         {umpComponents}
-    </div>
+        </tbody>
+    </table>
   );
 }
 

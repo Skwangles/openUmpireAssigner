@@ -41,13 +41,22 @@ function Games({games, highlightType, setGames, setSelectedGame, selectedUmpire}
     }
 
   return (
-    <div className="Games">
         <table>
+            <thead>
+            <tr>  
+            <th>A</th>
+            <th>B</th>
+            <th>Time</th>
+            <th>Turf</th>
+            <th>Umpire 1</th>
+            <th>Umpire 2</th>
+            </tr>
+            </thead>
             <tbody>
-                {filteredGames.length > 0 ? filteredGames.map(info => <Game key={gameToId(info)} id={gameToId(info)} game={info} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game> ): <td>"No Games Found."</td>}
+            
+                {filteredGames.length > 0 ? filteredGames.map(info => <Game key={gameToId(info)} id={gameToId(info)} game={info} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game> ): <tr><td colSpan={6}>None</td></tr>}
                 </tbody>
         </table>
-    </div>
   );
 }
 
