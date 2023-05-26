@@ -1,5 +1,4 @@
 import './App.css';
-import { Draggable, Droppable } from 'react-drag-and-drop';
 import {Button, Stack} from "react-bootstrap"
 import Umpires from './Umpires';
 import Games from './Games';
@@ -115,7 +114,7 @@ function App() {
       <Button className='col mx-2' onClick={()=>{setHighlightType("game"); setSelectedGame({}); setSelectedUmpire({});}}>Filter by Game</Button>
       </div>
       </div>
-  );
+);
 }
 
 export default App;

@@ -1,9 +1,3 @@
-# Assistive Umpire Assignment Tool
-
-Tool built to help sports to assign umpires to games when umpires also play/coach/watch specific teams
-
-
-
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
