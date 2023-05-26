@@ -4,7 +4,6 @@ import Umpires from './Umpires';
 import Games from './Games';
 import { useState } from 'react';
 import parseUmpire from './parseUmpires';
-import { convertCsvToJson, convertJsonToCsv } from './utils';
 const gameLength_min = 60
 
 
@@ -99,10 +98,9 @@ function App() {
     <div className="App">
       <div>
         Enter Games
-      <textarea rows={4} cols={70} value={JSON.stringify(games)}></textarea>
       </div>
       <br/>
-      <div className="d-flex flex-row justify-content-center">
+      <div className="d-flex flex-row justify-content-center ">
       <Games className="" games={games} setGames={setGames} highlightType={highlightType} setSelectedGame={setSelectedGame} selectedUmpire={selectedUmpire}>
       </Games>
       <Umpires className="" umpires={parsedUmpires} highlightType={highlightType} setSelectedUmpire={setSelectedUmpire} selectedGame={selectedGame}>

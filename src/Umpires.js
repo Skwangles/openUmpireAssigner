@@ -8,12 +8,12 @@ function Umpires({umpires, highlightType, setSelectedUmpire, selectedGame}) {
   let filteredUmpires = umpires;
 
   if(highlightType === "game" && selectedGame.hasOwnProperty("Time")){
-    console.log("Umpire filters")
-    filteredUmpires = umpires.filter(umpire => umpire.games.some(game => gameToId(game) === gameToId(selectedGame)))
-    console.log(filteredUmpires)
+    console.info("Umpires disabled")
+    // Disable umpires unavailable
+    filteredUmpires = umpires.map(umpire => { return {isDisabled: !umpire.games.some(game => gameToId(game) === gameToId(selectedGame)), ...umpire}})
   }
 
-  let umpComponents = filteredUmpires.length > 0 ? filteredUmpires.map(info => <Umpire key={info.name} info={info} setSelectedUmpire={setSelectedUmpire}></Umpire>) : <td>No umpires Found</td>
+  let umpComponents = filteredUmpires.length > 0 ? filteredUmpires.map(umpire => <Umpire key={umpire.name} info={umpire} setSelectedUmpire={setSelectedUmpire}></Umpire>) : <td>No umpires Found</td>
 
   return (
     <table className=''>

@@ -36,10 +36,15 @@ function Games({games, highlightType, setGames, setSelectedGame, selectedUmpire}
     }
     
     let filteredGames = games;
+
     if(highlightType === "umpire" && selectedUmpire.hasOwnProperty("name")){
         console.log("Filtering out games")
-        filteredGames = selectedUmpire.games
+        filteredGames = games.map(game => {
+           return {isDisabled: !selectedUmpire.games.some(compareGame => gameToId(compareGame) === gameToId(game)), ...game}
+        });
+        console.log(filteredGames)
     }
+
 
   return (
         <table>
@@ -55,7 +60,7 @@ function Games({games, highlightType, setGames, setSelectedGame, selectedUmpire}
             </thead>
             <tbody>
             
-                {filteredGames.length > 0 ? filteredGames.map(info => <Game key={gameToId(info)} id={gameToId(info)} game={info} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game> ): <tr><td colSpan={6}>None</td></tr>}
+                {filteredGames.length > 0 ? filteredGames.map(game => <Game key={gameToId(game)} id={gameToId(game)} game={game} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game> ): <tr><td colSpan={6}>None</td></tr>}
                 </tbody>
         </table>
   );
