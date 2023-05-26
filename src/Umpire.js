@@ -6,14 +6,16 @@ function Umpire(props) {
     props.setSelectedUmpire(props.info)
   }
   
+  const handleDragStart = (event, umpire) => {
+    event.dataTransfer.setData('umpire', umpire);
+  };
+
   let {name, canMens, canWomens} = props.info
 
   return (
     <tr>
-      <td>
-    <Draggable type="umpire" data={JSON.stringify(props.info)} onClick={handleClickToFocus}>
+      <td type="umpire" data={JSON.stringify(props.info)} onClick={handleClickToFocus} draggable onDragStart={(event) => handleDragStart(event, props.info)}>
         {name}:{canMens ? "M" : "-"}/{canWomens ? "W" : "-"}/{"Teams:" + props.info.teams.join(', ')}
-    </Draggable>
     </td>
     </tr>
   );

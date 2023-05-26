@@ -1,4 +1,3 @@
-import { Draggable, Droppable } from 'react-drag-and-drop';
 import Game from './Game';
 import {gameToId} from './utils.js'
 import "./Games.css"
@@ -18,6 +17,8 @@ function updateUsedUmpires(games, setUsedUmpires){
 
 function Games({games, highlightType, setGames, setSelectedGame, selectedUmpire}) {
 
+
+    
     let updateGameValue = (key, newGame) => {
         let indexOfGame = -1;
         for(const index in games)

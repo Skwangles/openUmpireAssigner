@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Droppable } from "react-drag-and-drop";
 
 
 
@@ -11,16 +10,23 @@ function Game({game, updateGameValue, setSelectedGame, id}) {
       console.log("Click!" + game.A)
       setSelectedGame(game)
     }
+
+    const handleDragOver = (event) => {
+      event.preventDefault();
+    };
+
     
     let handleDropfromDrag = (data, event) => {
-      let info = JSON.parse(data.umpire)
+      event.preventDefault();
+
+      const umpire = event.dataTransfer.getData('umpire');
       if(event.target.id === "ump1name"){
-          if(ump2.name !== info.name)//Check not already assiged
-          setUmp1(info)
+          if(ump2.name !== umpire.name)//Check not already assiged
+          setUmp1(umpire)
       }
       else if (event.target.id === "ump2name"){
-        if(ump1.name !== info.name) //Check not already assigned
-          setUmp2(info)
+        if(ump1.name !== umpire.name) //Check not already assigned
+          setUmp2(umpire)
       }
     }
 
@@ -35,16 +41,12 @@ function Game({game, updateGameValue, setSelectedGame, id}) {
         <td> {game.B} </td>
         <td> {game.Time} </td>
         <td> {game.Turf} </td>
-        <td>
-            <Droppable types={['umpire']} id="ump1name" onDrop={handleDropfromDrag}>
+        <td types={['umpire']} id="ump1name" onDrop={handleDropfromDrag} onDragOver={handleDragOver}>
             {ump1.hasOwnProperty("name") ? ump1.name : "---"}
-            </Droppable>
         </td>
 
-        <td>
-            <Droppable types={['umpire']} id="ump2name" onDrop={handleDropfromDrag}>
+        <td types={['umpire']} id="ump2name" onDrop={handleDropfromDrag} onDragOver={handleDragOver}>
             {ump2.hasOwnProperty("name") ? ump2.name :  "---" }
-            </Droppable>
         </td>
       </tr>
     );
