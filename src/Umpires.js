@@ -1,4 +1,3 @@
-import { Draggable, Droppable } from 'react-drag-and-drop';
 import Umpire from './Umpire';
 import { gameToId } from './utils';
 

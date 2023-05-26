@@ -16,10 +16,10 @@ function Game({game, updateGameValue, setSelectedGame, id}) {
     };
 
     
-    let handleDropfromDrag = (data, event) => {
+    let handleDropfromDrag = (event) => {
       event.preventDefault();
 
-      const umpire = event.dataTransfer.getData('umpire');
+      const umpire = JSON.parse(event.dataTransfer.getData('umpire'));
       if(event.target.id === "ump1name"){
           if(ump2.name !== umpire.name)//Check not already assiged
           setUmp1(umpire)

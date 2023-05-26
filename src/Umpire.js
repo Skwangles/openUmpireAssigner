@@ -1,5 +1,3 @@
-import { Draggable } from "react-drag-and-drop";
-
 function Umpire(props) {
     
   let handleClickToFocus = (data, event) => {
@@ -7,7 +5,7 @@ function Umpire(props) {
   }
   
   const handleDragStart = (event, umpire) => {
-    event.dataTransfer.setData('umpire', umpire);
+    event.dataTransfer.setData('umpire', JSON.stringify(umpire));
   };
 
   let {name, canMens, canWomens} = props.info
