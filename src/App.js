@@ -1,9 +1,11 @@
 import './App.css';
 import {Button, Stack} from "react-bootstrap"
+import Papa from 'papaparse';
 import Umpires from './Umpires';
 import Games from './Games';
 import { useState } from 'react';
 import parseUmpire from './parseUmpires';
+import { gameToId } from './utils';
 const gameLength_min = 60
 
 
@@ -15,6 +17,7 @@ function App() {
   let [selectedGame, setSelectedGame] = useState({})
   let [selectedUmpire, setSelectedUmpire] = useState({})
   let [usedUmpires, setUsedUmpires] = useState([])
+
   let [games, setGames] = useState([
     {
       "A": "Morrinsville",
@@ -70,7 +73,7 @@ function App() {
     "restrictedTurf":[]
   },
   {
-    "name":"Danielle",
+    "name":"Jamie",
     "canMens":false,
     "canWomens": true,
     "teams":["Old boys"],
@@ -78,36 +81,69 @@ function App() {
     "restrictedTurf":[]
   }, 
   {
-  "name":"Emilio",
+  "name":"Rhys",
   "canMens":true,
   "canWomens": true,
   "teams":[],
   "skillLevel":"M1",
   "restrictedTurf":["St Pauls"]
   }]);
-  
-  
-  let changeGamesJson =  (value)=>{setGames(JSON.parse(value.target.innerHTML));}
+
+  const [csvData, setCSVData] = useState([]);
+
+  const handleFileUpload = (event) => {
+    const file = event.target.files[0];
+
+    // Parse contents
+    Papa.parse(file, {
+      header: true,
+      complete: (results) => {
+        setCSVData(results.data);
+      },
+    });
+
+    // Validate
+    // if (csvData.length > 0 && csvData[0].hasOwnProperty("Team A") && csvData[0].hasOwnProperty("Team A") && csvData[0].hasOwnProperty("Team A") && csvData[0].hasOwnProperty("Team A")){}
+    
+    // "A": "Morrinsville",
+    //   "B": "Old boys",
+    //   "Time": "16:00",
+    //   "Turf":"GHC1",
+    //   "Grade":"M2",
+    //   "ump1":null,
+    //   "ump2":null
+  };
   
   let [parsedUmpires, setParsedUmpires] = useState(umpires.map(umpire => {return {...umpire, "games":parseUmpire(umpire, games, gameLength_min)}}))
-  console.log("Umpires Parsed:");
-  console.log(parsedUmpires)
   
 
   return (
     <div className="App">
+
+    {/* Upload of games CSV*/}
       <div>
-        Enter Games
+        Enter Games:
+        <input type="file" accept=".csv" onChange={handleFileUpload} />
       </div>
-      <br/>
+
+      <h4>Disabling for: { highlightType === "game" ? (selectedGame.hasOwnProperty("A") ? gameToId(selectedGame) : "None selected") : selectedUmpire.hasOwnProperty("name") ? selectedUmpire.name : "None Selected"}</h4>
+      {/* Print games */}
+      <h1>Games</h1>
       <div className="d-flex flex-row justify-content-center ">
       <Games className="" games={games} setGames={setGames} highlightType={highlightType} setSelectedGame={setSelectedGame} selectedUmpire={selectedUmpire}>
       </Games>
+      </div>
+
+      {/* Umpires list and information */}
+      <h1>Umpires</h1>
+      <div className="py-3 d-flex flex-row justify-content-center ">
       <Umpires className="" umpires={parsedUmpires} highlightType={highlightType} setSelectedUmpire={setSelectedUmpire} selectedGame={selectedGame}>
       </Umpires>  
       </div> 
+
+      {/* Highlight modes */}
       <div className="row my-3 align-center">
-      <Button className='col mx-2' onClick={()=>{setSelectedUmpire({}); setSelectedGame({});}}>See All</Button>
+      <Button className='col mx-2 ' onClick={()=>{setSelectedUmpire({}); setSelectedGame({}); }}>Clear Gray</Button>
       <Button className='col mx-2' onClick={()=>{setHighlightType("umpire"); setSelectedUmpire({}); setSelectedGame({});}}>Filter by Umpire</Button>
       <Button className='col mx-2' onClick={()=>{setHighlightType("game"); setSelectedGame({}); setSelectedUmpire({});}}>Filter by Game</Button>
       </div>
