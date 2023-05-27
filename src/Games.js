@@ -2,8 +2,14 @@ import Game from './Game';
 import {gameToId} from './utils.js'
 import "./Games.css"
 
+/**
+ * Track which umpires are in use and how many games
+ * @param {*} games 
+ * @param {*} setUsedUmpires 
+ */
 function updateUsedUmpires(games, setUsedUmpires){
-    // Keep track of umpires
+
+    // Count times an umpire has been assigned
     let usedUmpires = {}
     games.forEach(game => {
         if(game.ump1 != null)
@@ -11,6 +17,7 @@ function updateUsedUmpires(games, setUsedUmpires){
         if(game.ump2 != null)
             usedUmpires[game.ump2.name] > 0 ? usedUmpires[game.ump2.name] += 1 : usedUmpires[game.ump2.name] = 1   
     });
+
     setUsedUmpires(usedUmpires)
 } 
 
@@ -18,7 +25,7 @@ function updateUsedUmpires(games, setUsedUmpires){
 function Games({games, highlightType, setGames, setSelectedGame, selectedUmpire}) {
 
 
-    
+    // Update overall game object
     let updateGameValue = (key, newGame) => {
         let indexOfGame = -1;
         for(const index in games)
@@ -34,33 +41,45 @@ function Games({games, highlightType, setGames, setSelectedGame, selectedUmpire}
         games[indexOfGame] = newGame
         setGames(games)
     }
-    
-    let filteredGames = games;
 
+
+    // Disable games by umpire
     if(highlightType === "umpire" && selectedUmpire.hasOwnProperty("name")){
         console.log("Filtering out games")
-        filteredGames = games.map(game => {
-           return {isDisabled: !selectedUmpire.games.some(compareGame => gameToId(compareGame) === gameToId(game)), ...game}
+        games = games.map(game => {
+
+             // Check if umpire disabled for game & attach reason
+             console.log("Umpire not iterable")
+                console.log(selectedUmpire)
+            for (const checkedGame of selectedUmpire.games){
+                if (gameToId(game) === gameToId(checkedGame))
+                return {...game, isDisabled: true, reason: checkedGame.reason || "None"}
+            }
+
+           return { ...game, isDisabled:false}
         });
-        console.log(filteredGames)
     }
 
 
   return (
         <table>
+
+        {/* Table titles*/}
             <thead>
             <tr>  
             <th>A</th>
             <th>B</th>
+            <th>Grade</th>
             <th>Time</th>
             <th>Turf</th>
             <th>Umpire 1</th>
             <th>Umpire 2</th>
             </tr>
             </thead>
+
             <tbody>
-            
-                {filteredGames.length > 0 ? filteredGames.map(game => <Game key={gameToId(game)} id={gameToId(game)} game={game} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game> ): <tr><td colSpan={6}>None</td></tr>}
+            {/*Games with info*/}
+                {games.length > 0 ? games.map(game => <Game key={gameToId(game)} id={gameToId(game)} game={game} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game> ): <tr><td colSpan={6}>None</td></tr>}
                 </tbody>
         </table>
   );
