@@ -45,6 +45,7 @@ function Game({game, updateGameValue, setSelectedGame, id}) {
       <tr onClick={handleClickToFocus} className={game.isDisabled === true ? "disabled" : "" } >
         <td> {game.A} </td>
         <td> {game.B} </td>
+        <td> {game.Grade} </td>
         <td> {game.Time} </td>
         <td> {game.Turf} </td>
         <td
@@ -55,6 +56,7 @@ function Game({game, updateGameValue, setSelectedGame, id}) {
         <td types={['umpire']} id="ump2name" onDrop={handleDropfromDrag} onDragOver={handleDragOver}>
             {ump2.hasOwnProperty("name") ? ump2.name :  "---" }
         </td>
+        {game.isDisabled ? (game.reason ? <td>Disabled: {game.reason}</td> : "") : ""}
       </tr>
     );
   }
