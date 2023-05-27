@@ -1,6 +1,6 @@
 const levels = {
-    "W1": 0,
-    "W2": 1,//Approx same as Mens 3
+    "W2": 0,
+    "W1": 1,//Approx same as Mens 3
     "M3": 1,
     "M2": 2,
     "M1": 3,
@@ -30,11 +30,6 @@ const levels = {
     return avoidTimes
   }
   
-
-
-
-
-
   /**
    * Based on an object with hour and min value, calculate the new valid
    * @param {*} time 
@@ -51,10 +46,6 @@ const levels = {
     return {"hour":newHour, "min":Math.floor(newMin % minsInHour)};
   }
  
-  
-
-
-
   /**
    * time1 <= time2 - DOES NOT HANDLE MIDNIGHT EDGE CASE
    * @param {hour & min obj} time1 
@@ -71,11 +62,11 @@ const levels = {
     return false
   }
   
+  let timeToString = (time) => time.hour + ":" + time.min
 
 
 
-
-  let isTimewiseAvailable = (umpire, checkedGame, games, gameLength) => {
+  let isTimewiseUnavailable = (umpire, checkedGame, games, gameLength) => {
     console.log("Checking cross over")
     //Handle no specified 'selectedGame'
     if(typeof checkedGame.Time === "undefined") return true;
@@ -92,25 +83,42 @@ const levels = {
       //Check if any edges overlap
         if ((timeLessThanEqual(gameStart, avoid.end) && timeLessThanEqual(avoid.start, gameEnd)) || (timeLessThanEqual(avoid.start, gameEnd) && timeLessThanEqual(gameStart, avoid.end))) {
             //Overlap
-            return false;
+            return "Cannot do: " + timeToString(avoid.start) + "-" + timeToString(avoid.end)
         }
     }
-    return true;
+    return false;
   }
 
-  let fitsUmpirePreferences = (umpire, checkedGame) => {
+  /**
+   * Get the team the umpire is playing for, or false if neither
+   * @param {*} umpire 
+   * @param {*} checkedGame 
+   * @returns 
+   */
+  let isPlaying =  (umpire, checkedGame) => {
+    if (umpire.teams.includes(checkedGame.A))
+      return checkedGame.A
+    if (umpire.teams.includes(checkedGame.B))
+      return checkedGame.B
+
+    return false
+  }
+
+  let failsUmpirePreferences = (umpire, checkedGame) => {
   
     //Check if wants to do this level
-    if(umpire.canWomens === false && checkedGame.Grade.includes("W")) return false
-    if(umpire.canMens === false && checkedGame.Grade.includes("M")) return false
+    if(umpire.canWomens === false && checkedGame.Grade.includes("W")) return "Doesn't do womens"
+    if(umpire.canMens === false && checkedGame.Grade.includes("M")) return "Doesn't do mens"
   
     //Check if can attend venue
-    if(checkedGame.Turf in umpire.restrictedTurf) return false
+    if(checkedGame.Turf in umpire.restrictedTurf) return "Doesn't do turf " + checkedGame.Turf 
   
-    //Skill level check
-    if(levels[umpire.skillLevel] < levels[checkedGame.Grade]) return false
-    
-    return true //It fits! 
+    return false
+  }
+
+  let failsUmpireAbilities = (umpire, checkedGame) => {
+   //Skill level check
+   return levels[umpire.skillLevel] < levels[checkedGame.Grade] ? "Only umpires " + umpire.skillLevel + " and under" : false 
   }
   
   
@@ -122,7 +130,27 @@ const levels = {
 function parseUmpire(umpire, games, gameLength){
   console.log("Games...")
   console.log(games)
-    return games.filter(game => /*!alreadyPicked(umpire, getUsed) &&*/ fitsUmpirePreferences(umpire, game) && !isTimewiseAvailable(umpire, game, games, gameLength))
+  let unavailableGames = []
+  games.forEach(game => {
+    let playingFor = isPlaying(umpire, game)
+    if (playingFor)
+      unavailableGames.push({reason: "Playing for: " + playingFor, ...game})
+
+    // Check umpire WANTS to do it
+    let preferenceClash = failsUmpirePreferences(umpire, game)
+    if(preferenceClash)
+        unavailableGames.push({reason: "Preference: " + preferenceClash, ...game})
+
+    let abilitiesIssue = failsUmpireAbilities(umpire, game)
+    if(abilitiesIssue)
+        unavailableGames.push({reason: "Abilities: " + abilitiesIssue, ...game})
+    
+    let timewiseIssue = isTimewiseUnavailable(umpire, game, games, gameLength)
+    if (timewiseIssue)
+        unavailableGames.push({reason: "Time: " + timewiseIssue, ...game})
+  })
+
+  return unavailableGames
 }
 
 
