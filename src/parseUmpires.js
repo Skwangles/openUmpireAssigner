@@ -136,11 +136,6 @@ function parseUmpire(umpire, games, gameLength){
     if (playingFor)
       unavailableGames.push({reason: "Playing for: " + playingFor, ...game})
 
-    // Check umpire WANTS to do it
-    let preferenceClash = failsUmpirePreferences(umpire, game)
-    if(preferenceClash)
-        unavailableGames.push({reason: "Preference: " + preferenceClash, ...game})
-
     let abilitiesIssue = failsUmpireAbilities(umpire, game)
     if(abilitiesIssue)
         unavailableGames.push({reason: "Abilities: " + abilitiesIssue, ...game})
@@ -148,6 +143,11 @@ function parseUmpire(umpire, games, gameLength){
     let timewiseIssue = isTimewiseUnavailable(umpire, game, games, gameLength)
     if (timewiseIssue)
         unavailableGames.push({reason: "Time: " + timewiseIssue, ...game})
+
+    // Check umpire WANTS to do it
+    let preferenceClash = failsUmpirePreferences(umpire, game)
+    if(preferenceClash)
+        unavailableGames.push({reason: "Preference: " + preferenceClash, ...game})
   })
 
   return unavailableGames
