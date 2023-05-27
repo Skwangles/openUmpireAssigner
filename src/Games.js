@@ -1,5 +1,5 @@
 import Game from './Game';
-import {gameToId} from './utils.js'
+import { gameToId } from './utils.js'
 import "./Games.css"
 
 /**
@@ -7,82 +7,80 @@ import "./Games.css"
  * @param {*} games 
  * @param {*} setUsedUmpires 
  */
-function updateUsedUmpires(games, setUsedUmpires){
+function updateUsedUmpires(games, setUsedUmpires) {
 
     // Count times an umpire has been assigned
     let usedUmpires = {}
     games.forEach(game => {
-        if(game.ump1 != null)
+        if (game.ump1 != null)
             usedUmpires[game.ump1.name] > 0 ? usedUmpires[game.ump1.name] += 1 : usedUmpires[game.ump1.name] = 1
-        if(game.ump2 != null)
-            usedUmpires[game.ump2.name] > 0 ? usedUmpires[game.ump2.name] += 1 : usedUmpires[game.ump2.name] = 1   
+        if (game.ump2 != null)
+            usedUmpires[game.ump2.name] > 0 ? usedUmpires[game.ump2.name] += 1 : usedUmpires[game.ump2.name] = 1
     });
 
     setUsedUmpires(usedUmpires)
-} 
+}
 
 
-function Games({games, highlightType, setGames, setSelectedGame, selectedUmpire}) {
+function Games({ games, highlightType, setGames, setSelectedGame, selectedUmpire }) {
 
 
     // Update overall game object
     let updateGameValue = (key, newGame) => {
         let indexOfGame = -1;
-        for(const index in games)
-        {
+        for (const index in games) {
             let item = games[index]
-            if(item.Time + "|" + item.Turf === key)
-            {
+            if (item.Time + "|" + item.Turf === key) {
                 indexOfGame = index
                 break;
             }
         }
-        if(indexOfGame < 0) return false
+        if (indexOfGame < 0) return false
         games[indexOfGame] = newGame
         setGames(games)
     }
 
 
     // Disable games by umpire
-    if(highlightType === "umpire" && selectedUmpire.hasOwnProperty("name")){
+    if (highlightType === "umpire" && selectedUmpire.hasOwnProperty("name")) {
         console.log("Filtering out games")
         games = games.map(game => {
 
-             // Check if umpire disabled for game & attach reason
-             console.log("Umpire not iterable")
-                console.log(selectedUmpire)
-            for (const checkedGame of selectedUmpire.games){
+            // Check if umpire disabled for game & attach reason
+            console.log("Umpire not iterable")
+            console.log(selectedUmpire)
+            for (const checkedGame of selectedUmpire.games) {
                 if (gameToId(game) === gameToId(checkedGame))
-                return {...game, isDisabled: true, reason: checkedGame.reason || "None"}
+                    return { ...game, isDisabled: true, reason: checkedGame.reason || "None" }
             }
 
-           return { ...game, isDisabled:false}
+            return { ...game, isDisabled: false }
         });
     }
 
 
-  return (
+    return (
         <table>
 
-        {/* Table titles*/}
+            {/* Table titles*/}
             <thead>
-            <tr>  
-            <th>A</th>
-            <th>B</th>
-            <th>Grade</th>
-            <th>Time</th>
-            <th>Turf</th>
-            <th>Umpire 1</th>
-            <th>Umpire 2</th>
-            </tr>
+                <tr>
+                    <th>A</th>
+                    <th>B</th>
+                    <th>Grade</th>
+                    <th>Time</th>
+                    <th>Turf</th>
+                    <th>Umpire 1</th>
+                    <th>Umpire 2</th>
+                </tr>
             </thead>
 
             <tbody>
-            {/*Games with info*/}
-                {games.length > 0 ? games.map(game => <Game key={gameToId(game)} id={gameToId(game)} game={game} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game> ): <tr><td colSpan={6}>None</td></tr>}
-                </tbody>
+                {/*Games with info*/}
+                {games.length > 0 ? games.map(game => <Game key={gameToId(game)} id={gameToId(game)} game={game} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game>) : <tr><td colSpan={6}>None</td></tr>}
+            </tbody>
         </table>
-  );
+    );
 }
 
 export default Games;

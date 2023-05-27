@@ -2,22 +2,22 @@ import Umpire from './Umpire';
 import { gameToId } from './utils';
 
 
-function Umpires({umpires, highlightType, setSelectedUmpire, selectedGame}) {
+function Umpires({ umpires, highlightType, setSelectedUmpire, selectedGame }) {
 
 
   // Disable umpires by game - by highlight mode - GAMES is 'UNAVAILABLE GAMES'
-  if(highlightType === "game" && selectedGame.hasOwnProperty("Time")){
-    umpires = umpires.map(umpire => { 
+  if (highlightType === "game" && selectedGame.hasOwnProperty("Time")) {
+    umpires = umpires.map(umpire => {
 
       // Check if umpire disabled for game & attach reason
       console.log("Umpire not iterable")
       console.log(umpire)
-      for (const game of umpire.games){
+      for (const game of umpire.games) {
         if (gameToId(game) === gameToId(selectedGame))
-          return {...umpire, isDisabled: true, reason: game.reason || "None"}
+          return { ...umpire, isDisabled: true, reason: game.reason || "None" }
       }
 
-      return {...umpire, isDisabled: false}
+      return { ...umpire, isDisabled: false }
     })
 
   }
@@ -28,8 +28,8 @@ function Umpires({umpires, highlightType, setSelectedUmpire, selectedGame}) {
   return (
     <table className=''>
 
-    {/* Table headers */}
-    <thead>
+      {/* Table headers */}
+      <thead>
         <th>Name</th>
         <th>M/W</th>
         <th>Skill</th>
@@ -38,10 +38,10 @@ function Umpires({umpires, highlightType, setSelectedUmpire, selectedGame}) {
         <th>Notes</th>
       </thead>
       <tbody>
-      
-      {/* Umpire rows*/}
+
+        {/* Umpire rows*/}
         {umpComponents}
-        </tbody>
+      </tbody>
     </table>
   );
 }
