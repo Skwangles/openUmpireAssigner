@@ -2,13 +2,13 @@
   margin: 2rem;
 }
 
-h1 {
+h1, h4 {
   text-align: center;
 }
 
 table {
   border-collapse: collapse;
-  width: 100%;
+  width: 80%;
 }
 
 th,
