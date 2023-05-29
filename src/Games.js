@@ -22,12 +22,19 @@ function updateUsedUmpires(games, setUsedUmpires) {
 }
 
 
+/**
+ * Displays games - grays out non-available games
+ * @param {*} props - Contains all the props needed to display, filter, etc
+ * @returns 
+ */
 function Games({ games, highlightType, setGames, setSelectedGame, selectedUmpire }) {
 
 
     // Update overall game object
     let updateGameValue = (key, newGame) => {
         let indexOfGame = -1;
+
+        // Find index matching
         for (const index in games) {
             let item = games[index]
             if (item.Time + "|" + item.Turf === key) {
@@ -36,6 +43,8 @@ function Games({ games, highlightType, setGames, setSelectedGame, selectedUmpire
             }
         }
         if (indexOfGame < 0) return false
+
+        //Update game object
         games[indexOfGame] = newGame
         setGames(games)
     }
@@ -48,7 +57,6 @@ function Games({ games, highlightType, setGames, setSelectedGame, selectedUmpire
 
             // Check if umpire disabled for game & attach reason
             let invalidGame = selectedUmpire.blockedGames.find(checkedGame => gameToId(game) === gameToId(checkedGame))
-
             if(invalidGame !== undefined)
                 return { ...game, isDisabled: true, reason: invalidGame.reason || "None" }
 
