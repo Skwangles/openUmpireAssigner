@@ -47,14 +47,13 @@ function Games({ games, highlightType, setGames, setSelectedGame, selectedUmpire
         games = games.map(game => {
 
             // Check if umpire disabled for game & attach reason
-            console.log("Umpire not iterable")
-            console.log(selectedUmpire)
-            for (const checkedGame of selectedUmpire.games) {
-                if (gameToId(game) === gameToId(checkedGame))
-                    return { ...game, isDisabled: true, reason: checkedGame.reason || "None" }
-            }
+            let invalidGame = umpire.blockedGames.find(checkedGame => gameToId(game) === gameToId(checkedGame))
+            
+            if(invalidGame !== undefined)
+                return { ...game, isDisabled: true, reason: invalidGame.reason || "None" }
 
             return { ...game, isDisabled: false }
+
         });
     }
 

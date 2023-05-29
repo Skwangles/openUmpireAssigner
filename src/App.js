@@ -113,10 +113,9 @@ function App() {
     //   "ump1":null,
     //   "ump2":null
   };
-
-  let [parsedUmpires, setParsedUmpires] = useState(umpires.map(umpire => { return { ...umpire, "games": parseUmpire(umpire, games, gameLength_min) } }))
-
-
+  
+  let [parsedUmpires, setParsedUmpires] = useState(umpires.map(umpire => { return { ...umpire, "blockedGames": parseUmpire(umpire, games, gameLength_min) } }))
+  
   return (
     <div className="App">
 
