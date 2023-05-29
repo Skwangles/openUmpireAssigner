@@ -1,16 +1,17 @@
 function Umpire(props) {
     
   // Highlighting
-  let handleClickToFocus = (data, event) => {
+  let handleClickToFocus = (event) => {
     props.setSelectedUmpire(props.info)
   }
   
   // Drag and drop handling
   const handleDragStart = (event, umpire) => {
     event.dataTransfer.setData('umpire', JSON.stringify(umpire));
+    props.setSelectedUmpire(umpire)
   };
 
-  let {name, canMens, canWomens, isDisabled, skillLevel} = props.info
+  let {name, canMens, canWomens, isDisabled, skillLevel, club, notes, teams} = props.info
   
   return (
     <tr
@@ -20,11 +21,13 @@ function Umpire(props) {
     {/* Umpire info */}
        <td>{name}</td>
         <td>{canMens ? "M" : "-"}/{canWomens ? "W" : "-"}</td>
-        <td>{skillLevel}</td>
-        <td>{props.info.teams.length > 0 ? props.info.teams.join(', ') : "None"}</td>
-        <td>{props.info.club || "-"}</td>
-        <td>{props.info.notes || "-"}</td>
+        <td>{skillLevel || "-"}</td>
+        <td>{teams.length > 0 ? teams.join(', ') : "None"}</td>
+        <td>{club || "-"}</td>
+        <td>{notes || "-"}</td>
+        
         {isDisabled ? (props.info.reason ? <td>Disabled: {props.info.reason}</td> : "") : ""}
+
     </tr>
   );
 }

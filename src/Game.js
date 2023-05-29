@@ -7,17 +7,17 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
   let [ump1, setUmp1] = useState(game.ump1 || {})
   let [ump2, setUmp2] = useState(game.ump2 || {})
 
-  let handleClickToFocus = (data, event) => {
+  let handleClickToFocus = (event) => {
     console.log("Click!" + game.A)
     setSelectedGame(game)
   }
 
+  //Draf and drop functionality
   const handleDragOver = (event) => {
     event.preventDefault();
   };
 
-
-  let handleDropfromDrag = (event) => {
+  let handleDropFromDrag = (event) => {
     event.preventDefault();
 
     const umpire = JSON.parse(event.dataTransfer.getData('umpire'));
@@ -32,6 +32,7 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
         setUmp2(umpire)
     }
   }
+
 
   // Check before updating to prevent broken setState
   if (umpireToId(game.ump1) !== umpireToId(ump1) || umpireToId(game.ump2) !== umpireToId(ump2)) {
@@ -48,12 +49,11 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
       <td> {game.Grade} </td>
       <td> {game.Time} </td>
       <td> {game.Turf} </td>
-      <td
-        types={['umpire']} id="ump1name" onDrop={handleDropfromDrag} onDragOver={handleDragOver}>
+      <td id="ump1name" onDrop={handleDropFromDrag} onDragOver={handleDragOver}>
         {ump1.hasOwnProperty("name") ? ump1.name : "---"}
       </td>
 
-      <td types={['umpire']} id="ump2name" onDrop={handleDropfromDrag} onDragOver={handleDragOver}>
+      <td id="ump2name" onDrop={handleDropFromDrag} onDragOver={handleDragOver}>
         {ump2.hasOwnProperty("name") ? ump2.name : "---"}
       </td>
       {game.isDisabled ? (game.reason ? <td>Disabled: {game.reason}</td> : "") : ""}
