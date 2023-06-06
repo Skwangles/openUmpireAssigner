@@ -84,7 +84,7 @@ function Games({ games, highlightType, setGames, setSelectedGame, selectedUmpire
 
             <tbody>
                 {/*Games with info*/}
-                {games.length > 0 ? games.map(game => <Game key={gameToId(game)} id={gameToId(game)} game={game} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game>) : <tr><td colSpan={6}>None</td></tr>}
+                {games.length > 0 ? games.map(game => <Game key={gameToId(game)} id={gameToId(game)} game={game} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game>) : <tr><td colSpan={5}>None</td></tr>}
             </tbody>
         </table>
     );
