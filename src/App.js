@@ -74,17 +74,20 @@ function App() {
         console.info(results.data)
         let gameList = []
         for (const game of results.data){
-         
-          // Categorise game grade by teams list
-          const team = teamData.find(team => team.Name === game.A || team.Name === game.B);
-
-          if(team === undefined || !team.hasOwnProperty("Grade")){
-            console.log("Invalid teams in game, or team object malformed: " + JSON.stringify(game))
-            continue;
-          }
-
           //Add extra entries to game info
-          gameList.push({...game, "Grade": team.Grade, ump1: null, ump2: null})
+          
+          if (game["bye"] != "") continue; //Bye row
+
+          gameList.push({
+            "A": game["home team"],
+            "B": game["away team"],
+            "Time": game["game time"],
+            "Turf": game["playing surface"],
+            "Date": game["game date"],
+            "Grade": game["grade"].substring(0, 3), 
+            ump1: null, 
+            ump2: null
+          })
         }
 
         setGames(gameList);
