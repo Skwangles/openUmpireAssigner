@@ -43,12 +43,12 @@ const handleDragStartOfEmpty = (event) => {
         </tr>
       </thead>
       <tbody>
-
-        {/* Umpire rows*/}
-        {umpComponents}
         <tr draggable onDragStart={(event) => handleDragStartOfEmpty(event)}>
           <td colSpan={5}><i>Drag/Drop me to clear an assignment</i></td>
         </tr>
+        {/* Umpire rows*/}
+        {umpComponents}
+       
       </tbody>
     </table>
   );
