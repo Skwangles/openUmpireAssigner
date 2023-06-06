@@ -2,25 +2,6 @@ import Game from './Game';
 import { gameToId } from './utils.js'
 import "./Games.css"
 
-/**
- * Track which umpires are in use and how many games
- * @param {*} games 
- * @param {*} setUsedUmpires 
- */
-function updateUsedUmpires(games, setUsedUmpires) {
-
-    // Count times an umpire has been assigned
-    let usedUmpires = {}
-    games.forEach(game => {
-        if (game.ump1 != null)
-            usedUmpires[game.ump1.Name] > 0 ? usedUmpires[game.ump1.Name] += 1 : usedUmpires[game.ump1.Name] = 1
-        if (game.ump2 != null)
-            usedUmpires[game.ump2.Name] > 0 ? usedUmpires[game.ump2.Name] += 1 : usedUmpires[game.ump2.Name] = 1
-    });
-
-    setUsedUmpires(usedUmpires)
-}
-
 
 /**
  * Displays games - grays out non-available games
