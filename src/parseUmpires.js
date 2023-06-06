@@ -95,9 +95,7 @@ let isPlaying = (umpire, checkedGame) => {
 }
 
 let failsUmpirePreferences = (umpire, checkedGame) => {
-  //Check if wants to do this level
-  if (!umpire.levels.includes(checkedGame.Grade) && !(umpire.levels.includes("All") || umpire.levels.includes("all")))
-    return "Not within specified levels: " +  umpire.levels.length > 0 ? umpire.levels.join(", ") : "No Levels specified!";
+  
 
   //Check if can attend venue
   if (checkedGame.Turf in umpire.restrictedTurf) return "Doesn't do turf " + checkedGame.Turf
@@ -106,8 +104,11 @@ let failsUmpirePreferences = (umpire, checkedGame) => {
 }
 
 let failsUmpireAbilities = (umpire, checkedGame) => {
-  //Skill level check
-  return levels[umpire.skillLevel] < levels[checkedGame.Grade] ? "Only umpires " + umpire.skillLevel + " and under" : false
+  //Check if wants/can to do this level
+  if (!umpire.levels.includes(checkedGame.Grade) && !(umpire.levels.includes("All") || umpire.levels.includes("all")))
+    return "Not within specified levels: " +  umpire.levels.length > 0 ? umpire.levels.join(", ") : "No Levels specified!";
+
+  return false;
 }
 
 
