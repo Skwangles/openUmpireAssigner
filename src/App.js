@@ -1,5 +1,5 @@
 import './App.css';
-import { Button, Stack } from "react-bootstrap"
+import { Button } from "react-bootstrap"
 import Papa from 'papaparse';
 import Umpires from './Umpires';
 import Games from './Games';
@@ -16,29 +16,10 @@ function App() {
   let [highlightType, setHighlightType] = useState("umpire")
   let [selectedGame, setSelectedGame] = useState({})
   let [selectedUmpire, setSelectedUmpire] = useState({})
-  let [usedUmpires, setUsedUmpires] = useState([])
 
+  // CSV files are added which modify these
   let [games, setGames] = useState([])
-  
-
-  let [umpires, setUmpires] = useState([{
-    "name": "Alexander",
-    "teams": ["Morrinsville"],
-    "levels": ["All"],
-    "restrictedTurf": []
-  },
-  {
-    "name": "Jamie",
-    "teams": ["Old boys"],
-    "levels": ["M1"],
-    "restrictedTurf": []
-  },
-  {
-    "name": "Rhys",
-    "teams": [],
-    "levels": ["M1", "M2"],
-    "restrictedTurf": ["St Pauls"]
-  }]);
+  let [umpires, setUmpires] = useState([]);
 
   const [teamData, setTeamData] = useState([]);
 
@@ -85,16 +66,13 @@ const csvToGame = (game) => {
 }
 
 const csvToUmpire = (umpire) => {
-  //Idk why I haven't capitalised - just roll with it
-let teams = umpire["Teams"].split(",\\s+")
-
+  //Idk why I haven't capitalised the values - just roll with it
   return {
-    "name": umpire["Name"],
-    "teams": umpire["Teams"].split(",\\s+"),
-    "levels": umpire["Levels"].split(",\\s+"),
-    "restrictedTurf": umpire["Restricted Turfs"].split(",\\s+")
-  },
-
+    "Name": umpire["Name"],
+    "Teams": umpire["Teams"].split(",\\s+"),
+    "Levels": umpire["Levels"].split(",\\s+"),
+    "RestrictedTurf": umpire["Restricted Turfs"].split(",\\s+")
+  }
 }
 
 const handleUmpiresUpload = (event) => {
@@ -105,15 +83,9 @@ const handleUmpiresUpload = (event) => {
     header: true,
     skipEmptyLines: true,
     complete: (results) => {
-      console.info("Parsing games")
-      console.info(results.data)
       let umpireList = []
-      for (const game of results.data){
-
-        umpireList.push({
-
-
-        })
+      for (const umpire of results.data){
+        umpireList.push(csvToUmpire(umpire))
       }
 
       setUmpires(umpireList);
@@ -129,13 +101,11 @@ const handleUmpiresUpload = (event) => {
       header: true,
       skipEmptyLines: true,
       complete: (results) => {
-        console.info("Parsing games")
-        console.info(results.data)
         let gameList = []
         for (const game of results.data){
           //Add extra entries to game info
           
-          if (game["bye"] != "") continue; //Bye row
+          if (game["bye"] !== "") continue; //Bye row
 
           gameList.push(csvToGame(game))
         }
@@ -159,7 +129,7 @@ const handleUmpiresUpload = (event) => {
         for (const game of results.data){
           //Add extra entries to game info
           
-          if (game["bye"] != "") continue; //Bye row
+          if (game["bye"] !== "") continue; //Bye row
 
           gameList.push(csvToGame(game))
         }
@@ -194,7 +164,7 @@ const handleUmpiresUpload = (event) => {
 
      
 
-      <h4>Disabling for: {highlightType === "game" ? (selectedGame.hasOwnProperty("A") ? gameToId(selectedGame) : "None selected") : selectedUmpire.hasOwnProperty("name") ? selectedUmpire.name : "None Selected"}</h4>
+      <h4>Disabling for: {highlightType === "game" ? (selectedGame.hasOwnProperty("A") ? gameToId(selectedGame) : "None selected") : selectedUmpire.hasOwnProperty("Name") ? selectedUmpire.Name : "None Selected"}</h4>
       {/* Print games */}
       <h1>Games</h1>
       <div className="d-flex flex-row justify-content-center ">
