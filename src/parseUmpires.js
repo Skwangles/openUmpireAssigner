@@ -86,9 +86,9 @@ let isTimewiseUnavailable = (umpire, checkedGame, games, gameLength) => {
  * @returns 
  */
 let isPlaying = (umpire, checkedGame) => {
-  if (umpire.teams.includes(checkedGame.A))
+  if (umpire.Teams.includes(checkedGame.A))
     return checkedGame.A
-  if (umpire.teams.includes(checkedGame.B))
+  if (umpire.Teams.includes(checkedGame.B))
     return checkedGame.B
 
   return false
@@ -105,8 +105,8 @@ let failsUmpirePreferences = (umpire, checkedGame) => {
 
 let failsUmpireAbilities = (umpire, checkedGame) => {
   //Check if wants/can to do this level
-  if (!umpire.levels.includes(checkedGame.Grade) && !(umpire.levels.includes("All") || umpire.levels.includes("all")))
-    return "Not within specified levels: " +  umpire.levels.length > 0 ? umpire.levels.join(", ") : "No Levels specified!";
+  if (!umpire.Levels.includes(checkedGame.Grade) && !(umpire.Levels.includes("All") || umpire.Levels.includes("all")))
+    return "Not within specified levels: " +  umpire.Levels.length > 0 ? umpire.Levels.join(", ") : "No Levels specified!";
 
   return false;
 }
