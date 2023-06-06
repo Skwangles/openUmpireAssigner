@@ -18,51 +18,7 @@ function App() {
   let [selectedUmpire, setSelectedUmpire] = useState({})
   let [usedUmpires, setUsedUmpires] = useState([])
 
-  let [games, setGames] = useState([
-    {
-      "A": "Morrinsville",
-      "B": "Old boys",
-      "Time": "16:00",
-      "Turf": "GHC1",
-      "Grade": "M2",
-      "ump1": null,
-      "ump2": null
-    }, {
-      "A": "test1",
-      "B": "test2",
-      "Time": "11:00",
-      "Turf": "GHC2",
-      "Grade": "W2",
-      "ump1": null,
-      "ump2": null
-    },
-    {
-      "A": "Morrinsville2",
-      "B": "Old boys2",
-      "Time": "9:00",
-      "Turf": "GHC1",
-      "Grade": "W2",
-      "ump1": null,
-      "ump2": null
-    },
-    {
-      "A": "Morrinsville3",
-      "B": "Old boys3",
-      "Time": "10:00",
-      "Turf": "GHC1",
-      "Grade": "M2",
-      "ump1": null,
-      "ump2": null
-    }, {
-      "A": "Varsity",
-      "B": "Old boys",
-      "Time": "15:30",
-      "Grade": "M3",
-      "Turf": "GHC2",
-      "ump1": null,
-      "ump2": null
-    }
-  ])
+  let [games, setGames] = useState([])
 
   let [umpires, setUmpires] = useState([{
     "name": "Alexander",
@@ -97,7 +53,10 @@ function App() {
     // Parse contents
     Papa.parse(file, {
       header: true,
+      skipEmptyLines: true,
       complete: (results) => {
+        console.info("Team data set!")
+        console.info(results.data)
         setTeamData(results.data);
       },
     });
@@ -111,21 +70,24 @@ function App() {
       header: true,
       skipEmptyLines: true,
       complete: (results) => {
-        let games = []
+        console.info("Parsing games")
+        console.info(results.data)
+        let gameList = []
         for (const game of results.data){
          
           // Categorise game grade by teams list
-          const team = teamData.find(team => team.Name == game.A || team.Name == game.B);
-          if(team == undefined || !team.hasOwnProperty("Grade")){
+          const team = teamData.find(team => team.Name === game.A || team.Name === game.B);
+
+          if(team === undefined || !team.hasOwnProperty("Grade")){
             console.log("Invalid teams in game, or team object malformed: " + JSON.stringify(game))
             continue;
           }
 
           //Add extra entries to game info
-          games.push({...game, "Grade": team.Grade, ump1: null, ump2: null})
+          gameList.push({...game, "Grade": team.Grade, ump1: null, ump2: null})
         }
 
-        setGames(games);
+        setGames(gameList);
       },
     });
   };
@@ -138,7 +100,7 @@ function App() {
       {/* Upload of games CSV*/}
       <div>
         Enter Games:
-        <input type="file" accept=".csv" onChange={handleTeamsUpload} />
+        <input type="file" accept=".csv" onChange={handleGamesUpload} />
       </div>
 
       <div>
