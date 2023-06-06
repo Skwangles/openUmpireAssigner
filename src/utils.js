@@ -3,7 +3,7 @@ const NULL_CSV_CONSTANT = '-'
 function gameToId(info) {
     if (!info) return null
 
-    return info.Time + "|" + info.Turf
+    return info.Date + "|" + info.Time + "|" + info.Turf
 }
 
 function umpireToId(info) {
