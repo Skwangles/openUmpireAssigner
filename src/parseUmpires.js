@@ -120,24 +120,36 @@ let failsUmpireAbilities = (umpire, checkedGame) => {
 
 
 function parseUmpire(umpire, games, gameLength) {
-  let unavailableGames = []
-  games.forEach(game => {
-    let playingFor = isPlaying(umpire, game)
-    if (playingFor)
-      unavailableGames.push({ reason: "Playing for: " + playingFor, ...game })
 
-    let abilitiesIssue = failsUmpireAbilities(umpire, game)
-    if (abilitiesIssue)
-      unavailableGames.push({ reason: "Abilities: " + abilitiesIssue, ...game })
+  let unavailableGames = []
+
+  games.forEach(game => {
+    // Check if 1. Is already playing > Can make it timewise > Has the right abilities > Would even want to play (i.e. if desperate, abilties and wants are less important) 
+
+    let playingFor = isPlaying(umpire, game)
+    if (playingFor) {
+      unavailableGames.push({ reason: "Playing for: " + playingFor, ...game })
+      return // Only let one reason be fore each game
+    }
 
     let timewiseIssue = isTimewiseUnavailable(umpire, game, games, gameLength)
-    if (timewiseIssue)
+    if (timewiseIssue){
       unavailableGames.push({ reason: "Time: " + timewiseIssue, ...game })
+      return
+    }
+
+    let abilitiesIssue = failsUmpireAbilities(umpire, game)
+    if (abilitiesIssue){
+      unavailableGames.push({ reason: "Abilities: " + abilitiesIssue, ...game })
+      return
+    }
 
     // Check umpire WANTS to do it
     let preferenceClash = failsUmpirePreferences(umpire, game)
-    if (preferenceClash)
+    if (preferenceClash) {
       unavailableGames.push({ reason: "Preference: " + preferenceClash, ...game })
+      return
+    }
   })
 
   return unavailableGames
