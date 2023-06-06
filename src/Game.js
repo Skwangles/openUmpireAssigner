@@ -58,6 +58,7 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
 
   return (
     <tr onClick={handleClickToFocus} className={game.isDisabled === true ? "disabled" : ""} >
+      <td> {game.Date} </td>
       <td> {game.A} </td>
       <td> {game.B} </td>
       <td> {game.Grade} </td>

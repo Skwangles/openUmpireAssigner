@@ -72,6 +72,7 @@ function Games({ games, highlightType, setGames, setSelectedGame, selectedUmpire
             {/* Table titles*/}
             <thead>
                 <tr>
+                    <th>Date</th>
                     <th>A</th>
                     <th>B</th>
                     <th>Grade</th>
