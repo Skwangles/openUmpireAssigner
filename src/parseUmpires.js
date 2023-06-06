@@ -1,11 +1,4 @@
-const levels = {
-  "W2": 0,
-  "W1": 1,//Approx same as Mens 3
-  "M3": 1,
-  "M2": 2,
-  "M1": 3,
-  "Prem": 4
-}
+
 
 
 
@@ -102,10 +95,9 @@ let isPlaying = (umpire, checkedGame) => {
 }
 
 let failsUmpirePreferences = (umpire, checkedGame) => {
-
   //Check if wants to do this level
-  if (umpire.canWomens === false && checkedGame.Grade.includes("W")) return "Doesn't do womens"
-  if (umpire.canMens === false && checkedGame.Grade.includes("M")) return "Doesn't do mens"
+  if (!umpire.levels.includes(checkedGame.Grade) && !(umpire.levels.includes("All") || umpire.levels.includes("all")))
+    return "Not within specified levels: " +  umpire.levels.length > 0 ? umpire.levels.join(", ") : "No Levels specified!";
 
   //Check if can attend venue
   if (checkedGame.Turf in umpire.restrictedTurf) return "Doesn't do turf " + checkedGame.Turf
