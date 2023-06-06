@@ -36,7 +36,7 @@ function App() {
   {
     "name": "Rhys",
     "teams": [],
-    "levels": ["M1"],
+    "levels": ["M1", "M2"],
     "restrictedTurf": ["St Pauls"]
   }]);
 
@@ -70,7 +70,7 @@ const stripToTurf = (name) => {
   }
 }
 
-const parseGame = (game) => {
+const csvToGame = (game) => {
   return {
     "A": game["home team"],
     "B": game["away team"],
@@ -83,6 +83,43 @@ const parseGame = (game) => {
     ump2: null
   }
 }
+
+const csvToUmpire = (umpire) => {
+  //Idk why I haven't capitalised - just roll with it
+let teams = umpire["Teams"].split(",\\s+")
+
+  return {
+    "name": umpire["Name"],
+    "teams": umpire["Teams"].split(",\\s+"),
+    "levels": umpire["Levels"].split(",\\s+"),
+    "restrictedTurf": umpire["Restricted Turfs"].split(",\\s+")
+  },
+
+}
+
+const handleUmpiresUpload = (event) => {
+  const file = event.target.files[0];
+
+  // Parse contents
+  Papa.parse(file, {
+    header: true,
+    skipEmptyLines: true,
+    complete: (results) => {
+      console.info("Parsing games")
+      console.info(results.data)
+      let umpireList = []
+      for (const game of results.data){
+
+        umpireList.push({
+
+
+        })
+      }
+
+      setUmpires(umpireList);
+    },
+  });
+};
 
   const handleGamesUpload = (event) => {
     const file = event.target.files[0];
@@ -100,7 +137,7 @@ const parseGame = (game) => {
           
           if (game["bye"] != "") continue; //Bye row
 
-          gameList.push(parseGame(game))
+          gameList.push(csvToGame(game))
         }
 
         setGames(gameList);
@@ -124,7 +161,7 @@ const parseGame = (game) => {
           
           if (game["bye"] != "") continue; //Bye row
 
-          gameList.push(parseGame(game))
+          gameList.push(csvToGame(game))
         }
 
         setGames(games.concat(gameList));
