@@ -14,7 +14,7 @@ let getTimes = (umpTeams, games) => {
     if (umpTeams.includes(game.A) || umpTeams.includes(game.B)) {
       let time = game.Time.split(':')
       let startTime = { "hour": parseInt(time[0]), "min": parseInt(time[1]) }
-      avoidTimes.push({ "start": startTime, "end": getEndTime(startTime, 60) })
+      avoidTimes.push({"date": game.Date, "start": startTime, "end": getEndTime(startTime, 60) })
     }
   })
   return avoidTimes
@@ -57,7 +57,6 @@ let timeToString = (time) => time.hour + ":" + time.min
 
 
 let isTimewiseUnavailable = (umpire, checkedGame, games, gameLength) => {
-  console.log("Checking cross over")
   //Handle no specified 'selectedGame'
   if (typeof checkedGame.Time === "undefined") return true;
 
@@ -70,10 +69,11 @@ let isTimewiseUnavailable = (umpire, checkedGame, games, gameLength) => {
   let gameEnd = getEndTime(gameStart, gameLength)
 
   for (const avoid of avoidTimes) {
+    if(avoid.Date != checkedGame.Date) continue;
     //Check if any edges overlap
     if ((timeLessThanEqual(gameStart, avoid.end) && timeLessThanEqual(avoid.start, gameEnd)) || (timeLessThanEqual(avoid.start, gameEnd) && timeLessThanEqual(gameStart, avoid.end))) {
       //Overlap
-      return "Cannot do: " + timeToString(avoid.start) + "-" + timeToString(avoid.end)
+      return "Cannot do: " + timeToString(avoid.start) + "-" + timeToString(avoid.end) + " on the: " + avoid.Date;
     }
   }
   return false;
