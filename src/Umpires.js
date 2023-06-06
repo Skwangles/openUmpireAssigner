@@ -4,7 +4,7 @@ import { gameToId } from './utils';
 
 function Umpires({ umpires, highlightType, setSelectedUmpire, selectedGame }) {
 
-  
+
   // Disable umpires by game - by highlight mode
   if (highlightType === "game" && selectedGame.hasOwnProperty("Time")) {
     umpires = umpires.map(umpire => {
@@ -36,8 +36,7 @@ const handleDragStartOfEmpty = (event) => {
       <thead>
         <tr>
           <th>Name</th>
-          <th>M/W</th>
-          <th>Skill</th>
+          <th>Levels</th>
           <th>Teams</th>
           <th>Club</th>
           <th>Notes</th>

@@ -11,8 +11,8 @@ function Umpire(props) {
     props.setSelectedUmpire(umpire)
   };
 
-  let {name, canMens, canWomens, isDisabled, skillLevel, club, notes, teams} = props.info
-  
+  let {name, isDisabled, levels, club, notes, teams} = props.info
+
   return (
     <tr
     onClick={handleClickToFocus} 
@@ -20,8 +20,7 @@ function Umpire(props) {
 
     {/* Umpire info */}
        <td>{name}</td>
-        <td>{canMens ? "M" : "-"}/{canWomens ? "W" : "-"}</td>
-        <td>{skillLevel || "-"}</td>
+        <td>{levels || "-"}</td>
         <td>{teams.length > 0 ? teams.join(', ') : "None"}</td>
         <td>{club || "-"}</td>
         <td>{notes || "-"}</td>
