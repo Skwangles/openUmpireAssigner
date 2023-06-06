@@ -9,9 +9,6 @@ const levels = {
 
 
 
-
-
-
 /**
  * Get 'avoid' times based on the 'teams' an umpire is set to work with
  * @param {Team names to avoid games with} umpTeams 
@@ -123,8 +120,6 @@ let failsUmpireAbilities = (umpire, checkedGame) => {
 
 
 function parseUmpire(umpire, games, gameLength) {
-  console.log("Games...")
-  console.log(games)
   let unavailableGames = []
   games.forEach(game => {
     let playingFor = isPlaying(umpire, game)
