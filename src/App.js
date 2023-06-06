@@ -23,26 +23,20 @@ function App() {
 
   let [umpires, setUmpires] = useState([{
     "name": "Alexander",
-    "canMens": true,
-    "canWomens": false,
     "teams": ["Morrinsville"],
-    "skillLevel": "M1",
+    "levels": ["All"],
     "restrictedTurf": []
   },
   {
     "name": "Jamie",
-    "canMens": false,
-    "canWomens": true,
     "teams": ["Old boys"],
-    "skillLevel": "W1",
+    "levels": ["M1"],
     "restrictedTurf": []
   },
   {
     "name": "Rhys",
-    "canMens": true,
-    "canWomens": true,
     "teams": [],
-    "skillLevel": "M1",
+    "levels": ["M1"],
     "restrictedTurf": ["St Pauls"]
   }]);
 
@@ -83,6 +77,7 @@ const parseGame = (game) => {
     "Time": game["game time"],
     "Turf": stripToTurf(game["playing surface"]),
     "Date": game["game date"],
+    "Round": game["round"],
     "Grade": game["grade"].substring(0, 3).replace("R", ""), //e.g. MR3 Name1 Name2 -> M3
     ump1: null, 
     ump2: null
@@ -156,8 +151,8 @@ const parseGame = (game) => {
         <input type="file" accept=".csv" onChange={handleGamesUpload} />
       </div>
       <div>
-        (Optional) Second CSV for Womens games:<br/>
-        <input type="file" accept=".csv" onChange={handleGamesUpload} />
+        (Optional) Extra Games CSV:<br/>
+        <input type="file" accept=".csv" onChange={addWomensGames} />
       </div>
 
      
