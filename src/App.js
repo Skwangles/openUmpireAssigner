@@ -62,6 +62,32 @@ function App() {
     });
   };
 
+const stripToTurf = (name) => {
+  switch(name){
+    case "New World Te Rapa Turf 1":
+      return "Turf 1"
+    case "Lugtons Turf 2":
+      return "Turf 2"
+    case "St Pauls Collegiate":
+      return "St Pauls"
+    default:
+      return name
+  }
+}
+
+const parseGame = (game) => {
+  return {
+    "A": game["home team"],
+    "B": game["away team"],
+    "Time": game["game time"],
+    "Turf": stripToTurf(game["playing surface"]),
+    "Date": game["game date"],
+    "Grade": game["grade"].substring(0, 3).replace("R", ""), //e.g. MR3 Name1 Name2 -> M3
+    ump1: null, 
+    ump2: null
+  }
+}
+
   const handleGamesUpload = (event) => {
     const file = event.target.files[0];
 
@@ -78,23 +104,38 @@ function App() {
           
           if (game["bye"] != "") continue; //Bye row
 
-          gameList.push({
-            "A": game["home team"],
-            "B": game["away team"],
-            "Time": game["game time"],
-            "Turf": game["playing surface"],
-            "Date": game["game date"],
-            "Grade": game["grade"].substring(0, 3), 
-            ump1: null, 
-            ump2: null
-          })
+          gameList.push(parseGame(game))
         }
 
         setGames(gameList);
       },
     });
   };
-  
+
+  const addWomensGames = (event) => {
+    const file = event.target.files[0];
+
+    // Parse contents
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => {
+        console.info("Parsing games")
+        console.info(results.data)
+        let gameList = []
+        for (const game of results.data){
+          //Add extra entries to game info
+          
+          if (game["bye"] != "") continue; //Bye row
+
+          gameList.push(parseGame(game))
+        }
+
+        setGames(games.concat(gameList));
+      },
+    });
+  }
+
   let [parsedUmpires, setParsedUmpires] = useState(umpires.map(umpire => { return { ...umpire, "blockedGames": parseUmpire(umpire, games, gameLength_min) } }))
   
   return (
@@ -109,6 +150,10 @@ function App() {
 
       <div>
         Enter Games:<br/>
+        <input type="file" accept=".csv" onChange={handleGamesUpload} />
+      </div>
+      <div>
+        (Optional) Second CSV for Womens games:<br/>
         <input type="file" accept=".csv" onChange={handleGamesUpload} />
       </div>
 
