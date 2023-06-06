@@ -22,6 +22,20 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
 
     const umpire = JSON.parse(event.dataTransfer.getData('umpire'));
 
+    // Handle 'clearing' an umpire
+    if (!umpire.hasOwnProperty("name"))
+        switch(event.target.id){
+          case "ump1name":
+            setUmp1({})
+            return;
+          case "ump2name":
+            setUmp2({})
+              return;
+
+        }
+
+    
+
     // Check umpire is not already assigned
     if (event.target.id === "ump1name") {
       if (ump2.name !== umpire.name)
