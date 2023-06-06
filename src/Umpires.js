@@ -39,6 +39,7 @@ const handleDragStartOfEmpty = (event) => {
           <th>Levels</th>
           <th>Teams</th>
           <th>Club</th>
+          <th>To be aware of</th>
           <th>Notes</th>
         </tr>
       </thead>
