@@ -13,9 +13,9 @@ function updateUsedUmpires(games, setUsedUmpires) {
     let usedUmpires = {}
     games.forEach(game => {
         if (game.ump1 != null)
-            usedUmpires[game.ump1.name] > 0 ? usedUmpires[game.ump1.name] += 1 : usedUmpires[game.ump1.name] = 1
+            usedUmpires[game.ump1.Name] > 0 ? usedUmpires[game.ump1.Name] += 1 : usedUmpires[game.ump1.Name] = 1
         if (game.ump2 != null)
-            usedUmpires[game.ump2.name] > 0 ? usedUmpires[game.ump2.name] += 1 : usedUmpires[game.ump2.name] = 1
+            usedUmpires[game.ump2.Name] > 0 ? usedUmpires[game.ump2.Name] += 1 : usedUmpires[game.ump2.Name] = 1
     });
 
     setUsedUmpires(usedUmpires)
@@ -51,7 +51,7 @@ function Games({ games, highlightType, setGames, setSelectedGame, selectedUmpire
 
 
     // Disable games by umpire
-    if (highlightType === "umpire" && selectedUmpire.hasOwnProperty("name")) {
+    if (highlightType === "umpire" && selectedUmpire.hasOwnProperty("Name")) {
         console.log("Filtering out games")
         games = games.map(game => {
 
@@ -85,7 +85,7 @@ function Games({ games, highlightType, setGames, setSelectedGame, selectedUmpire
 
             <tbody>
                 {/*Games with info*/}
-                {games.length > 0 ? games.map(game => <Game key={gameToId(game)} id={gameToId(game)} game={game} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game>) : <tr><td colSpan={5}>None</td></tr>}
+                {games.length > 0 ? games.map(game => <Game key={gameToId(game)} id={gameToId(game)} game={game} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game>) : <tr><td colSpan={6}>None</td></tr>}
             </tbody>
         </table>
     );

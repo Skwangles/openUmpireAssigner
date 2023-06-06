@@ -62,7 +62,7 @@ let isTimewiseUnavailable = (umpire, checkedGame, games, gameLength) => {
   if (typeof checkedGame.Time === "undefined") return true;
 
   //Calc areas Umpire can't play in
-  let avoidTimes = getTimes(umpire.teams, games);
+  let avoidTimes = getTimes(umpire.Teams, games);
 
   //Parse game time
   let time = checkedGame.Time.split(':');
@@ -95,18 +95,18 @@ let isPlaying = (umpire, checkedGame) => {
 }
 
 let failsUmpirePreferences = (umpire, checkedGame) => {
-  
 
   //Check if can attend venue
-  if (checkedGame.Turf in umpire.restrictedTurf) return "Doesn't do turf " + checkedGame.Turf
+  if (checkedGame.Turf in umpire.RestrictedTurf) return "Doesn't do turf " + checkedGame.Turf
 
   return false
 }
 
 let failsUmpireAbilities = (umpire, checkedGame) => {
   //Check if wants/can to do this level
-  if (!umpire.Levels.includes(checkedGame.Grade) && !(umpire.Levels.includes("All") || umpire.Levels.includes("all")))
-    return "Not within specified levels: " +  umpire.Levels.length > 0 ? umpire.Levels.join(", ") : "No Levels specified!";
+  if (!umpire.Levels.includes(checkedGame.Grade) && !(umpire.Levels.includes("All") || umpire.Levels.includes("all"))){
+    return "Not within specified levels: " +  (umpire.Levels.length > 0 ? umpire.Levels.join(", ") : "No Levels specified!");
+  }
 
   return false;
 }

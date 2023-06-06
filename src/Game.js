@@ -23,7 +23,7 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
     const umpire = JSON.parse(event.dataTransfer.getData('umpire'));
 
     // Handle 'clearing' an umpire
-    if (!umpire.hasOwnProperty("name"))
+    if (!umpire.hasOwnProperty("Name"))
         switch(event.target.id){
           case "ump1name":
             setUmp1({})
@@ -38,11 +38,11 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
 
     // Check umpire is not already assigned
     if (event.target.id === "ump1name") {
-      if (ump2.name !== umpire.name)
+      if (ump2.Name !== umpire.Name)
         setUmp1(umpire)
     }
     else if (event.target.id === "ump2name") {
-      if (ump1.name !== umpire.name)
+      if (ump1.Name !== umpire.Name)
         setUmp2(umpire)
     }
   }
@@ -65,11 +65,11 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
       <td> {game.Time} </td>
       <td> {game.Turf} </td>
       <td id="ump1name" onDrop={handleDropFromDrag} onDragOver={handleDragOver}>
-        {ump1.hasOwnProperty("name") ? ump1.name : "---"}
+        {ump1.hasOwnProperty("Name") ? ump1.name : "---"}
       </td>
 
       <td id="ump2name" onDrop={handleDropFromDrag} onDragOver={handleDragOver}>
-        {ump2.hasOwnProperty("name") ? ump2.name : "---"}
+        {ump2.hasOwnProperty("Name") ? ump2.name : "---"}
       </td>
       {game.isDisabled ? (game.reason ? <td>Disabled: {game.reason}</td> : "") : ""}
     </tr>

@@ -8,10 +8,6 @@ import parseUmpire from './parseUmpires';
 import { gameToId } from './utils';
 const gameLength_min = 60
 
-
-
-
-
 function App() {
   let [highlightType, setHighlightType] = useState("umpire")
   let [selectedGame, setSelectedGame] = useState({})
@@ -20,23 +16,6 @@ function App() {
   // CSV files are added which modify these
   let [games, setGames] = useState([])
   let [umpires, setUmpires] = useState([]);
-
-  const [teamData, setTeamData] = useState([]);
-
-  const handleTeamsUpload = (event) => {
-    const file = event.target.files[0];
-
-    // Parse contents
-    Papa.parse(file, {
-      header: true,
-      skipEmptyLines: true,
-      complete: (results) => {
-        console.info("Team data set!")
-        console.info(results.data)
-        setTeamData(results.data);
-      },
-    });
-  };
 
 const stripToTurf = (name) => {
   switch(name){
@@ -66,12 +45,14 @@ const csvToGame = (game) => {
 }
 
 const csvToUmpire = (umpire) => {
-  //Idk why I haven't capitalised the values - just roll with it
   return {
     "Name": umpire["Name"],
-    "Teams": umpire["Teams"].split(",\\s+"),
-    "Levels": umpire["Levels"].split(",\\s+"),
-    "RestrictedTurf": umpire["Restricted Turfs"].split(",\\s+")
+    "Teams": umpire["Teams"].split(/,\s+/),
+    "Levels": umpire["Levels"].split(/,\s+/),
+    "RestrictedTurf": umpire["Restricted Turfs"].split(/,\s+/),
+    "Club": umpire["Club"],
+    "TBAO": umpire["To be aware of"],
+    "Notes":umpire["Notes"]
   }
 }
 
@@ -146,11 +127,9 @@ const handleUmpiresUpload = (event) => {
   return (
     <div className="App">
       <div>
-        (MUST LOAD BEFORE GAMES!!) 
+        Enter Umpires:
         <br/>
-        Enter Available Teams:
-        <br/>
-        <input type="file" accept=".csv" onChange={handleTeamsUpload} />
+        <input type="file" accept=".csv" onChange={handleUmpiresUpload} />
       </div>
 
       <div>
