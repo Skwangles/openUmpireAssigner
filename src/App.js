@@ -96,17 +96,20 @@ function App() {
   
   return (
     <div className="App">
-
-      {/* Upload of games CSV*/}
       <div>
-        Enter Games:
+        (MUST LOAD BEFORE GAMES!!) 
+        <br/>
+        Enter Available Teams:
+        <br/>
+        <input type="file" accept=".csv" onChange={handleTeamsUpload} />
+      </div>
+
+      <div>
+        Enter Games:<br/>
         <input type="file" accept=".csv" onChange={handleGamesUpload} />
       </div>
 
-      <div>
-        Enter Team Names:
-        <input type="file" accept=".csv" onChange={handleTeamsUpload} />
-      </div>
+     
 
       <h4>Disabling for: {highlightType === "game" ? (selectedGame.hasOwnProperty("A") ? gameToId(selectedGame) : "None selected") : selectedUmpire.hasOwnProperty("name") ? selectedUmpire.name : "None Selected"}</h4>
       {/* Print games */}
