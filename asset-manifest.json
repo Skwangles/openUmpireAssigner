@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/openMatchRefTool/static/css/main.eea32282.css",
-    "main.js": "/openMatchRefTool/static/js/main.0a9eb2e6.js",
+    "main.js": "/openMatchRefTool/static/js/main.4c148d54.js",
     "static/js/787.02cf0dc2.chunk.js": "/openMatchRefTool/static/js/787.02cf0dc2.chunk.js",
     "index.html": "/openMatchRefTool/index.html",
     "main.eea32282.css.map": "/openMatchRefTool/static/css/main.eea32282.css.map",
-    "main.0a9eb2e6.js.map": "/openMatchRefTool/static/js/main.0a9eb2e6.js.map",
+    "main.4c148d54.js.map": "/openMatchRefTool/static/js/main.4c148d54.js.map",
     "787.02cf0dc2.chunk.js.map": "/openMatchRefTool/static/js/787.02cf0dc2.chunk.js.map"
   },
   "entrypoints": [
     "static/css/main.eea32282.css",
-    "static/js/main.0a9eb2e6.js"
+    "static/js/main.4c148d54.js"
   ]
 }
