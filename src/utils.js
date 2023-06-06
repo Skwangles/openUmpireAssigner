@@ -1,13 +1,13 @@
 function gameToId(info) {
-    if (!info) return null
+    if (!info || !info.hasOwnProperty("Time")) return null
 
     return info.Date + "|" + info.Time + "|" + info.Turf
 }
 
 function umpireToId(info) {
-    if (!info) return null
+    if (!info || !info.hasOwnProperty("Name")) return null
 
-    return info.Name + "|" + info.levels.join(",")
+    return info.Name + "|" + info.Levels.join(",")
 }
 
 export { gameToId, umpireToId }
