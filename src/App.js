@@ -19,6 +19,7 @@ function App() {
   let [usedUmpires, setUsedUmpires] = useState([])
 
   let [games, setGames] = useState([])
+  
 
   let [umpires, setUmpires] = useState([{
     "name": "Alexander",
@@ -135,9 +136,11 @@ const parseGame = (game) => {
       },
     });
   }
-
-  let [parsedUmpires, setParsedUmpires] = useState(umpires.map(umpire => { return { ...umpire, "blockedGames": parseUmpire(umpire, games, gameLength_min) } }))
   
+ 
+  
+  let parsedUmpires = umpires.map(umpire => { return { ...umpire, "blockedGames": parseUmpire(umpire, games, gameLength_min) } });
+
   return (
     <div className="App">
       <div>
