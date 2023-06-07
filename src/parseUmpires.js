@@ -1,5 +1,5 @@
 // Time after game start to 'avoid' 
-const GAME_LENGTH = 75;
+const GAME_LENGTH = 78;
 const MINS_IN_HOUR = 60;
 
 

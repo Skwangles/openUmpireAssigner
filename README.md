@@ -7,8 +7,7 @@ I have built the system to use the CSVs provided by playHQ, so theoretically any
 I have done some shortening things, like turf names from 'Lugtons Turf 2' -> 'Turf 2', or 'MR3 Super Long Name' -> "M3" - you should use the shortened ones if you are customising the Umpires CSV
 
 ## Features to come:
-I have not yet implemented persistence - i.e. if you reload the page, you will lose everything and have to start over again.
-Specificable game length blockout (current is 60mins)
+Specificable game length blockout (current is 75mins - 16x4 + 9mins break + 5 mins breathing room)
 
 ## Instructions for use:
 - You need to load in the two CSVs i've provided you, in the top left of the tool, the 'Round 2 final 3 games Reserve.csv' is exactly the same as the one you sent me, so theoretically you could test it with any of those. (The third option is if you have 2 game list CSVs that you want to do simultaneously, for example, Mens and Womens come separately).
