@@ -1,3 +1,8 @@
+# Opensource Umpire Assigner
+
+A tool to assign umpires, with respect to their games, teams, and availabilities. 
+Uses playHQ CSV to create games (example provided), and an umpire CSV (example provided)
+
 ## Umpires:
 The umpires CSV, the only thing I don't have going with it is all the 'Teams' in the CSV don't correspond 1-for-1 with the actual team names, so they won't actually be considered - Jordan Walker does, so you can see what I mean.
 I've gone through the Excel you sent me and put in the Levels for each umpire, you can kind of see how I've designed it - any columns with more than one thing needs to be comma separated.
