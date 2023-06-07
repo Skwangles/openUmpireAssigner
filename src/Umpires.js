@@ -16,6 +16,9 @@ function Umpires({ umpires, highlightType, setSelectedUmpire, selectedGame }) {
       return { ...umpire, isDisabled: false }
     })
   }
+  else {
+      umpires = umpires.map(umpire => { return {...umpire, isDisabled: false}})
+  }
 
 
   // Create Table rows

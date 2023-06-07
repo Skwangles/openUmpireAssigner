@@ -33,6 +33,9 @@ function Games({ games, highlightType, setGames, setSelectedGame, selectedUmpire
 
     // Disable games by umpire
     if (highlightType === "umpire" && selectedUmpire.hasOwnProperty("Name")) {
+        console.log("Selected umpire")
+        console.log(selectedUmpire)
+        console.log(games)
         games = games.map(game => {
 
             // Check if umpire disabled for game & attach reason
@@ -43,6 +46,9 @@ function Games({ games, highlightType, setGames, setSelectedGame, selectedUmpire
             return { ...game, isDisabled: false }
 
         });
+    }
+    else {
+        games = games.map(game => { return {...game, isDisabled: false}})
     }
 
     console.log("Current Games")
