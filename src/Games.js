@@ -62,6 +62,7 @@ function Games({ games, highlightType, setGames, setSelectedGame, selectedUmpire
                     <th>Turf</th>
                     <th>Umpire 1</th>
                     <th>Umpire 2</th>
+                    <th></th>
                 </tr>
             </thead>
 

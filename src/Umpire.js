@@ -26,7 +26,7 @@ function Umpire(props) {
         <td>{TBAO || "-" }</td>
         <td>{Notes || "-"}</td>
         
-        {isDisabled ? (props.info.reason ? <td>Disabled: {props.info.reason}</td> : "") : ""}
+        {isDisabled ? (props.info.reason ? <td>Disabled: {props.info.reason}</td> : <td></td>) : <td></td>}
 
     </tr>
   );

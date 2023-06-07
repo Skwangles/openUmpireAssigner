@@ -71,7 +71,7 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
       <td id="ump2name" onDrop={handleDropFromDrag} onDragOver={handleDragOver}>
         {ump2.hasOwnProperty("Name") ? ump2.Name : "---"}
       </td>
-      {game.isDisabled ? (game.reason ? <td>Disabled: {game.reason}</td> : "") : ""}
+      {game.isDisabled ? (game.reason ? <td>Disabled: {game.reason}</td> : <td></td>) : <td></td>}
     </tr>
   );
 }

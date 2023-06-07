@@ -42,11 +42,12 @@ console.log(umpires)
           <th>Club</th>
           <th>To be aware of</th>
           <th>Notes</th>
+          <th></th>
         </tr>
       </thead>
       <tbody>
         <tr draggable onDragStart={(event) => handleDragStartOfEmpty(event)}>
-          <td colSpan={5}><i>Drag/Drop me to clear an assignment</i></td>
+          <td colSpan={7}><i>Drag/Drop me to clear an assignment</i></td>
         </tr>
         {/* Umpire rows*/}
         {umpComponents}
