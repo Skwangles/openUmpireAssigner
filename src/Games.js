@@ -18,7 +18,7 @@ function Games({ games, highlightType, setGames, setSelectedGame, selectedUmpire
         // Find index matching
         for (const index in games) {
             let item = games[index]
-            if (item.Time + "|" + item.Turf === key) {
+            if (gameToId(item) === key) {
                 indexOfGame = index
                 break;
             }
