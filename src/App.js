@@ -5,7 +5,7 @@ import Umpires from './Umpires';
 import Games from './Games';
 import { useState } from 'react';
 import parseUmpire from './parseUmpires';
-import { gameToId } from './utils';
+import { gameToId, csvToGame, csvToUmpire } from './utils';
 const gameLength_min = 60
 
 function App() {
@@ -14,47 +14,9 @@ function App() {
   let [selectedUmpire, setSelectedUmpire] = useState({})
 
   // CSV files are added which modify these
-  let [games, setGames] = useState([])
-  let [umpires, setUmpires] = useState([]);
+  let [games, setGames] = useState(JSON.parse(localStorage.getItem("games") || '[]'))
+  let [umpires, setUmpires] = useState(JSON.parse(localStorage.getItem("umpires") || '[]'));
 
-const stripToTurf = (name) => {
-  switch(name){
-    case "New World Te Rapa Turf 1":
-      return "Turf 1"
-    case "Lugtons Turf 2":
-      return "Turf 2"
-    case "St Pauls Collegiate":
-      return "St Pauls"
-    default:
-      return name
-  }
-}
-
-const csvToGame = (game) => {
-  return {
-    "A": game["home team"],
-    "B": game["away team"],
-    "Time": game["game time"],
-    "Turf": stripToTurf(game["playing surface"]),
-    "Date": game["game date"],
-    "Round": game["round"],
-    "Grade": game["grade"].substring(0, 3).replace("R", ""), //e.g. MR3 Name1 Name2 -> M3
-    ump1: null, 
-    ump2: null
-  }
-}
-
-const csvToUmpire = (umpire) => {
-  return {
-    "Name": umpire["Name"],
-    "Teams": umpire["Teams"].split(/,\s+/),
-    "Levels": umpire["Levels"].split(/,\s+/),
-    "RestrictedTurf": umpire["Restricted Turfs"].split(/,\s+/),
-    "Club": umpire["Club"],
-    "TBAO": umpire["To be aware of"],
-    "Notes":umpire["Notes"]
-  }
-}
 
 const handleUmpiresUpload = (event) => {
   const file = event.target.files[0];
@@ -120,9 +82,12 @@ const handleUmpiresUpload = (event) => {
     });
   }
   
- 
+ localStorage.setItem("games", JSON.stringify(games));
+ localStorage.setItem("umpires", JSON.stringify(umpires));
   
   let parsedUmpires = umpires.map(umpire => { return { ...umpire, "blockedGames": parseUmpire(umpire, games, gameLength_min) } });
+
+
 
   return (
     <div className="App">
