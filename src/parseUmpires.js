@@ -1,5 +1,6 @@
-
-
+// Time after game start to 'avoid' 
+const GAME_LENGTH = 75;
+const MINS_IN_HOUR = 60;
 
 
 /**
@@ -14,7 +15,7 @@ let getTimes = (umpTeams, games) => {
     if (umpTeams.includes(game.A) || umpTeams.includes(game.B)) {
       let time = game.Time.split(':')
       let startTime = { "hour": parseInt(time[0]), "min": parseInt(time[1]) }
-      avoidTimes.push({"date": game.Date, "start": startTime, "end": getEndTime(startTime, 60) })
+      avoidTimes.push({"date": game.Date, "start": startTime, "end": getEndTime(startTime, GAME_LENGTH) })
     }
   })
   return avoidTimes
@@ -27,13 +28,12 @@ let getTimes = (umpTeams, games) => {
  * @returns 
  */
 function getEndTime(time, gameLength) {
-  const minsInHour = 60;
   let newMin = time.min + gameLength
   let newHour = time.hour
-  if (newMin >= minsInHour) {
-    newHour += Math.floor(newMin / minsInHour);
+  if (newMin >= MINS_IN_HOUR) {
+    newHour += Math.floor(newMin / MINS_IN_HOUR);
   }
-  return { "hour": newHour, "min": Math.floor(newMin % minsInHour) };
+  return { "hour": newHour, "min": Math.floor(newMin % MINS_IN_HOUR) };
 }
 
 /**
