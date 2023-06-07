@@ -27,7 +27,8 @@ const handleDragStartOfEmpty = (event) => {
   setSelectedUmpire({})
 };
 
-
+console.log("Current Umpires")
+console.log(umpires)
 
   return (
     <table className=''>
