@@ -8,6 +8,27 @@ import parseUmpire from './parseUmpires';
 import { gameToId, csvToGame, csvToUmpire } from './utils';
 const gameLength_min = 60
 
+
+function loadLocalFile(fileName, callback) {
+  const filePath = process.env.PUBLIC_URL + '/' + fileName; // Construct the file path
+
+  return fetch(filePath)
+    .then(response => response.text())
+    .then(fileContent => {
+      const event = {
+        target: {
+            files: [fileContent]
+        }
+      };
+
+      callback(event); // Pass the event to the callback function
+    })
+    .catch(error => {
+      console.log('Error:', error);
+    });
+}
+
+
 function App() {
   let [highlightType, setHighlightType] = useState("umpire")
   let [selectedGame, setSelectedGame] = useState({})
@@ -87,7 +108,11 @@ const handleUmpiresUpload = (event) => {
   
   let parsedUmpires = umpires.map(umpire => { return { ...umpire, "blockedGames": parseUmpire(umpire, games, gameLength_min) } });
 
-
+  let loadExamples = () =>
+  {
+   loadLocalFile('example-games.csv', handleGamesUpload)
+   loadLocalFile('example-umpires.csv', handleUmpiresUpload)
+  }
 
   return (
     <div className="App">
@@ -105,7 +130,9 @@ const handleUmpiresUpload = (event) => {
         (Optional) Extra Games CSV:<br/>
         <input type="file" accept=".csv" onChange={addWomensGames} />
       </div>
-
+      <div className='py-2'>
+        <Button className=" btn-sm btn-secondary" onClick={loadExamples}>Load Demo Data</Button>
+      </div>
      
 
       <h4>Disabling for: {highlightType === "game" ? (selectedGame.hasOwnProperty("A") ? gameToId(selectedGame) : "None selected") : selectedUmpire.hasOwnProperty("Name") ? selectedUmpire.Name : "None Selected"}</h4>
