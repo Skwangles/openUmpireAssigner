@@ -31,6 +31,8 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
           case "ump2name":
             setUmp2({})
               return;
+          default:
+                return;
 
         }
 
