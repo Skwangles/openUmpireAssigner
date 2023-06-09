@@ -116,6 +116,15 @@ const handleUmpiresUpload = (event) => {
 
   return (
     <div className="App">
+    <div className='container'>
+      <h2>How to use:</h2><br/>
+      - This is a drag and drop system, you drag and drop the desired umpire into an ump1 or ump2 column to 'assign' them.<br/>
+      - Click on an umpire to see which games they are 'unavailable' for - or alternatively, click 'filter by game' to see umpires who are available for a specific game.<br/>
+      - Load the games in with the following file inputs (or click 'Load demo data' to play around).<br/>
+      - When you load data, any changes/data loaded should be saved if you reload the page. <br/>
+      - If you need to 'undo' an 'assignment', just drag and drop the special row at the top of the 'umpires' section and drop it where you want to 'undo'<br/>
+    </div>
+    <br/>
       <div>
         Enter Umpires:
         <br/>
@@ -135,14 +144,15 @@ const handleUmpiresUpload = (event) => {
       </div>
      
 
-      <h4>Disabling for: {highlightType === "game" ? (selectedGame.hasOwnProperty("A") ? gameToId(selectedGame) : "None selected") : selectedUmpire.hasOwnProperty("Name") ? selectedUmpire.Name : "None Selected"}</h4>
+      
       {/* Print games */}
       <h1>Games</h1>
       <div className="d-flex flex-row justify-content-center ">
         <Games className="" games={games} setGames={setGames} highlightType={highlightType} setSelectedGame={setSelectedGame} selectedUmpire={selectedUmpire}>
         </Games>
       </div>
-
+      <br/>
+      <h4>Disabling for: {highlightType === "game" ? (selectedGame.hasOwnProperty("A") ? selectedGame.Date + '@' + selectedGame.Time + " - " + selectedGame.A + ' vs ' + selectedGame.B : "None selected") : selectedUmpire.hasOwnProperty("Name") ? selectedUmpire.Name : "None Selected"}</h4>
       {/* Umpires list and information */}
       <h1>Umpires</h1>
       <div className="py-3 d-flex flex-row justify-content-center ">
