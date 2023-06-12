@@ -121,7 +121,7 @@ function parseUmpire(umpire, games, gameLength) {
 
     let playingFor = isPlaying(umpire, game)
     if (playingFor) {
-      unavailableGames.push({ reason: "Playing for: " + playingFor, ...game })
+      unavailableGames.push({ reason: "Involved with: " + playingFor, ...game })
       return // Only let one reason be fore each game
     }
 
