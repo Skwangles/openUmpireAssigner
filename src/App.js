@@ -129,7 +129,7 @@ function App() {
         - Load the games in with the following file inputs (or click 'Load demo data' to play around)<br />
         - When you load data, any changes/data loaded should be saved if you reload the page<br />
         - If you need to undo/clear an allocation/appointment, drag and drop the special '<b>Drap/Drop me</b>' box onto it<br />
-        <i>Note: 'Teams' of an umpire mean are involved in someway, i.e. cannot be umpiring elsewhere during their games</i>
+        <i>Note: 'Teams' of an umpire mean they cannot be umpiring during those teams' games - i.e. playing, coaching, managing, etc.</i>
       </div>
       <br />
       <div>
