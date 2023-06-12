@@ -17,7 +17,7 @@ function loadLocalFile(fileName, callback) {
     .then(fileContent => {
       const event = {
         target: {
-            files: [fileContent]
+          files: [fileContent]
         }
       };
 
@@ -39,23 +39,23 @@ function App() {
   let [umpires, setUmpires] = useState(JSON.parse(localStorage.getItem("umpires") || '[]'));
 
 
-const handleUmpiresUpload = (event) => {
-  const file = event.target.files[0];
+  const handleUmpiresUpload = (event) => {
+    const file = event.target.files[0];
 
-  // Parse contents
-  Papa.parse(file, {
-    header: true,
-    skipEmptyLines: true,
-    complete: (results) => {
-      let umpireList = []
-      for (const umpire of results.data){
-        umpireList.push(csvToUmpire(umpire))
-      }
+    // Parse contents
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => {
+        let umpireList = []
+        for (const umpire of results.data) {
+          umpireList.push(csvToUmpire(umpire))
+        }
 
-      setUmpires(umpireList);
-    },
-  });
-};
+        setUmpires(umpireList);
+      },
+    });
+  };
 
   const handleGamesUpload = (event) => {
     const file = event.target.files[0];
@@ -66,9 +66,9 @@ const handleUmpiresUpload = (event) => {
       skipEmptyLines: true,
       complete: (results) => {
         let gameList = []
-        for (const game of results.data){
+        for (const game of results.data) {
           //Add extra entries to game info
-          
+
           if (game["bye"] !== "") continue; //Bye row
 
           gameList.push(csvToGame(game))
@@ -79,7 +79,7 @@ const handleUmpiresUpload = (event) => {
     });
   };
 
-  const addWomensGames = (event) => {
+  const addSecondCSV = (event) => {
     const file = event.target.files[0];
 
     // Parse contents
@@ -90,9 +90,9 @@ const handleUmpiresUpload = (event) => {
         console.info("Parsing games")
         console.info(results.data)
         let gameList = []
-        for (const game of results.data){
+        for (const game of results.data) {
           //Add extra entries to game info
-          
+
           if (game["bye"] !== "") continue; //Bye row
 
           gameList.push(csvToGame(game))
@@ -102,70 +102,85 @@ const handleUmpiresUpload = (event) => {
       },
     });
   }
-  
- localStorage.setItem("games", JSON.stringify(games));
- localStorage.setItem("umpires", JSON.stringify(umpires));
-  
+
+  // Drag and drop handling
+  const handleDragStartOfEmpty = (event) => {
+    event.dataTransfer.setData('umpire', JSON.stringify({}));
+  };
+
+
+  localStorage.setItem("games", JSON.stringify(games));
+  localStorage.setItem("umpires", JSON.stringify(umpires));
+
   let parsedUmpires = umpires.map(umpire => { return { ...umpire, "blockedGames": parseUmpire(umpire, games, gameLength_min) } });
 
-  let loadExamples = () =>
-  {
-   loadLocalFile('example-games.csv', handleGamesUpload)
-   loadLocalFile('example-umpires.csv', handleUmpiresUpload)
+  let loadExamples = () => {
+    loadLocalFile('example-games.csv', handleGamesUpload)
+    loadLocalFile('example-umpires.csv', handleUmpiresUpload)
   }
 
   return (
     <div className="App">
-    <div className='container'>
-      <h2>How to use:</h2><br/>
-      - This is a drag and drop system, you drag and drop the desired umpire into an ump1 or ump2 column to 'assign' them.<br/>
-      - Click on an umpire to see which games they are 'unavailable' for - or alternatively, click 'filter by game' to see umpires who are available for a specific game.<br/>
-      - Load the games in with the following file inputs (or click 'Load demo data' to play around).<br/>
-      - When you load data, any changes/data loaded should be saved if you reload the page. <br/>
-      - If you need to 'undo' an 'assignment', just drag and drop the special row at the top of the 'umpires' section and drop it where you want to 'undo'<br/>
-    </div>
-    <br/>
+      <div className='container'>
+        <h2>How to use:</h2><br />
+        - This is a drag and drop system, you drag and drop the desired umpire into an ump1 or ump2 column to 'allocate'/'appoint' them.<br />
+        - Click on an umpire to see which games they are 'unavailable' for - or alternatively, click 'filter by game' to see umpires who are unavailable for a specific game.<br />
+        - Load the games in with the following file inputs (or click 'Load demo data' to play around).<br />
+        - When you load data, any changes/data loaded should be saved if you reload the page. <br />
+        - If you need to 'undo' an 'allocation'/'appointment', just drag and drop the special 'Drap/Drop me' box onto it<br />
+      </div>
+      <br />
       <div>
         Enter Umpires:
-        <br/>
+        <br />
         <input type="file" accept=".csv" onChange={handleUmpiresUpload} />
       </div>
 
       <div>
-        Enter Games:<br/>
+        Enter Games:<br />
         <input type="file" accept=".csv" onChange={handleGamesUpload} />
       </div>
       <div>
-        (Optional) Extra Games CSV:<br/>
-        <input type="file" accept=".csv" onChange={addWomensGames} />
+        (Optional) Extra Games CSV:<br />
+        <input type="file" accept=".csv" onChange={addSecondCSV} />
       </div>
       <div className='py-2'>
-        <Button className=" btn-sm btn-secondary" onClick={loadExamples}>Load Demo Data</Button>
+        <Button className=" btn-sm btn-primary" onClick={loadExamples}>Load Demo Data</Button>
       </div>
-     
 
-      
+
+
       {/* Print games */}
       <h1>Games</h1>
       <div className="d-flex flex-row justify-content-center ">
         <Games className="" games={games} setGames={setGames} highlightType={highlightType} setSelectedGame={setSelectedGame} selectedUmpire={selectedUmpire}>
         </Games>
       </div>
-      <br/>
-      <h4>Checking availability for: {highlightType === "game" ? (selectedGame.hasOwnProperty("A") ? selectedGame.Date + '@' + selectedGame.Time + " - " + selectedGame.A + ' vs ' + selectedGame.B : "-") : selectedUmpire.hasOwnProperty("Name") ? selectedUmpire.Name : "-"}</h4>
+      <br />
+
       {/* Umpires list and information */}
-      <h1>Umpires</h1>
+      <h1>Umpire Profiles</h1>
       <div className="py-3 d-flex flex-row justify-content-center ">
         <Umpires className="" umpires={parsedUmpires} highlightType={highlightType} setSelectedUmpire={setSelectedUmpire} selectedGame={selectedGame}>
         </Umpires>
       </div>
 
-      {/* Highlight modes */}
-      <div className="row my-3 align-center">
-        <Button className='col mx-2 ' onClick={() => { setSelectedUmpire({}); setSelectedGame({}); }}>Clear Gray</Button>
-        <Button className='col mx-2' onClick={() => { setHighlightType("umpire"); setSelectedUmpire({}); setSelectedGame({}); }}>Filter by Umpire</Button>
-        <Button className='col mx-2' onClick={() => { setHighlightType("game"); setSelectedGame({}); setSelectedUmpire({}); }}>Filter by Game</Button>
+      <div className='sticky-bottom py-3 container-sm d-flex justify-content-center' style={{ width: "auto" }}>
+        <div className=' control-panel p-3 border border-dark rounded'>
+          <div draggable onDragStart={handleDragStartOfEmpty}><i className='border border-dark rounded p-1'>Drag/Drop me to clear an assignment</i></div>
+          {/* Controls */}
+          <div className='py-2'>
+            <div className='py-1'>
+              <div>Filtering by: {highlightType === "game" ? "Game" : "Umpire"}</div>
+              <Button className='btn-sm mx-2' onClick={() => { setHighlightType("umpire"); setSelectedUmpire({}); setSelectedGame({}); }}>Filter by Umpire</Button>
+              <Button className='btn-sm mx-2' onClick={() => { setHighlightType("game"); setSelectedGame({}); setSelectedUmpire({}); }}>Filter by Game</Button>
+            </div>
+            <Button className='btn-sm mx-2' onClick={() => { setSelectedUmpire({}); setSelectedGame({}); }}>Clear Unavailabilities</Button>
+          </div>
+        </div>
       </div>
+
+
     </div>
   );
 }
