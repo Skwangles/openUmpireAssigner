@@ -69,7 +69,7 @@ let isTimewiseUnavailable = (umpire, checkedGame, games, gameLength) => {
   let gameEnd = getEndTime(gameStart, gameLength)
 
   for (const avoid of avoidTimes) {
-    if(avoid.Date != checkedGame.Date) continue;
+    if(avoid.Date !== checkedGame.Date) continue;
     //Check if any edges overlap
     if ((timeLessThanEqual(gameStart, avoid.end) && timeLessThanEqual(avoid.start, gameEnd)) || (timeLessThanEqual(avoid.start, gameEnd) && timeLessThanEqual(gameStart, avoid.end))) {
       //Overlap
