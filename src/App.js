@@ -123,12 +123,13 @@ function App() {
     <div className="App">
       <div className='container'>
         <h2>How to use:</h2><br />
-        - This is a <b>drag and drop</b> system, you drag and drop the desired umpire profile into the umpire 1 or umpire 2 column to 'allocate'/'appoint' them.<br />
+        - This is a <b>drag and drop</b> system, you drag and drop the desired umpire profile into the umpire 1 or umpire 2 column to 'allocate'/'appoint' them<br />
         - Click on an umpire to see which games they are 'unavailable' for - or alternatively, click '<b>filter by game</b>' to see umpires who are unavailable for a specific game<br />
-        - <b>Unavailable</b> games will show in red
-        - Load the games in with the following file inputs (or click 'Load demo data' to play around).<br />
-        - When you load data, any changes/data loaded should be saved if you reload the page. <br />
+        - <b>Unavailable</b> games will show in red<br />
+        - Load the games in with the following file inputs (or click 'Load demo data' to play around)<br />
+        - When you load data, any changes/data loaded should be saved if you reload the page<br />
         - If you need to undo/clear an allocation/appointment, drag and drop the special '<b>Drap/Drop me</b>' box onto it<br />
+        <i>Note: 'Teams' of an umpire mean are involved in someway, i.e. cannot be umpiring elsewhere during their games</i>
       </div>
       <br />
       <div>
