@@ -2,7 +2,6 @@ import Game from './Game';
 import { gameToId } from './utils.js'
 import "./Games.css"
 
-
 /**
  * Displays games - grays out non-available games
  * @param {*} props - Contains all the props needed to display, filter, etc
@@ -55,20 +54,18 @@ function Games({ games, highlightType, setGames, setSelectedGame, selectedUmpire
     console.log(games)
 
     return (
-        <table>
-
-            {/* Table titles*/}
-            <thead>
+        <table className="table table-striped w-75">
+            <thead className='table-dark'>
                 <tr>
-                    <th>Date</th>
-                    <th>A</th>
-                    <th>B</th>
-                    <th>Grade</th>
-                    <th>Time</th>
-                    <th>Turf</th>
-                    <th>Umpire 1</th>
-                    <th>Umpire 2</th>
-                    <th>Notes</th>
+                    <th scope="col" >Date</th>
+                    <th scope="col" >A</th>
+                    <th scope="col">B</th>
+                    <th scope="col">Grade</th>
+                    <th scope="col">Time</th>
+                    <th scope="col">Turf</th>
+                    <th scope="col">Umpire 1</th>
+                    <th scope="col">Umpire 2</th>
+                    <th scope="col">Notes</th>
                 </tr>
             </thead>
 

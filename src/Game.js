@@ -59,7 +59,7 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
   }
 
   return (
-    <tr onClick={handleClickToFocus} className={game.isUnavailable === true ? "disabled" : ""} >
+    <tr onClick={handleClickToFocus} className={game.isUnavailable === true ? "table-danger" : ""} >
       <td> {game.Date} </td>
       <td> {game.A} </td>
       <td> {game.B} </td>
