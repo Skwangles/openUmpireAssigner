@@ -1,7 +1,6 @@
 import Umpire from './Umpire';
 import { gameToId } from './utils';
 
-
 function Umpires({ umpires, highlightType, setSelectedUmpire, selectedGame }) {
 
 
@@ -24,35 +23,27 @@ function Umpires({ umpires, highlightType, setSelectedUmpire, selectedGame }) {
   // Create Table rows
   let umpComponents = umpires.length > 0 ? umpires.sort((a,b)=> a.Name.localeCompare(b.Name)).map(umpire => <Umpire key={umpire.Name} info={umpire} setSelectedUmpire={setSelectedUmpire}></Umpire>) : <tr>No umpires Found</tr>
 
-// Drag and drop handling
-const handleDragStartOfEmpty = (event) => {
-  event.dataTransfer.setData('umpire', JSON.stringify({}));
-  setSelectedUmpire({})
-};
+
 
 console.log("Current Umpires")
 console.log(umpires)
 
   return (
-    <table className=''>
+    <table className='table table-striped w-75'>
 
       {/* Table headers */}
-      <thead>
+      <thead className='table-dark'>
         <tr>
-          <th>Name</th>
-          <th>Levels</th>
-          <th>Teams</th>
-          <th>Club</th>
-          <th>To be aware of</th>
-          <th>Notes</th>
+          <th scope="col">Name</th>
+          <th scope="col">Levels</th>
+          <th scope="col">Teams</th>
+          <th scope="col">Club</th>
+          <th scope="col">To be aware of</th>
+          <th scope="col">Notes</th>
         </tr>
       </thead>
       <tbody>
-        {umpires.length > 0 ?
-        <tr draggable onDragStart={(event) => handleDragStartOfEmpty(event)}>
-          <td colSpan={6}><i>Drag/Drop me to clear an assignment</i></td>
-        </tr> : ""
-        }
+  
         {/* Umpire rows*/}
         {umpComponents}
        

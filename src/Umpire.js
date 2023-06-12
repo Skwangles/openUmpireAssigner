@@ -16,7 +16,7 @@ function Umpire(props) {
   return (
     <tr
     onClick={handleClickToFocus} 
-    draggable onDragStart={(event) => handleDragStart(event, props.info)} className={isUnavailable === true ? "disabled" : "" } >
+    draggable onDragStart={(event) => handleDragStart(event, props.info)} className={isUnavailable === true ? "table-danger" : "" } >
 
     {/* Umpire info */}
        <td>{Name}</td>
