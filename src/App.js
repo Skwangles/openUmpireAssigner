@@ -152,7 +152,7 @@ const handleUmpiresUpload = (event) => {
         </Games>
       </div>
       <br/>
-      <h4>Disabling for: {highlightType === "game" ? (selectedGame.hasOwnProperty("A") ? selectedGame.Date + '@' + selectedGame.Time + " - " + selectedGame.A + ' vs ' + selectedGame.B : "None selected") : selectedUmpire.hasOwnProperty("Name") ? selectedUmpire.Name : "None Selected"}</h4>
+      <h4>Checking availability for: {highlightType === "game" ? (selectedGame.hasOwnProperty("A") ? selectedGame.Date + '@' + selectedGame.Time + " - " + selectedGame.A + ' vs ' + selectedGame.B : "None selected") : selectedUmpire.hasOwnProperty("Name") ? selectedUmpire.Name : "None Selected"}</h4>
       {/* Umpires list and information */}
       <h1>Umpires</h1>
       <div className="py-3 d-flex flex-row justify-content-center ">

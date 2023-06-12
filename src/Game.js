@@ -59,7 +59,7 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
   }
 
   return (
-    <tr onClick={handleClickToFocus} className={game.isDisabled === true ? "disabled" : ""} >
+    <tr onClick={handleClickToFocus} className={game.isUnavailable === true ? "disabled" : ""} >
       <td> {game.Date} </td>
       <td> {game.A} </td>
       <td> {game.B} </td>
@@ -73,7 +73,7 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
       <td id="ump2name" onDrop={handleDropFromDrag} onDragOver={handleDragOver}>
         {ump2.hasOwnProperty("Name") ? ump2.Name : "---"}
       </td>
-      {game.isDisabled ? (game.reason ? <td>Disabled: {game.reason}</td> : <td></td>) : <td></td>}
+      {game.isUnavailable ? (game.reason ? <td>Unavailable: {game.reason}</td> : <td></td>) : <td></td>}
     </tr>
   );
 }

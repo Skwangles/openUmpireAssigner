@@ -41,14 +41,14 @@ function Games({ games, highlightType, setGames, setSelectedGame, selectedUmpire
             // Check if umpire disabled for game & attach reason
             let invalidGame = selectedUmpire.blockedGames.find(checkedGame => gameToId(game) === gameToId(checkedGame))
             if(invalidGame !== undefined)
-                return { ...game, isDisabled: true, reason: invalidGame.reason || "None" }
+                return { ...game, isUnavailable: true, reason: invalidGame.reason || "None" }
 
-            return { ...game, isDisabled: false }
+            return { ...game, isUnavailable: false }
 
         });
     }
     else {
-        games = games.map(game => { return {...game, isDisabled: false}})
+        games = games.map(game => { return {...game, isUnavailable: false}})
     }
 
     console.log("Current Games")
@@ -68,7 +68,7 @@ function Games({ games, highlightType, setGames, setSelectedGame, selectedUmpire
                     <th>Turf</th>
                     <th>Umpire 1</th>
                     <th>Umpire 2</th>
-                    <th></th>
+                    <th>Notes</th>
                 </tr>
             </thead>
 

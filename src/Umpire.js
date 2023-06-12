@@ -11,12 +11,12 @@ function Umpire(props) {
     props.setSelectedUmpire(umpire)
   };
 
-  let {Name, isDisabled, Levels, Club, Notes, Teams, TBAO} = props.info
+  let {Name, isUnavailable, Levels, Club, Notes, Teams, TBAO} = props.info
 
   return (
     <tr
     onClick={handleClickToFocus} 
-    draggable onDragStart={(event) => handleDragStart(event, props.info)} className={isDisabled === true ? "disabled" : "" } >
+    draggable onDragStart={(event) => handleDragStart(event, props.info)} className={isUnavailable === true ? "disabled" : "" } >
 
     {/* Umpire info */}
        <td>{Name}</td>
@@ -24,10 +24,7 @@ function Umpire(props) {
         <td>{Teams.length > 0 ? Teams.join(', ') : "None"}</td>
         <td>{Club || "-"}</td>
         <td>{TBAO || "-" }</td>
-        <td>{Notes || "-"}</td>
-        
-        {isDisabled ? (props.info.reason ? <td>Disabled: {props.info.reason}</td> : <td></td>) : <td></td>}
-
+        <td>{Notes || "-"} {isUnavailable ? (props.info.reason ? " Unavailable: " + props.info.reason : "") : ""}</td>
     </tr>
   );
 }
