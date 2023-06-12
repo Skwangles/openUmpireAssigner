@@ -54,7 +54,7 @@ function Games({ games, highlightType, setGames, setSelectedGame, selectedUmpire
     console.log(games)
 
     return (
-        <table className="table table-striped w-75">
+        <table className="table w-75">
             <thead className='table-dark'>
                 <tr>
                     <th scope="col" >Date</th>

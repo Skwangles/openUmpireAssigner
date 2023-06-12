@@ -21,7 +21,7 @@ function Umpires({ umpires, highlightType, setSelectedUmpire, selectedGame }) {
 
 
   // Create Table rows
-  let umpComponents = umpires.length > 0 ? umpires.sort((a,b)=> a.Name.localeCompare(b.Name)).map(umpire => <Umpire key={umpire.Name} info={umpire} setSelectedUmpire={setSelectedUmpire}></Umpire>) : <tr>No umpires Found</tr>
+  let umpComponents = umpires.length > 0 ? umpires.sort((a,b)=> a.Name.localeCompare(b.Name)).map(umpire => <Umpire key={umpire.Name} info={umpire} selectedUmpire={setSelectedUmpire} setSelectedUmpire={setSelectedUmpire}></Umpire>) : <tr>No umpires Found</tr>
 
 
 
@@ -29,7 +29,7 @@ console.log("Current Umpires")
 console.log(umpires)
 
   return (
-    <table className='table table-striped w-75'>
+    <table className='table w-75'>
 
       {/* Table headers */}
       <thead className='table-dark'>
