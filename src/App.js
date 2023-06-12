@@ -123,11 +123,12 @@ function App() {
     <div className="App">
       <div className='container'>
         <h2>How to use:</h2><br />
-        - This is a drag and drop system, you drag and drop the desired umpire into an ump1 or ump2 column to 'allocate'/'appoint' them.<br />
-        - Click on an umpire to see which games they are 'unavailable' for - or alternatively, click 'filter by game' to see umpires who are unavailable for a specific game.<br />
+        - This is a <b>drag and drop</b> system, you drag and drop the desired umpire profile into the umpire 1 or umpire 2 column to 'allocate'/'appoint' them.<br />
+        - Click on an umpire to see which games they are 'unavailable' for - or alternatively, click '<b>filter by game</b>' to see umpires who are unavailable for a specific game<br />
+        - <b>Unavailable</b> games will show in red
         - Load the games in with the following file inputs (or click 'Load demo data' to play around).<br />
         - When you load data, any changes/data loaded should be saved if you reload the page. <br />
-        - If you need to 'undo' an 'allocation'/'appointment', just drag and drop the special 'Drap/Drop me' box onto it<br />
+        - If you need to undo/clear an allocation/appointment, drag and drop the special '<b>Drap/Drop me</b>' box onto it<br />
       </div>
       <br />
       <div>
@@ -167,11 +168,12 @@ function App() {
 
       <div className='sticky-bottom py-3 container-sm d-flex justify-content-center' style={{ width: "auto" }}>
         <div className=' control-panel p-3 border border-dark rounded'>
-          <div draggable onDragStart={handleDragStartOfEmpty}><i className='border border-dark rounded p-1'>Drag/Drop me to clear an assignment</i></div>
+        <div className='pb-2'><b>Checking availability for: </b>{highlightType === "game" ? (selectedGame.hasOwnProperty("A") ? selectedGame.Date + '@' + selectedGame.Time + " - " + selectedGame.A + ' vs ' + selectedGame.B : "None") : selectedUmpire.hasOwnProperty("Name") ? selectedUmpire.Name + " Levels: " + selectedUmpire.Levels + " Teams: " + selectedUmpire.Teams : "None"}</div>
+          <div draggable onDragStart={handleDragStartOfEmpty}><i className='border border-dark rounded p-1'>Drag/Drop me to clear an allocation</i></div>
           {/* Controls */}
           <div className='py-2'>
             <div className='py-1'>
-              <div>Filtering by: {highlightType === "game" ? "Game" : "Umpire"}</div>
+              <div className='pb-2'><b>Filtering by: </b>{highlightType === "game" ? "Game" : highlightType === "umpire" ? "Umpire" : "-"}</div>
               <Button className='btn-sm mx-2' onClick={() => { setHighlightType("umpire"); setSelectedUmpire({}); setSelectedGame({}); }}>Filter by Umpire</Button>
               <Button className='btn-sm mx-2' onClick={() => { setHighlightType("game"); setSelectedGame({}); setSelectedUmpire({}); }}>Filter by Game</Button>
             </div>
