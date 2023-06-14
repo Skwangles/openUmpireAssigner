@@ -1,24 +1,24 @@
 function gameToId(info) {
     if (!info || !info.hasOwnProperty("Time")) return null
 
-    return info.Date + "|" + info.Time + "|" + info.Turf.toLowerCase()
+    return info.Date + "|" + info.Time + "|" + formatString(info.Turf)
 }
 
 function umpireToId(info) {
     if (!info || !info.hasOwnProperty("Name")) return null
 
-    return info.Name.toLowerCase() + "|" + info.Levels.join(",").toLowerCase()
+    return formatString(info.Name) + "|" + formatString(info.Levels.join(","))
 }
 
 const csvToGame = (game) => {
     return {
-      "A": game["home team"],
-      "B": game["away team"],
-      "Time": game["game time"],
-      "Turf": stripToTurf(game["playing surface"]),
-      "Date": game["game date"],
-      "Round": game["round"],
-      "Grade": game["grade"].substring(0, 3).replace("R", ""), //e.g. MR3 Name1 Name2 -> M3
+      "A": game["home team"].trim(),
+      "B": game["away team"].trim(),
+      "Time": game["game time"].trim(),
+      "Turf": stripToTurf(game["playing surface"]).trim(),
+      "Date": game["game date"].trim(),
+      "Round": game["round"].trim(),
+      "Grade": game["grade"].trim().substring(0, 3).replace("R", ""), //e.g. MR3 Name1 Name2 -> M3
       ump1: null, 
       ump2: null
     }
@@ -26,13 +26,13 @@ const csvToGame = (game) => {
   
   const csvToUmpire = (umpire) => {
     return {
-      "Name": umpire["Name"],
-      "Teams": umpire["Teams"].split(/,\s+/) || [],
-      "Levels": umpire["Levels"].split(/,\s+/) || [],
-      "RestrictedTurf": umpire["Restricted Turfs"].split(/,\s+/) || [],
-      "Club": umpire["Club"] || "",
-      "TBAO": umpire["To be aware of"] || "",
-      "Notes":umpire["Notes"] || ""
+      "Name": umpire["Name"].trim(),
+      "Teams": umpire["Teams"].split(/\s+,\s+/) || [],
+      "Levels": umpire["Levels"].split(/\s+,\s+/) || [],
+      "RestrictedTurf": umpire["Restricted Turfs"].split(/\s+,\s+/) || [],
+      "Club": umpire["Club"].trim() || "",
+      "TBAO": umpire["To be aware of"].trim() || "",
+      "Notes":umpire["Notes"].trim() || ""
     }
   }
 
@@ -89,4 +89,10 @@ const csvToGame = (game) => {
     return Number(partsA[0]) < Number(partsB[0]) ? -1 : 1
   }
 
-export { gameToId, umpireToId, csvToGame, csvToUmpire, dateStringComparison, timeComparison, gradeComparison }
+
+  function formatString(string){
+    return string.toLowerCase().trim()
+  }
+
+
+export { gameToId, umpireToId, csvToGame, csvToUmpire, dateStringComparison, timeComparison, gradeComparison, formatString }

@@ -1,3 +1,5 @@
+import { formatString } from "./utils";
+
 // Time after game start to 'avoid' 
 const GAME_LENGTH = 78;
 const MINS_IN_HOUR = 60;
@@ -86,29 +88,30 @@ let isTimewiseUnavailable = (umpire, checkedGame, games, gameLength) => {
  * @returns 
  */
 let isPlaying = (umpire, checkedGame) => {
-  if (umpire.Teams.includes(checkedGame.A))
-    return checkedGame.A
-  if (umpire.Teams.includes(checkedGame.B))
-    return checkedGame.B
-
-  return false
+  return umpire.Teams.find(team => formatString(team) === formatString(checkedGame.A) || formatString(team) === formatString(checkedGame.B)) || false
 }
 
-let failsUmpirePreferences = (umpire, checkedGame) => {
 
-  //Check if can attend venue
-  if (checkedGame.Turf in umpire.RestrictedTurf) return "Doesn't do turf " + checkedGame.Turf
+/**
+ * Checks if an umpire can play at a certain turf
+ * @param {*} umpire 
+ * @param {*} checkedGame 
+ * @returns 
+ */
+let wontPlayAtTurf = (umpire, checkedGame) => {
+  // Check if turf is ok
+  let turfMatch = umpire.RestrictedTurf.find(turf => formatString(turf) === formatString(checkedGame.Turf))
 
-  return false
+  return turfMatch === undefined ? false :  "Doesn't play at: " + turfMatch
 }
 
-let failsUmpireAbilities = (umpire, checkedGame) => {
+let failsSkillLevels = (umpire, checkedGame) => {
   //Check if wants/can to do this level
-  if (!umpire.Levels.includes(checkedGame.Grade) && !(umpire.Levels.includes("All") || umpire.Levels.includes("all"))){
-    return "Not within specified levels: " +  (umpire.Levels.length > 0 ? umpire.Levels.join(", ") : "No Levels specified!");
-  }
-
-  return false;
+  console.log(umpire)
+  console.log(checkedGame)
+  return umpire.Levels.find(level => { return formatString(level) === formatString(checkedGame.Grade) || formatString(level) === "all"}) === undefined ? 
+  "Not in skill levels: " + umpire.Levels
+  : false
 }
 
 
@@ -122,7 +125,7 @@ function parseUmpire(umpire, games, gameLength) {
     let playingFor = isPlaying(umpire, game)
     if (playingFor) {
       unavailableGames.push({ reason: "Involved with: " + playingFor, ...game })
-      return // Only let one reason be fore each game
+      return // Only let one reason be for each game
     }
 
     let timewiseIssue = isTimewiseUnavailable(umpire, game, games, gameLength)
@@ -131,14 +134,14 @@ function parseUmpire(umpire, games, gameLength) {
       return
     }
 
-    let abilitiesIssue = failsUmpireAbilities(umpire, game)
+    let abilitiesIssue = failsSkillLevels(umpire, game)
     if (abilitiesIssue){
       unavailableGames.push({ reason: "Abilities: " + abilitiesIssue, ...game })
       return
     }
 
     // Check umpire WANTS to do it
-    let preferenceClash = failsUmpirePreferences(umpire, game)
+    let preferenceClash = wontPlayAtTurf(umpire, game)
     if (preferenceClash) {
       unavailableGames.push({ reason: "Preference: " + preferenceClash, ...game })
       return
