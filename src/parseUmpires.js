@@ -107,9 +107,8 @@ let wontPlayAtTurf = (umpire, checkedGame) => {
 
 let failsSkillLevels = (umpire, checkedGame) => {
   //Check if wants/can to do this level
-  console.log(umpire)
-  console.log(checkedGame)
-  return umpire.Levels.find(level => { return formatString(level) === formatString(checkedGame.Grade) || formatString(level) === "all"}) === undefined ? 
+  return umpire.Levels.find(level => {     
+    return formatString(level) === formatString(checkedGame.Grade) || formatString(level) === "all"}) === undefined ? 
   "Not in skill levels: " + umpire.Levels
   : false
 }
