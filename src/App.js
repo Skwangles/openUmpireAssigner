@@ -154,7 +154,7 @@ function App() {
 
       {/* Print games */}
       <h1>Games</h1>
-      <div className="d-flex flex-row justify-content-center ">
+      <div className="d-flex flex-column align-items-center justify-content-center ">
         <Games className="" games={games} setGames={setGames} highlightType={highlightType} setSelectedGame={setSelectedGame} selectedUmpire={selectedUmpire}>
         </Games>
       </div>
