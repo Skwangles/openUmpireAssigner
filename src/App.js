@@ -175,8 +175,8 @@ function App() {
           <div className='py-2'>
             <div className='py-1'>
               <div className='pb-2'><b>Filtering by: </b>{highlightType === "game" ? "Game" : highlightType === "umpire" ? "Umpire" : "-"}</div>
-              <Button className='btn-sm mx-2' onClick={() => { setHighlightType("umpire"); setSelectedUmpire({}); setSelectedGame({}); }}>Filter by Umpire</Button>
-              <Button className='btn-sm mx-2' onClick={() => { setHighlightType("game"); setSelectedGame({}); setSelectedUmpire({}); }}>Filter by Game</Button>
+              <Button className='btn-sm mx-2' onClick={() => { setHighlightType("umpire");  setSelectedGame({}); }}>Filter by Umpire</Button>
+              <Button className='btn-sm mx-2' onClick={() => { setHighlightType("game"); setSelectedUmpire({}); }}>Filter by Game</Button>
             </div>
             <Button className='btn-sm mx-2' onClick={() => { setSelectedUmpire({}); setSelectedGame({}); }}>Clear Unavailabilities</Button>
           </div>
