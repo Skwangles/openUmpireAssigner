@@ -49,4 +49,38 @@ const csvToGame = (game) => {
     }
   }
 
-export { gameToId, umpireToId, csvToGame, csvToUmpire }
+
+  function dateStringComparison(a, b){
+    // -ve a < b, +ve a > b
+    
+    if (a.Date === b.Date) 
+      {
+        if (a.Time === b.Time)
+          return 0
+           
+        // Checking time (they aren't equal)
+        let timeHourA = a.Time.split(":")
+        let timeHourB = b.Time.split(":")
+
+        if (timeHourA[0] !== timeHourB[0])
+          return Number(timeHourA[0]) < Number(timeHourB[0]) ? -1 : 1
+        
+        if (timeHourA[1] !== timeHourB[1])
+          return Number(timeHourA[1]) < Number(timeHourB[1]) ? -1 : 1  
+
+      }
+    
+    // Checking Date (they aren't equal)  
+    let partsA = a.Date.split("/")
+    let partsB = b.Date.split("/")
+
+    if (partsA[2] !== partsB[2])
+      return Number(partsA[2]) < Number(partsB[2]) ? -1 : 1 //Smaller year, comes higher
+      
+    if (partsA[1] !== partsB[1])
+      return Number(partsA[1]) < Number(partsB[1]) ? -1 : 1
+
+    return Number(partsA[0]) < Number(partsB[0]) ? -1 : 1
+  }
+
+export { gameToId, umpireToId, csvToGame, csvToUmpire, dateStringComparison }
