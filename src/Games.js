@@ -1,6 +1,8 @@
 import Game from './Game';
-import { dateStringComparison, gameToId } from './utils.js'
+import { dateStringComparison, gameToId, gradeComparison, timeComparison } from './utils.js'
 import "./Games.css"
+import { useState } from 'react';
+import { Button } from 'react-bootstrap';
 
 /**
  * Displays games - grays out non-available games
@@ -8,7 +10,7 @@ import "./Games.css"
  * @returns 
  */
 function Games({ games, highlightType, setGames, setSelectedGame, selectedUmpire }) {
-
+    let [sortByTime, setSortByTime] = useState(true); // True
 
     // Update overall game object
     let updateGameValue = (key, newGame) => {
@@ -54,28 +56,36 @@ function Games({ games, highlightType, setGames, setSelectedGame, selectedUmpire
     console.log(games)
 
     return (
-        <table className="table w-75">
-            <thead className='table-dark'>
-                <tr>
-                    <th scope="col" >Date</th>
-                    <th scope="col" >A</th>
-                    <th scope="col">B</th>
-                    <th scope="col">Grade</th>
-                    <th scope="col">Time</th>
-                    <th scope="col">Turf</th>
-                    <th scope="col">Umpire 1</th>
-                    <th scope="col">Umpire 2</th>
-                    <th scope="col">Notes</th>
-                </tr>
-            </thead>
+        <>
 
-            <tbody>
-                {/*Games with info*/}
-                {games.length > 0 ? games
-                .sort((a,b) => dateStringComparison(a,b))
-                .map(game => <Game key={gameToId(game)} id={gameToId(game)} game={game} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game>) : <tr><td colSpan={9}>None</td></tr>}
-            </tbody>
-        </table>
+            <div>
+                <Button className='btn-sm m-1' onClick={() => setSortByTime(true)}>Sort by Time</Button>
+                <Button className='btn-sm m-1' onClick={() => setSortByTime(false)}>Sort by Grade</Button>
+            </div>
+
+            <table className="table w-75">
+                <thead className='table-dark'>
+                    <tr>
+                        <th scope="col">Date</th>
+                        <th scope="col">A</th>
+                        <th scope="col">B</th>
+                        <th scope="col">Grade</th>
+                        <th scope="col">Time</th>
+                        <th scope="col">Turf</th>
+                        <th scope="col">Umpire 1</th>
+                        <th scope="col">Umpire 2</th>
+                        <th scope="col">Notes</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                    {/*Games with info*/}
+                    {games.length > 0 ? games
+                    .sort((a,b) => dateStringComparison(a,b, sortByTime ? timeComparison : gradeComparison))
+                    .map(game => <Game key={gameToId(game)} id={gameToId(game)} game={game} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game>) : <tr><td colSpan={9}>None</td></tr>}
+                </tbody>
+            </table>
+</> 
     );
 }
 

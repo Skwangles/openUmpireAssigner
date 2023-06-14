@@ -49,25 +49,31 @@ const csvToGame = (game) => {
     }
   }
 
+  function timeComparison(a, b){
+    if (a.Time === b.Time)
+    return 0
+     
+    // Checking time (they aren't equal)
+    let timeHourA = a.Time.split(":")
+    let timeHourB = b.Time.split(":")
 
-  function dateStringComparison(a, b){
-    // -ve a < b, +ve a > b
+    if (timeHourA[0] !== timeHourB[0])
+      return Number(timeHourA[0]) < Number(timeHourB[0]) ? -1 : 1
+    
+    if (timeHourA[1] !== timeHourB[1])
+      return Number(timeHourA[1]) < Number(timeHourB[1]) ? -1 : 1  
+  }
+
+  function gradeComparison(a, b){
+    return a.Grade.localeCompare(b.Grade)
+  }
+
+  function dateStringComparison(a, b, subpredicate){
+    // -1 means it is higher (e.g. A of A-Z)
     
     if (a.Date === b.Date) 
       {
-        if (a.Time === b.Time)
-          return 0
-           
-        // Checking time (they aren't equal)
-        let timeHourA = a.Time.split(":")
-        let timeHourB = b.Time.split(":")
-
-        if (timeHourA[0] !== timeHourB[0])
-          return Number(timeHourA[0]) < Number(timeHourB[0]) ? -1 : 1
-        
-        if (timeHourA[1] !== timeHourB[1])
-          return Number(timeHourA[1]) < Number(timeHourB[1]) ? -1 : 1  
-
+       return subpredicate(a, b)
       }
     
     // Checking Date (they aren't equal)  
@@ -83,4 +89,4 @@ const csvToGame = (game) => {
     return Number(partsA[0]) < Number(partsB[0]) ? -1 : 1
   }
 
-export { gameToId, umpireToId, csvToGame, csvToUmpire, dateStringComparison }
+export { gameToId, umpireToId, csvToGame, csvToUmpire, dateStringComparison, timeComparison, gradeComparison }
