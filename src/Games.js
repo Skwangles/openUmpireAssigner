@@ -1,5 +1,5 @@
 import Game from './Game';
-import { gameToId } from './utils.js'
+import { dateStringComparison, gameToId } from './utils.js'
 import "./Games.css"
 
 /**
@@ -71,7 +71,9 @@ function Games({ games, highlightType, setGames, setSelectedGame, selectedUmpire
 
             <tbody>
                 {/*Games with info*/}
-                {games.length > 0 ? games.map(game => <Game key={gameToId(game)} id={gameToId(game)} game={game} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game>) : <tr><td colSpan={9}>None</td></tr>}
+                {games.length > 0 ? games
+                .sort((a,b) => dateStringComparison(a,b))
+                .map(game => <Game key={gameToId(game)} id={gameToId(game)} game={game} setSelectedGame={setSelectedGame} updateGameValue={updateGameValue}></Game>) : <tr><td colSpan={9}>None</td></tr>}
             </tbody>
         </table>
     );
