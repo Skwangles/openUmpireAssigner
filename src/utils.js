@@ -27,9 +27,9 @@ const csvToGame = (game) => {
   const csvToUmpire = (umpire) => {
     return {
       "Name": umpire["Name"].trim(),
-      "Teams": umpire["Teams"].split(/\s+,\s+/) || [],
-      "Levels": umpire["Levels"].split(/\s+,\s+/) || [],
-      "RestrictedTurf": umpire["Restricted Turfs"].split(/\s+,\s+/) || [],
+      "Teams": umpire["Teams"].split(/\s*,\s*/) || [],
+      "Levels": umpire["Levels"].split(/\s*,\s*/) || [],
+      "RestrictedTurf": umpire["Restricted Turfs"].split(/\s*,\s*/) || [],
       "Club": umpire["Club"].trim() || "",
       "TBAO": umpire["To be aware of"].trim() || "",
       "Notes":umpire["Notes"].trim() || ""
