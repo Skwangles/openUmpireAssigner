@@ -1,13 +1,13 @@
 function gameToId(info) {
     if (!info || !info.hasOwnProperty("Time")) return null
 
-    return info.Date + "|" + info.Time + "|" + info.Turf
+    return info.Date + "|" + info.Time + "|" + info.Turf.toLowerCase()
 }
 
 function umpireToId(info) {
     if (!info || !info.hasOwnProperty("Name")) return null
 
-    return info.Name + "|" + info.Levels.join(",")
+    return info.Name.toLowerCase() + "|" + info.Levels.join(",").toLowerCase()
 }
 
 const csvToGame = (game) => {
