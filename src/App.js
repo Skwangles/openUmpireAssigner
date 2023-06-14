@@ -51,7 +51,8 @@ function App() {
         for (const umpire of results.data) {
           umpireList.push(csvToUmpire(umpire))
         }
-
+        
+        localStorage.setItem("umpires", JSON.stringify(umpireList))
         setUmpires(umpireList);
       },
     });
@@ -74,6 +75,7 @@ function App() {
           gameList.push(csvToGame(game))
         }
 
+        localStorage.setItem("games", JSON.stringify(gameList))
         setGames(gameList);
       },
     });
@@ -167,8 +169,8 @@ function App() {
         </Umpires>
       </div>
 
-      <div className='sticky-bottom py-3 container-sm d-flex justify-content-center' style={{ width: "auto" }}>
-        <div className=' control-panel p-3 border border-dark rounded'>
+      <div className='sticky-bottom py-3 container-sm d-flex justify-content-center' style={{ width: "auto", pointerEvents: "none" }}>
+        <div className=' control-panel p-3 border border-dark rounded' style={{pointerEvents: "auto"}}>
         <div className='pb-2'><b>Checking availability for: </b>{highlightType === "game" ? (selectedGame.hasOwnProperty("A") ? selectedGame.Date + '@' + selectedGame.Time + " - " + selectedGame.A + ' vs ' + selectedGame.B : "None") : selectedUmpire.hasOwnProperty("Name") ? selectedUmpire.Name + " - Levels: " + selectedUmpire.Levels + " - Teams: " + selectedUmpire.Teams : "None"}</div>
           <div draggable onDragStart={handleDragStartOfEmpty}><i className='border border-dark rounded p-1'>Drag/Drop me to clear an allocation</i></div>
           {/* Controls */}
