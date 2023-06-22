@@ -24,6 +24,7 @@ const csvToGame = (game) => {
     }
   }
   
+  // Convert PapaParse JSON objects to internally usable objects - note, some are in CSV array format, thus .split
   const csvToUmpire = (umpire) => {
     return {
       "Name": umpire["Name"],
@@ -31,6 +32,7 @@ const csvToGame = (game) => {
       "Levels": umpire["Levels"].split(/\s*,\s*/).filter(item => item !== "")  || [],
       "RestrictedTurf": umpire["Restricted Turfs"].split(/\s*,\s*/).filter(item => item !== "") || [],
       "BlockoutDates": umpire["Blockout Dates"].split(/\s*,\s*/).filter(item => item !== "")  || [],
+      "LimitedTimes": umpire["Limited Times"].split(/\s*,\s*/).filter(item => item !== "")  || [],
       "Club": umpire["Club"] || "",
       "TBAO": umpire["To be aware of"] || "",
       "Notes":umpire["Notes"] || ""
@@ -53,18 +55,23 @@ const csvToGame = (game) => {
   }
 
   function timeComparison(a, b){
+    // -1 means it is higher (e.g. A > Z)
+    const A_HIGHER = -1
+    const A_LOWER = 1
+
+
     if (a.Time === b.Time)
     return 0
      
     // Checking time (they aren't equal)
-    let timeHourA = a.Time.split(":")
-    let timeHourB = b.Time.split(":")
+    let timeHourA = a.Time.split(":").map(part => Number(part)).filter(part => !isNaN(part))
+    let timeHourB = b.Time.split(":").map(part => Number(part)).filter(part => !isNaN(part))
 
     if (timeHourA[0] !== timeHourB[0])
-      return Number(timeHourA[0]) < Number(timeHourB[0]) ? -1 : 1
+      return timeHourA[0] < timeHourB[0] ? A_HIGHER : A_LOWER
     
     if (timeHourA[1] !== timeHourB[1])
-      return Number(timeHourA[1]) < Number(timeHourB[1]) ? -1 : 1  
+      return timeHourA[1] < timeHourB[1] ? A_HIGHER : A_LOWER 
   }
 
   function gradeComparison(a, b){
@@ -79,15 +86,14 @@ const csvToGame = (game) => {
     // Quick exit
     if (a.Date === b.Date) return subpredicate(a, b)
 
-    let datePartsA = a.Date.split("/").map(part => Number(part))
-    let datePartsB = b.Date.split("/").map(part => Number(part))
+    let datePartsA = a.Date.split("/").map(part => Number(part)).filter(part => !isNaN(part))
+    let datePartsB = b.Date.split("/").map(part => Number(part)).filter(part => !isNaN(part))
 
 
     // Year
     if (datePartsA.length > 2 && datePartsB.length > 2 /* Assume year same if not specified */ && datePartsA[2] !== datePartsB[2])
       return datePartsA[2] < datePartsB[2] ? A_HIGHER : A_LOWER
       
-  
     // Month  
     if (datePartsA[1] !== datePartsB[1]) 
       return datePartsA[1] < datePartsB[1] ? A_HIGHER : A_LOWER
