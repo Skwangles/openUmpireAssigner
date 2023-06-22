@@ -12,13 +12,13 @@ function umpireToId(info) {
 
 const csvToGame = (game) => {
     return {
-      "A": game["home team"].trim(),
-      "B": game["away team"].trim(),
-      "Time": game["game time"].trim(),
-      "Turf": stripToTurf(game["playing surface"]).trim(),
-      "Date": game["game date"].trim(),
-      "Round": game["round"].trim(),
-      "Grade": game["grade"].trim().substring(0, 3).replace("R", ""), //e.g. MR3 Name1 Name2 -> M3
+      "A": game["home team"],
+      "B": game["away team"],
+      "Time": game["game time"],
+      "Turf": stripToTurf(game["playing surface"]),
+      "Date": game["game date"],
+      "Round": game["round"],
+      "Grade": game["grade"].split(" ")[0]?.replace("R", ""), //e.g. MR3 Name1 Name2 -> M3
       ump1: null, 
       ump2: null
     }
@@ -26,13 +26,14 @@ const csvToGame = (game) => {
   
   const csvToUmpire = (umpire) => {
     return {
-      "Name": umpire["Name"].trim(),
-      "Teams": umpire["Teams"].split(/\s*,\s*/) || [],
-      "Levels": umpire["Levels"].split(/\s*,\s*/) || [],
-      "RestrictedTurf": umpire["Restricted Turfs"].split(/\s*,\s*/) || [],
-      "Club": umpire["Club"].trim() || "",
-      "TBAO": umpire["To be aware of"].trim() || "",
-      "Notes":umpire["Notes"].trim() || ""
+      "Name": umpire["Name"],
+      "Teams": umpire["Teams"].split(/\s*,\s*/).filter(item => item !== "")  || [],
+      "Levels": umpire["Levels"].split(/\s*,\s*/).filter(item => item !== "")  || [],
+      "RestrictedTurf": umpire["Restricted Turfs"].split(/\s*,\s*/).filter(item => item !== "") || [],
+      "BlockoutDates": umpire["Blockout Dates"].split(/\s*,\s*/).filter(item => item !== "")  || [],
+      "Club": umpire["Club"] || "",
+      "TBAO": umpire["To be aware of"] || "",
+      "Notes":umpire["Notes"] || ""
     }
   }
 
@@ -44,6 +45,8 @@ const csvToGame = (game) => {
         return "Turf 2"
       case "St Pauls Collegiate":
         return "St Pauls"
+      case "St Peters Cambridge":
+        return "St Peters"
       default:
         return name
     }
