@@ -79,21 +79,22 @@ const csvToGame = (game) => {
     // Quick exit
     if (a.Date === b.Date) return subpredicate(a, b)
 
-    let partsA = a.Date.split("/")
-    let partsB = b.Date.split("/")
+    let datePartsA = a.Date.split("/").map(part => Number(part))
+    let datePartsB = b.Date.split("/").map(part => Number(part))
+
 
     // Year
-    if (partsA.length > 2 && partsB.length > 2 /* Assume year same if not specified */ && Number(partsA[2]) !== Number(partsB[2]))
-      return Number(partsA[2]) < Number(partsB[2]) ? A_HIGHER : A_LOWER
+    if (datePartsA.length > 2 && datePartsB.length > 2 /* Assume year same if not specified */ && datePartsA[2] !== datePartsB[2])
+      return datePartsA[2] < datePartsB[2] ? A_HIGHER : A_LOWER
       
   
     // Month  
-    if (Number(partsA[1]) !== Number(partsB[1])) 
-      return Number(partsA[1]) < Number(partsB[1]) ? A_HIGHER : A_LOWER
+    if (datePartsA[1] !== datePartsB[1]) 
+      return datePartsA[1] < datePartsB[1] ? A_HIGHER : A_LOWER
 
     // Day  
-    if (Number(partsA[0]) !== Number(partsB[0]))
-      return Number(partsA[0]) < Number(partsB[0]) ? A_HIGHER : A_LOWER
+    if (datePartsA[0] !== datePartsB[0])
+      return datePartsA[0] < datePartsB[0] ? A_HIGHER : A_LOWER
     
     // If all of the parts match - must be equal
     return subpredicate(a, b)
