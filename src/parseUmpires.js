@@ -58,7 +58,7 @@ let timeToString = (time) => time.hour + ":" + time.min
 
 
 
-let isTimewiseUnavailable = (umpire, checkedGame, games, gameLength) => {
+let isTimewiseIssue = (umpire, checkedGame, games, gameLength) => {
   //Handle no specified 'selectedGame'
   if (typeof checkedGame.Time === "undefined") return true;
 
@@ -87,10 +87,16 @@ let isTimewiseUnavailable = (umpire, checkedGame, games, gameLength) => {
  * @param {*} checkedGame 
  * @returns 
  */
-let isPlaying = (umpire, checkedGame) => {
-  return umpire.Teams.find(team => formatString(team) === formatString(checkedGame.A) || formatString(team) === formatString(checkedGame.B)) || false
+let isInvolvedWithTeam = (umpire, checkedGame) => {
+  if (umpire.Teams.includes(checkedGame.A))
+    return checkedGame.A
+  if (umpire.Teams.includes(checkedGame.B))
+    return checkedGame.B
+
+  return false
 }
 
+let isPreferenceIssue = (umpire, checkedGame) => {
 
 /**
  * Checks if an umpire can play at a certain turf
@@ -105,12 +111,16 @@ let wontPlayAtTurf = (umpire, checkedGame) => {
   return turfMatch === undefined ? false :  "Doesn't play at: " + turfMatch
 }
 
-let failsSkillLevels = (umpire, checkedGame) => {
+let isAbilityIssue = (umpire, checkedGame) => {
   //Check if wants/can to do this level
   return umpire.Levels.find(level => {     
     return formatString(level) === formatString(checkedGame.Grade) || formatString(level) === "all"}) === undefined ? 
   "Not in skill levels: " + umpire.Levels
   : false
+}
+
+function isDatewiseUnavailable(umpire, game) {
+  return umpire.BlockoutDates?.includes(game.Date) && game.Date !== "" ? game.Date : false;
 }
 
 
@@ -119,30 +129,36 @@ function parseUmpire(umpire, games, gameLength) {
   let unavailableGames = []
 
   games.forEach(game => {
-    // Check if 1. Is already playing > Can make it timewise > Has the right abilities > Would even want to play (i.e. if desperate, abilties and wants are less important) 
+    // Check if - Datewise unavailable > Is already playing > Can make it timewise > Has the right abilities > Would even want to play (i.e. if desperate, abilties and wants are less important) 
 
-    let playingFor = isPlaying(umpire, game)
-    if (playingFor) {
-      unavailableGames.push({ reason: "Involved with: " + playingFor, ...game })
-      return // Only let one reason be for each game
+    let dateUnavailable = isDatewiseUnavailable(umpire, game)
+    if (dateUnavailable) {
+      unavailableGames.push({ ...game,  reason: "Blockout Date: " + dateUnavailable, })
+      return // Only let one reason be fore each game
     }
 
-    let timewiseIssue = isTimewiseUnavailable(umpire, game, games, gameLength)
+    let playingFor = isInvolvedWithTeam(umpire, game)
+    if (playingFor) {
+      unavailableGames.push({ ...game, reason: "Involved with: " + playingFor})
+      return // Only let one reason be fore each game
+    }
+
+    let timewiseIssue = isTimewiseIssue(umpire, game, games, gameLength)
     if (timewiseIssue){
-      unavailableGames.push({ reason: "Time: " + timewiseIssue, ...game })
+      unavailableGames.push({ ...game,  reason: "Time: " + timewiseIssue })
       return
     }
 
-    let abilitiesIssue = failsSkillLevels(umpire, game)
+    let abilitiesIssue = isAbilityIssue(umpire, game)
     if (abilitiesIssue){
-      unavailableGames.push({ reason: "Abilities: " + abilitiesIssue, ...game })
+      unavailableGames.push({ ...game,  reason: "Abilities: " + abilitiesIssue })
       return
     }
 
     // Check umpire WANTS to do it
-    let preferenceClash = wontPlayAtTurf(umpire, game)
-    if (preferenceClash) {
-      unavailableGames.push({ reason: "Preference: " + preferenceClash, ...game })
+    let preferenceIssue = isPreferenceIssue(umpire, game)
+    if (preferenceIssue) {
+      unavailableGames.push({ ...game,  reason: "Preference: " + preferenceIssue})
       return
     }
   })
