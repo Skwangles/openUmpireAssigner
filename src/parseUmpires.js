@@ -1,4 +1,4 @@
-import { formatString } from "./utils";
+import { dateStringComparison, formatString } from "./utils";
 
 // Time after game start to 'avoid' 
 const GAME_LENGTH = 78;
@@ -118,9 +118,11 @@ let isAbilityIssue = (umpire, checkedGame) => {
 }
 
 let isDatewiseUnavailable = (umpire, game) => {
-  return umpire.BlockoutDates?.includes(game.Date) && game.Date !== "" ? game.Date : false;
-}
 
+  let result = umpire.BlockoutDates?.find(date => dateStringComparison({Date:date}, game) === 0) || false;
+  // console.log(game.Date + " " + result)
+  return result
+}
 
 function parseUmpire(umpire, games, gameLength) {
 
@@ -132,7 +134,7 @@ function parseUmpire(umpire, games, gameLength) {
     let dateUnavailable = isDatewiseUnavailable(umpire, game)
     if (dateUnavailable) {
       unavailableGames.push({ ...game,  reason: "Blockout Date: " + dateUnavailable, })
-      return // Only let one reason be fore each game
+      return // Only let one reason be for each game
     }
 
     let playingFor = isInvolvedWithTeam(umpire, game)
