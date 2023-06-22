@@ -38,6 +38,8 @@ console.log(umpires)
           <th scope="col">Levels</th>
           <th scope="col">Teams</th>
           <th scope="col">Club</th>
+          <th scope="col">Restricted Turf</th>
+          <th scope="col">Blockout Dates</th>
           <th scope="col">To be aware of</th>
           <th scope="col">Notes</th>
         </tr>
