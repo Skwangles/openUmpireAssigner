@@ -11,7 +11,7 @@ function Umpire(props) {
     props.setSelectedUmpire(umpire)
   };
 
-  let {Name, isUnavailable, Levels, Club, Notes, Teams, TBAO} = props.info
+  let {Name, isUnavailable, Levels, Club, Notes, Teams, RestrictedTurf, BlockoutDates, TBAO} = props.info
 
   return (
     <tr
@@ -23,6 +23,8 @@ function Umpire(props) {
         <td>{Levels.length > 0 ? Levels.join(', ') : "None"}</td>
         <td>{Teams.length > 0 ? Teams.join(', ') : "None"}</td>
         <td>{Club || "-"}</td>
+        <td>{RestrictedTurf.length > 0 ? RestrictedTurf.join(', ') : "-" || "-"}</td>
+        <td>{BlockoutDates.length > 0 ? BlockoutDates.join(', ') : "-" || "-"}</td>
         <td>{TBAO || "-" }</td>
         <td>{Notes + (isUnavailable ? (props.info.reason ? " Unavailable: " + props.info.reason : "") : "") || "-"}</td>
     </tr>
