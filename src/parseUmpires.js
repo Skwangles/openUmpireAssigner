@@ -11,16 +11,28 @@ const MINS_IN_HOUR = 60;
  * @param {Array of all games} games 
  * @returns 
  */
-let getTimes = (umpTeams, games) => {
-  let avoidTimes = []
+let getTimes = (umpire, games) => {
+  let avoidTimes = umpire.LimitedTimes?.length > 0 ? umpire.LimitedTimes?.map(time=> {
+    let times = time.split("-")
+    return {"date":null, "start": timeStringToObj(times[0]), "end": timeStringToObj(times[1])}
+  }) : [] 
+
+  // Times during 'teams' involvement
   games.forEach(game => {
-    if (umpTeams.includes(game.A) || umpTeams.includes(game.B)) {
-      let time = game.Time.split(':')
-      let startTime = { "hour": parseInt(time[0]), "min": parseInt(time[1]) }
+    if (isInvolvedInGame(umpire, game)) {
+      let startTime = timeStringToObj(game.Time)
       avoidTimes.push({"date": game.Date, "start": startTime, "end": getEndTime(startTime, GAME_LENGTH) })
     }
   })
   return avoidTimes
+}
+
+function timeStringToObj(hourMin){
+  let time = hourMin.split(":").map(part => Number(part)).filter(part => !isNaN(part))
+
+  if (time.length < 2) throw "Invalid time passed!";
+
+  return {"hour": time[0], "min": time[1]}
 }
 
 /**
@@ -57,13 +69,12 @@ function timeLessThanEqual(time1, time2) {
 let timeToString = (time) => time.hour + ":" + time.min
 
 
-
 let isTimewiseIssue = (umpire, checkedGame, games, gameLength) => {
   //Handle no specified 'selectedGame'
   if (typeof checkedGame.Time === "undefined") return true;
 
   //Calc areas Umpire can't play in
-  let avoidTimes = getTimes(umpire.Teams, games);
+  let avoidTimes = getTimes(umpire, games);
 
   //Parse game time
   let time = checkedGame.Time.split(':');
@@ -87,13 +98,9 @@ let isTimewiseIssue = (umpire, checkedGame, games, gameLength) => {
  * @param {*} checkedGame 
  * @returns 
  */
-let isInvolvedWithTeam = (umpire, checkedGame) => {
-  if (umpire.Teams.includes(checkedGame.A))
-    return checkedGame.A
-  if (umpire.Teams.includes(checkedGame.B))
-    return checkedGame.B
-
-  return false
+let isInvolvedInGame = (umpire, checkedGame) => {
+  let team = umpire.Teams.find(team => formatString(team) === formatString(checkedGame.A) || formatString(team) === formatString(checkedGame.B))
+  return team === undefined ? false : team
 }
 
 /**
@@ -103,25 +110,30 @@ let isInvolvedWithTeam = (umpire, checkedGame) => {
  * @returns 
  */
 let isTurfIssue = (umpire, checkedGame) => {
-  // Check if turf is ok
   let turfMatch = umpire.RestrictedTurf.find(turf => formatString(turf) === formatString(checkedGame.Turf))
-
   return turfMatch === undefined ? false :  "Doesn't umpire at: " + turfMatch
 }
 
+/**
+ * Checks if umpire umpires this grade
+ * @param {*} umpire 
+ * @param {*} checkedGame 
+ * @returns 
+ */
 let isAbilityIssue = (umpire, checkedGame) => {
-  //Check if wants/can to do this level
-  return umpire.Levels.find(level => {     
-    return formatString(level) === formatString(checkedGame.Grade) || formatString(level) === formatString("all")}) === undefined ? 
-  "Not in skill levels: " + umpire.Levels
-  : false
+  let levelMatch = umpire.Levels.find(level => {return formatString(level) === formatString(checkedGame.Grade) || formatString(level) === formatString("all")}) 
+  return levelMatch === undefined ?  "Not in skill levels: " + umpire.Levels : false
 }
 
+/**
+ * Check blockout dates using util - 
+ * @param {*} umpire 
+ * @param {*} game 
+ * @returns 
+ */
 let isDatewiseUnavailable = (umpire, game) => {
-
-  let result = umpire.BlockoutDates?.find(date => dateStringComparison({Date:date}, game) === 0) || false;
-  // console.log(game.Date + " " + result)
-  return result
+  const EQUAL = 0
+  return umpire.BlockoutDates?.find(date => dateStringComparison({Date:date}, game) === EQUAL) || false;
 }
 
 function parseUmpire(umpire, games, gameLength) {
@@ -137,7 +149,7 @@ function parseUmpire(umpire, games, gameLength) {
       return // Only let one reason be for each game
     }
 
-    let playingFor = isInvolvedWithTeam(umpire, game)
+    let playingFor = isInvolvedInGame(umpire, game)
     if (playingFor) {
       unavailableGames.push({ ...game, reason: "Involved with: " + playingFor})
       return // Only let one reason be fore each game
