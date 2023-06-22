@@ -96,30 +96,28 @@ let isInvolvedWithTeam = (umpire, checkedGame) => {
   return false
 }
 
-let isPreferenceIssue = (umpire, checkedGame) => {
-
 /**
  * Checks if an umpire can play at a certain turf
  * @param {*} umpire 
  * @param {*} checkedGame 
  * @returns 
  */
-let wontPlayAtTurf = (umpire, checkedGame) => {
+let isTurfIssue = (umpire, checkedGame) => {
   // Check if turf is ok
   let turfMatch = umpire.RestrictedTurf.find(turf => formatString(turf) === formatString(checkedGame.Turf))
 
-  return turfMatch === undefined ? false :  "Doesn't play at: " + turfMatch
+  return turfMatch === undefined ? false :  "Doesn't umpire at: " + turfMatch
 }
 
 let isAbilityIssue = (umpire, checkedGame) => {
   //Check if wants/can to do this level
   return umpire.Levels.find(level => {     
-    return formatString(level) === formatString(checkedGame.Grade) || formatString(level) === "all"}) === undefined ? 
+    return formatString(level) === formatString(checkedGame.Grade) || formatString(level) === formatString("all")}) === undefined ? 
   "Not in skill levels: " + umpire.Levels
   : false
 }
 
-function isDatewiseUnavailable(umpire, game) {
+let isDatewiseUnavailable = (umpire, game) => {
   return umpire.BlockoutDates?.includes(game.Date) && game.Date !== "" ? game.Date : false;
 }
 
@@ -149,18 +147,18 @@ function parseUmpire(umpire, games, gameLength) {
       return
     }
 
-    let abilitiesIssue = isAbilityIssue(umpire, game)
-    if (abilitiesIssue){
-      unavailableGames.push({ ...game,  reason: "Abilities: " + abilitiesIssue })
+    // Check umpire WANTS to do it
+    let turfIssue = isTurfIssue(umpire, game)
+    if (turfIssue) {
+      unavailableGames.push({ ...game,  reason: "Turf: " + turfIssue})
       return
     }
 
-    // Check umpire WANTS to do it
-    let preferenceIssue = isPreferenceIssue(umpire, game)
-    if (preferenceIssue) {
-      unavailableGames.push({ ...game,  reason: "Preference: " + preferenceIssue})
+    let abilitiesIssue = isAbilityIssue(umpire, game)
+    if (abilitiesIssue){
+      unavailableGames.push({ ...game,  reason: "Levels: " + abilitiesIssue })
       return
-    }
+    }    
   })
 
   return unavailableGames
