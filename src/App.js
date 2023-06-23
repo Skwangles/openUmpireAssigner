@@ -147,7 +147,7 @@ function App() {
           <input type="file" accept=".csv" onChange={addSecondCSV} />
         </div>
         <div>
-        <CsvDownloadButton delimiter=',' className='btn btn-sm btn-primary' data={games.map(game => gameToPlayHQ(game) )}>Save Current Allocations</CsvDownloadButton>
+        <CsvDownloadButton filename='allocations.csv' delimiter=',' className='btn btn-lg btn-primary' data={games.map(game => gameToPlayHQ(game) )}>Save Current Allocations</CsvDownloadButton>
         </div>
       </div>
 </div>
