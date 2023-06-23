@@ -29,10 +29,24 @@ const gameToPlayHQ = (game) => {
     "playing surface":game.Turf,
     "game date": game.Date,
     "grade": game.Grade,
-    "umpire 1": game.ump1 === null ? "{}" : JSON.stringify(game.ump1),
-    "umpire 2": game.ump2 === null ? "{}" : JSON.stringify(game.ump2)
+    "umpire 1": game.ump1 === null ? "{}" : jsonToCsvUsable(JSON.stringify(game.ump1)),//csv safe stringify
+    "umpire 2": game.ump2 === null ? "{}" : jsonToCsvUsable(JSON.stringify(game.ump2))
   }
 }
+
+/**
+ * Format string into a JSON.parse usable string - including removing the escaping and 'csv safe' commas (vertical bar) back to normal commas
+ * @param {*} str 
+ * @returns 
+ */
+const csvJsonToParseable = (str) => str.replaceAll("|",",").replaceAll("\\","")
+
+/**
+ * Format string into a JSON object without commas which CSVs are confused by
+ * @param {string} str - input value
+ * @returns string
+ */
+const jsonToCsvUsable = (str) => str.replaceAll(",","|")
 
 const csvToGame = (game) => {
     return {
@@ -43,8 +57,8 @@ const csvToGame = (game) => {
       "Date": game["game date"],
       "Round": game["round"],
       "Grade": game["grade"].split(" ")[0]?.replace("R", ""), //e.g. MR3 Name1 Name2 -> M3
-      "ump1": !game.hasOwnProperty("umpire 1") || game["umpire 1"] === "" ? {} : JSON.parse(game["umpire 1"]) , 
-      "ump2": !game.hasOwnProperty("umpire 2") || game["umpire 2"] === "" ? {} : JSON.parse(game["umpire 2"]) , 
+      "ump1": !game.hasOwnProperty("umpire 1") || game["umpire 1"] === "" ? {} : JSON.parse(csvJsonToParseable(game["umpire 1"])) , //csv safe unstringify
+      "ump2": !game.hasOwnProperty("umpire 2") || game["umpire 2"] === "" ? {} : JSON.parse(csvJsonToParseable(game["umpire 2"])) , 
     }
   }
   
