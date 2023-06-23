@@ -128,6 +128,9 @@ function App() {
         - When you load data, any changes/data loaded should be saved if you reload the page<br />
         - If you need to undo/clear an allocation/appointment, drag and drop the special '<b>Drap/Drop me</b>' box onto it<br />
         <i>Note: 'Teams' of an umpire mean they cannot be umpiring during those teams' games - i.e. playing, coaching, managing, etc.</i>
+        <div className='py-2'>
+        <Button className='btn btn-sm' onClick={loadExamples}>Load Demo Data</Button>
+        </div>
       </div>
       <br />
       <div className='py-5 container w-50'>
@@ -143,8 +146,9 @@ function App() {
           <h4 className='mt-3'>(Optional) More Games</h4>
           <input type="file" accept=".csv" onChange={addSecondCSV} />
         </div>
-        <Button onClick={loadExamples}>Load Demo Data</Button>
-        <CsvDownloadButton delimiter=',' className='btn btn-primary' data={games.map(game => gameToPlayHQ(game) )} />
+        <div>
+        <CsvDownloadButton delimiter=',' className='btn btn-sm btn-primary' data={games.map(game => gameToPlayHQ(game) )}>Save Current Allocations</CsvDownloadButton>
+        </div>
       </div>
 </div>
 
