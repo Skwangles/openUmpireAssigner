@@ -61,10 +61,10 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
   return (
     <tr onClick={handleClickToFocus} className={game.isUnavailable === true ? "table-danger" : ""} >
       <td> {game.Date} </td>
-      <td> {game.A} </td>
-      <td> {game.B} </td>
       <td> {game.Grade} </td>
       <td> {game.Time} </td>
+      <td> {game.A} </td>
+      <td> {game.B} </td>
       <td> {game.Turf} </td>
       <td id="ump1name" onDrop={handleDropFromDrag} onDragOver={handleDragOver}>
         {ump1.hasOwnProperty("Name") ? ump1.Name : "---"}
