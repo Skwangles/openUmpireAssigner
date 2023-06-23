@@ -54,14 +54,14 @@ function App() {
         }
 
         localStorage.setItem("umpires", JSON.stringify(umpireList))
-        setUmpires(umpireList);
+        setUmpires(Array.from(umpireList));
       },
     });
   };
 
   const handleGamesUpload = (event) => {
     const file = event.target.files[0];
-
+    console.log("Handle game load!")
     // Parse contents
     Papa.parse(file, {
       header: true,
@@ -70,14 +70,13 @@ function App() {
         let gameList = []
         for (const game of results.data) {
           //Add extra entries to game info
-
-          if (game["bye"] !== "") continue; //Bye row
-
+          console.log(game)
+          if (game.hasOwnProperty("bye") && game.bye !== "") continue; //Bye row
           gameList.push(csvToGame(game))
         }
 
         localStorage.setItem("games", JSON.stringify(gameList))
-        setGames(gameList);
+        setGames(Array.from(gameList));
       },
     });
   };
@@ -99,7 +98,7 @@ function App() {
           gameList.push(csvToGame(game))
         }
 
-        setGames(games.concat(gameList));
+        setGames(Array.from(games.concat(gameList)));
       },
     });
   }
@@ -147,7 +146,7 @@ function App() {
           <input type="file" accept=".csv" onChange={addSecondCSV} />
         </div>
         <Button onClick={loadExamples}>Load Demo Data</Button>
-        {/* <CsvDownloadButton delimiter=',' className='btn btn-primary' data={games.map(game => gameToPlayHQ(game))} /> */}
+        <CsvDownloadButton delimiter=',' className='btn btn-primary' data={games.map(game => gameToPlayHQ(game) )} />
       </div>
 </div>
 
