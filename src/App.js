@@ -5,7 +5,8 @@ import Umpires from './Umpires';
 import Games from './Games';
 import { useState } from 'react';
 import parseUmpire from './parseUmpires';
-import { gameToId, csvToGame, csvToUmpire } from './utils';
+import { gameToId, csvToGame, csvToUmpire, gameToPlayHQ} from './utils';
+import CsvDownloadButton from 'react-json-to-csv'
 const gameLength_min = 60
 
 
@@ -89,8 +90,6 @@ function App() {
       header: true,
       skipEmptyLines: true,
       complete: (results) => {
-        console.info("Parsing games")
-        console.info(results.data)
         let gameList = []
         for (const game of results.data) {
           //Add extra entries to game info
@@ -147,6 +146,8 @@ function App() {
           <h4 className='mt-3'>(Optional) More Games</h4>
           <input type="file" accept=".csv" onChange={addSecondCSV} />
         </div>
+        <Button onClick={loadExamples}>Load Demo Data</Button>
+        {/* <CsvDownloadButton delimiter=',' className='btn btn-primary' data={games.map(game => gameToPlayHQ(game))} /> */}
       </div>
 </div>
 
