@@ -51,7 +51,7 @@ function App() {
         for (const umpire of results.data) {
           umpireList.push(csvToUmpire(umpire))
         }
-        
+
         localStorage.setItem("umpires", JSON.stringify(umpireList))
         setUmpires(umpireList);
       },
@@ -134,25 +134,21 @@ function App() {
         <i>Note: 'Teams' of an umpire mean they cannot be umpiring during those teams' games - i.e. playing, coaching, managing, etc.</i>
       </div>
       <br />
-      <div>
-        Enter Umpires:
-        <br />
-        <input type="file" accept=".csv" onChange={handleUmpiresUpload} />
-      </div>
+      <div className='py-5 container w-50'>
+      <div className='py-4 d-flex justify-content-lg-evenly border border-3 rounded'>
+        <div>
+          <h2>Umpires CSV</h2>
+          <input type="file" accept=".csv" onChange={handleUmpiresUpload} />
+        </div>
 
-      <div>
-        Enter Games:<br />
-        <input type="file" accept=".csv" onChange={handleGamesUpload} />
+        <div className='py-2'>
+        <h2>Games CSV</h2>
+          <input type="file" accept=".csv" onChange={handleGamesUpload} />
+          <h4 className='mt-3'>(Optional) More Games</h4>
+          <input type="file" accept=".csv" onChange={addSecondCSV} />
+        </div>
       </div>
-      <div>
-        (Optional) Extra Games CSV:<br />
-        <input type="file" accept=".csv" onChange={addSecondCSV} />
-      </div>
-      <div className='py-2'>
-        <Button className=" btn-sm btn-primary" onClick={loadExamples}>Load Demo Data</Button>
-      </div>
-
-
+</div>
 
       {/* Print games */}
       <h1>Games</h1>
@@ -170,14 +166,14 @@ function App() {
       </div>
 
       <div className='sticky-bottom py-3 container-sm d-flex justify-content-center' style={{ width: "auto", pointerEvents: "none" }}>
-        <div className=' control-panel p-3 border border-dark rounded' style={{pointerEvents: "auto"}}>
-        <div className='pb-2'><b>Checking availability for: </b>{highlightType === "game" ? (selectedGame.hasOwnProperty("A") ? selectedGame.Date + '@' + selectedGame.Time + " - " + selectedGame.A + ' vs ' + selectedGame.B : "None") : selectedUmpire.hasOwnProperty("Name") ? selectedUmpire.Name + " - Levels: " + selectedUmpire.Levels + " - Teams: " + selectedUmpire.Teams : "None"}</div>
+        <div className=' control-panel p-3 border border-dark rounded' style={{ pointerEvents: "auto" }}>
+          <div className='pb-2'><b>Checking availability for: </b>{highlightType === "game" ? (selectedGame.hasOwnProperty("A") ? selectedGame.Date + '@' + selectedGame.Time + " - " + selectedGame.A + ' vs ' + selectedGame.B : "None") : selectedUmpire.hasOwnProperty("Name") ? selectedUmpire.Name + " - Levels: " + selectedUmpire.Levels + " - Teams: " + selectedUmpire.Teams : "None"}</div>
           <div draggable onDragStart={handleDragStartOfEmpty}><i className='border border-dark rounded p-1'>Drag/Drop me to clear an allocation</i></div>
           {/* Controls */}
           <div className='py-2'>
             <div className='py-1'>
               <div className='pb-2'><b>Filtering by: </b>{highlightType === "game" ? "Game" : highlightType === "umpire" ? "Umpire" : "-"}</div>
-              <Button className='btn-sm mx-2' onClick={() => { setHighlightType("umpire");  setSelectedGame({}); }}>Filter by Umpire</Button>
+              <Button className='btn-sm mx-2' onClick={() => { setHighlightType("umpire"); setSelectedGame({}); }}>Filter by Umpire</Button>
               <Button className='btn-sm mx-2' onClick={() => { setHighlightType("game"); setSelectedUmpire({}); }}>Filter by Game</Button>
             </div>
             <Button className='btn-sm mx-2' onClick={() => { setSelectedUmpire({}); setSelectedGame({}); }}>Clear Unavailabilities</Button>
