@@ -10,6 +10,18 @@ function umpireToId(info) {
     return formatString(info.Name) + "|" + formatString(info.Levels.join(","))
 }
 
+const gameToPlayHQ = (game) => {
+  return {
+    "home team": game.A,
+    "away team": game.B,
+    "game time": game.Time,
+    "playing surface":game.Turf,
+    "game date": game.Date,
+    "round": game.Round,
+    "grade": game.Grade,
+  }
+}
+
 const csvToGame = (game) => {
     return {
       "A": game["home team"],
@@ -19,8 +31,8 @@ const csvToGame = (game) => {
       "Date": game["game date"],
       "Round": game["round"],
       "Grade": game["grade"].split(" ")[0]?.replace("R", ""), //e.g. MR3 Name1 Name2 -> M3
-      ump1: null, 
-      ump2: null
+      ump1: game["umpire 1"] || null, 
+      ump2: game["umpire 2"] || null
     }
   }
   
@@ -112,4 +124,4 @@ const csvToGame = (game) => {
   }
 
 
-export { gameToId, umpireToId, csvToGame, csvToUmpire, dateStringComparison, timeComparison, gradeComparison, formatString }
+export { gameToId, umpireToId, csvToGame, csvToUmpire, dateStringComparison, timeComparison, gradeComparison, formatString, gameToPlayHQ }
