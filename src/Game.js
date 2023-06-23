@@ -1,11 +1,19 @@
 import { useState } from "react";
 import { umpireToId } from "./utils";
+import { useEffect } from "react";
 
 
 
 function Game({ game, updateGameValue, setSelectedGame, id }) {
   let [ump1, setUmp1] = useState(game.ump1 || {})
   let [ump2, setUmp2] = useState(game.ump2 || {})
+
+  // Handle case where object is changed by parent
+  useEffect(() => {
+    setUmp1(game.ump1)
+    setUmp2(game.ump2)
+  }, [game])
+
 
   let handleClickToFocus = (event) => {
     console.log("Click!" + game.A)
@@ -50,13 +58,14 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
   }
 
 
-  // Check before updating to prevent broken setState
-  if (umpireToId(game.ump1) !== umpireToId(ump1) || umpireToId(game.ump2) !== umpireToId(ump2)) {
-    game.ump1 = ump1
-    game.ump2 = ump2
-    // Update overall storage of games
-    updateGameValue(id, game)
-  }
+  useEffect(() => {
+    if (umpireToId(game.ump1) !== umpireToId(ump1) || umpireToId(game.ump2) !== umpireToId(ump2)) {
+      game.ump1 = ump1
+      game.ump2 = ump2
+      // Update overall storage of games
+      updateGameValue(id, game)
+    }
+  }, [ump1, ump2])
 
   return (
     <tr onClick={handleClickToFocus} className={game.isUnavailable === true ? "table-danger" : ""} >
