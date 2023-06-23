@@ -1,9 +1,20 @@
+/**
+ * Takes game object and turns into a 'comparable' string
+ * @param {*} info 
+ * @returns 
+ */
+
 function gameToId(info) {
     if (!info || !info.hasOwnProperty("Time")) return null
 
     return info.Date + "|" + info.Time + "|" + formatString(info.Turf)
 }
 
+/**
+ * Takes objects and makes them into a 'comparable' string - note: must not draw from context specific fields, i.e. unavailable games
+ * @param {*} info 
+ * @returns 
+ */
 function umpireToId(info) {
     if (!info || !info.hasOwnProperty("Name")) return null
 
@@ -17,8 +28,9 @@ const gameToPlayHQ = (game) => {
     "game time": game.Time,
     "playing surface":game.Turf,
     "game date": game.Date,
-    "round": game.Round,
     "grade": game.Grade,
+    "umpire 1": game.ump1 === null ? "{}" : JSON.stringify(game.ump1),
+    "umpire 2": game.ump2 === null ? "{}" : JSON.stringify(game.ump2)
   }
 }
 
@@ -31,8 +43,8 @@ const csvToGame = (game) => {
       "Date": game["game date"],
       "Round": game["round"],
       "Grade": game["grade"].split(" ")[0]?.replace("R", ""), //e.g. MR3 Name1 Name2 -> M3
-      ump1: game["umpire 1"] || null, 
-      ump2: game["umpire 2"] || null
+      "ump1": !game.hasOwnProperty("umpire 1") || game["umpire 1"] === "" ? {} : JSON.parse(game["umpire 1"]) , 
+      "ump2": !game.hasOwnProperty("umpire 2") || game["umpire 2"] === "" ? {} : JSON.parse(game["umpire 2"]) , 
     }
   }
   
