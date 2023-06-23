@@ -61,7 +61,6 @@ function App() {
 
   const handleGamesUpload = (event) => {
     const file = event.target.files[0];
-    console.log("Handle game load!")
     // Parse contents
     Papa.parse(file, {
       header: true,
@@ -70,7 +69,6 @@ function App() {
         let gameList = []
         for (const game of results.data) {
           //Add extra entries to game info
-          console.log(game)
           if (game.hasOwnProperty("bye") && game.bye !== "") continue; //Bye row
           gameList.push(csvToGame(game))
         }
@@ -93,7 +91,7 @@ function App() {
         for (const game of results.data) {
           //Add extra entries to game info
 
-          if (game["bye"] !== "") continue; //Bye row
+          if (game.hasOwnProperty("bye") && game.bye !== "") continue; //Bye row
 
           gameList.push(csvToGame(game))
         }
