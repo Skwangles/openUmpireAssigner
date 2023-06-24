@@ -140,6 +140,11 @@ function App() {
     loadLocalFile("example-umpires.csv", handleUmpiresUpload);
   };
 
+  // Drag and drop handling
+  const handleDragStart = (event, umpire) => {
+    event.dataTransfer.setData("umpire", JSON.stringify(umpire));
+  };
+
   localStorage.setItem("games", JSON.stringify(games));
   localStorage.setItem("umpires", JSON.stringify(umpires));
 
@@ -246,23 +251,35 @@ function App() {
         >
           <div className="pb-2">
             <b>Checking availability for: </b>
-            {highlightType === "game"
-              ? selectedGame.hasOwnProperty("A")
-                ? selectedGame.Date +
-                  "@" +
-                  selectedGame.Time +
-                  " - " +
-                  selectedGame.A +
-                  " vs " +
-                  selectedGame.B
-                : "None"
-              : selectedUmpire.hasOwnProperty("Name")
-              ? selectedUmpire.Name +
-                " - Levels: " +
-                selectedUmpire.Levels +
-                " - Teams: " +
-                selectedUmpire.Teams
-              : "None"}
+            {highlightType === "game" ? (
+              selectedGame.hasOwnProperty("A") ? (
+                selectedGame.Date +
+                "@" +
+                selectedGame.Time +
+                " - " +
+                selectedGame.A +
+                " vs " +
+                selectedGame.B
+              ) : (
+                "None"
+              )
+            ) : selectedUmpire.hasOwnProperty("Name") ? (
+              <span
+                className="border border-1 border-dark rounded p-1"
+                draggable
+                onDragStart={(event) => {
+                  handleDragStart(event, selectedUmpire);
+                }}
+              >
+                {selectedUmpire.Name +
+                  " - Levels: " +
+                  selectedUmpire.Levels +
+                  " - Teams: " +
+                  selectedUmpire.Teams}
+              </span>
+            ) : (
+              "None"
+            )}
           </div>
           <div draggable onDragStart={handleDragStartOfEmpty}>
             <i className="border border-dark rounded p-1">
