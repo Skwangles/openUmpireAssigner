@@ -108,7 +108,7 @@ function Games({
                   game={game}
                   setSelectedGame={setSelectedGame}
                   updateGameValue={updateGameValue}
-                ></Game>
+                />
               ))
           ) : (
             <tr>

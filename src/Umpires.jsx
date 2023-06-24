@@ -37,7 +37,7 @@ function Umpires({ umpires, highlightType, setSelectedUmpire, selectedGame }) {
           ></Umpire>
         ))
     ) : (
-      <tr>No umpires Found</tr>
+      <tr><td colSpan={9}>No umpires Found</td></tr>
     );
 
   return (

@@ -30,35 +30,26 @@ function Umpire(props) {
       onDragStart={(event) => handleDragStart(event, props.info)}
       className={isUnavailable === true ? "table-danger" : ""}
     >
-      {/* Umpire info */}
       <td>{Name}</td>
       <td>{Levels.length > 0 ? Levels.join(", ") : "None"}</td>
       <td>{Teams.length > 0 ? Teams.join(", ") : "None"}</td>
       <td>{Club || "-"}</td>
-      <td>
-        {RestrictedTurf && RestrictedTurf.length > 0
+      <td>{RestrictedTurf && RestrictedTurf.length > 0
           ? RestrictedTurf?.join(", ")
-          : "-" || "-"}
-      </td>
-      <td>
-        {BlockoutDates && BlockoutDates.length > 0
+          : "-" || "-"}</td>
+      <td>{BlockoutDates && BlockoutDates.length > 0
           ? BlockoutDates?.join(", ")
-          : "-" || "-"}
-      </td>
-      <td>
-        {LimitedTimes && LimitedTimes.length > 0
+          : "-" || "-"}</td>
+      <td>{LimitedTimes && LimitedTimes.length > 0
           ? LimitedTimes?.join(", ")
-          : "-" || "-"}
-      </td>
+          : "-" || "-"}</td>
       <td>{TBAO || "-"}</td>
-      <td>
-        {Notes +
+      <td>{Notes +
           (isUnavailable
             ? props.info.reason
               ? " Unavailable: " + props.info.reason
               : ""
-            : "") || "-"}
-      </td>
+            : "") || "-"}</td>
     </tr>
   );
 }

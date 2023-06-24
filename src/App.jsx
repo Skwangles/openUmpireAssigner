@@ -8,6 +8,9 @@ import CsvDownloadButton from "react-json-to-csv";
 import Umpires from "./Umpires";
 import Games from "./Games";
 
+import example_games from "./example-games.csv"
+import example_umpires from "./example-umpires.csv"
+
 import parseUmpire from "./parseUmpires";
 import { csvToGame, csvToUmpire, gameToPlayHQ } from "./utils";
 
@@ -20,9 +23,7 @@ const GAME_LENGTH_MIN = 60;
  * @returns event.target.files[0] <- file in here
  */
 function loadLocalFile(fileName, callback) {
-  const filePath = process.env.PUBLIC_URL + "/" + fileName; // Construct the file path
-
-  return fetch(filePath)
+  return fetch(fileName)
     .then((response) => response.text())
     .then((fileContent) => {
       const event = {
@@ -136,8 +137,8 @@ function App() {
    * Demo data loading
    */
   let loadExamples = () => {
-    loadLocalFile("example-games.csv", handleGamesUpload);
-    loadLocalFile("example-umpires.csv", handleUmpiresUpload);
+    loadLocalFile(example_games, handleGamesUpload);
+    loadLocalFile(example_umpires, handleUmpiresUpload);
   };
 
   // Drag and drop handling
@@ -188,7 +189,7 @@ function App() {
       <br />
 
       {/* CSV Upload container */}
-      <div className="py-5 container w-50">
+      <div className="py-5 container">
         <div className="py-4 d-flex justify-content-lg-evenly border border-3 rounded">
           <div>
             <h2>Umpires CSV</h2>
