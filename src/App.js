@@ -279,7 +279,7 @@ function App() {
               "None"
             )}
           </div>
-          <div draggable onDragStart={handleDragStartOfEmpty}>
+          <div draggable onDragStart={handleDragStartOfEmpty} className="mt-2">
             <i className="border border-dark rounded p-1">
               Drag/Drop me to clear an allocation
             </i>
