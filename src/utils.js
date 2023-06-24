@@ -21,7 +21,12 @@ function umpireToId(info) {
   return formatString(info.Name) + "|" + formatString(info.Levels.join(","));
 }
 
-const gameToPlayHQ = (game) => {
+/**
+ * Converts object to playHQ format so it can be exported
+ * @param {*} game 
+ * @returns 
+ */
+function gameToPlayHQ(game) {
   return {
     "home team": game.A,
     "away team": game.B,
@@ -51,7 +56,7 @@ const csvJsonToParseable = (str) =>
  */
 const jsonToCsvUsable = (str) => str.replaceAll(",", "|");
 
-const csvToGame = (game) => {
+function csvToGame(game) {
   return {
     A: game["home team"],
     B: game["away team"],
@@ -71,15 +76,25 @@ const csvToGame = (game) => {
   };
 };
 
-let getSplitOrArray = (umpire, property) => {
+/**
+ * Returns empty array if not specified, otherwise parses CSV string and excludes all empty strings
+ * @param {*} umpire object to find property in
+ * @param {*} property property name
+ * @returns array
+ */
+function getSplitOrArray(umpire, property) {
   return umpire && umpire[property]
   ? umpire[property].split(/\s*,\s*/).filter(item => item !== "")
   : []
 }
 
 
-// Convert PapaParse JSON objects to internally usable objects - note, some are in CSV array format, thus .split
-const csvToUmpire = (umpire) => {
+/**
+ * Convert PapaParse JSON objects to internally usable objects - note, some are in CSV array format, thus .split
+ * @param {*} umpire Papaparse object to convert
+ * @returns 
+ */
+function csvToUmpire (umpire) {
   return {
     Name: umpire["Name"],
     Teams:  getSplitOrArray(umpire, "Teams"),
@@ -93,7 +108,12 @@ const csvToUmpire = (umpire) => {
   };
 };
 
-const stripToTurf = (name) => {
+/**
+ * Convert turf names to shorter versions
+ * @param {*} name 
+ * @returns 
+ */
+function stripToTurf(name) {
   switch (name) {
     case "New World Te Rapa Turf 1":
       return "Turf 1";
@@ -108,6 +128,12 @@ const stripToTurf = (name) => {
   }
 };
 
+/**
+ * Comparse 'time' strings by hour and min
+ * @param {*} a 
+ * @param {*} b 
+ * @returns 
+ */
 function timeComparison(a, b) {
   // -1 means it is higher (e.g. A > Z)
   const A_HIGHER = -1;
@@ -130,6 +156,12 @@ function timeComparison(a, b) {
     return timeHourA[1] < timeHourB[1] ? A_HIGHER : A_LOWER;
 }
 
+/**
+ * Compare string by Grade - if the same, then time
+ * @param {*} a 
+ * @param {*} b 
+ * @returns 
+ */
 function gradeComparison(a, b) {
   let result = a.Grade.localeCompare(b.Grade);
  
@@ -140,8 +172,14 @@ function gradeComparison(a, b) {
   return result
 }
 
+/**
+ * Compare an game obj by its date then evaluate against subpredicate if the same
+ * @param {*} a 
+ * @param {*} b 
+ * @param {*} subpredicate 
+ * @returns -ve a is alphabetically higher, +ve b is higher (e.g. A over Z), 0 if equal
+ */
 function dateStringComparison(a, b, subpredicate = () => 0) {
-  // -1 means it is higher (e.g. A > Z)
   const A_HIGHER = -1;
   const A_LOWER = 1;
 
@@ -175,6 +213,11 @@ function dateStringComparison(a, b, subpredicate = () => 0) {
   return subpredicate(a, b);
 }
 
+/**
+ * Remove problematic starting whitespace and cases
+ * @param {*} string 
+ * @returns 
+ */
 function formatString(string) {
   return string.toLowerCase().trim();
 }

@@ -80,7 +80,7 @@ function timeLessThanEqual(time1, time2) {
   return false;
 }
 
-let timeToString = (time) => time.hour + ":" + time.min;
+let timeToString = (time) => String(time.hour).padStart(2, "0") + ":" + String(time.min).padStart(2, "0");
 
 let isTimewiseIssue = (umpire, checkedGame, games, gameLength) => {
   //Handle no specified 'selectedGame'
