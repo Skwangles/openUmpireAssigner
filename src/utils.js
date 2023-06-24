@@ -71,23 +71,22 @@ const csvToGame = (game) => {
   };
 };
 
+let getSplitOrArray = (umpire, property) => {
+  return umpire && umpire[property]
+  ? umpire[property].split(/\s*,\s*/).filter(item => item !== "")
+  : []
+}
+
+
 // Convert PapaParse JSON objects to internally usable objects - note, some are in CSV array format, thus .split
 const csvToUmpire = (umpire) => {
   return {
     Name: umpire["Name"],
-    Teams: umpire["Teams"].split(/\s*,\s*/).filter((item) => item !== "") || [],
-    Levels:
-      umpire["Levels"].split(/\s*,\s*/).filter((item) => item !== "") || [],
-    RestrictedTurf:
-      umpire["Restricted Turfs"]
-        .split(/\s*,\s*/)
-        .filter((item) => item !== "") || [],
-    BlockoutDates:
-      umpire["Blockout Dates"].split(/\s*,\s*/).filter((item) => item !== "") ||
-      [],
-    LimitedTimes:
-      umpire["Limited Times"].split(/\s*,\s*/).filter((item) => item !== "") ||
-      [],
+    Teams:  getSplitOrArray(umpire, "Teams"),
+    Levels: getSplitOrArray(umpire, "Levels"),
+    RestrictedTurf: getSplitOrArray(umpire, "Restricted Turfs"),
+    BlockoutDates: getSplitOrArray(umpire, "Teams"),
+    LimitedTimes: getSplitOrArray(umpire, "Limited Times"),
     Club: umpire["Club"] || "",
     TBAO: umpire["To be aware of"] || "",
     Notes: umpire["Notes"] || "",
