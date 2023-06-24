@@ -11,6 +11,8 @@ const MINS_IN_HOUR = 60;
  * @returns
  */
 let getTimes = (umpire, games) => {
+
+  // Load times of day can't do
   let avoidTimes =
     umpire.LimitedTimes?.length > 0
       ? umpire.LimitedTimes?.map((time) => {
@@ -93,7 +95,7 @@ let isTimewiseIssue = (umpire, checkedGame, games, gameLength) => {
   let gameEnd = getEndTime(gameStart, gameLength);
 
   for (const avoid of avoidTimes) {
-    if (avoid.Date !== checkedGame.Date) continue;
+    if (avoid.Date != null && avoid.Date !== checkedGame.Date) continue;
     //Check if any edges overlap
     if (
       (timeLessThanEqual(gameStart, avoid.end) &&
@@ -101,14 +103,15 @@ let isTimewiseIssue = (umpire, checkedGame, games, gameLength) => {
       (timeLessThanEqual(avoid.start, gameEnd) &&
         timeLessThanEqual(gameStart, avoid.end))
     ) {
+
       //Overlap
       return (
         "Cannot do: " +
         timeToString(avoid.start) +
         "-" +
         timeToString(avoid.end) +
-        " on the: " +
-        avoid.Date
+        (!avoid.Date ? " (Blockout)" : " on the: " +
+        avoid.Date)
       );
     }
   }
