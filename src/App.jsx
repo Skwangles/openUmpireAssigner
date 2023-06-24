@@ -190,7 +190,7 @@ function App() {
 
       {/* CSV Upload container */}
       <div className="py-5 container">
-        <div className="py-4 d-flex justify-content-lg-evenly border border-3 rounded">
+        <div className="py-4 d-flex border border-3 rounded justify-content-lg-evenly ">
           <div>
             <h2>Umpires CSV</h2>
             <input type="file" accept=".csv" onChange={handleUmpiresUpload} />
