@@ -85,7 +85,7 @@ const csvToUmpire = (umpire) => {
     Teams:  getSplitOrArray(umpire, "Teams"),
     Levels: getSplitOrArray(umpire, "Levels"),
     RestrictedTurf: getSplitOrArray(umpire, "Restricted Turfs"),
-    BlockoutDates: getSplitOrArray(umpire, "Teams"),
+    BlockoutDates: getSplitOrArray(umpire, "Blockout Dates"),
     LimitedTimes: getSplitOrArray(umpire, "Limited Times"),
     Club: umpire["Club"] || "",
     TBAO: umpire["To be aware of"] || "",
