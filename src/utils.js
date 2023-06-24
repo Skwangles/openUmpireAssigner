@@ -30,9 +30,9 @@ const gameToPlayHQ = (game) => {
     "game date": game.Date,
     grade: game.Grade,
     "umpire 1":
-      game.ump1 === null ? "{}" : jsonToCsvUsable(JSON.stringify(game.ump1)), //csv safe stringify
+      !game.ump1?.hasOwnProperty("Name") ? "{}" : jsonToCsvUsable(JSON.stringify(game.ump1)), //csv safe stringify
     "umpire 2":
-      game.ump2 === null ? "{}" : jsonToCsvUsable(JSON.stringify(game.ump2)),
+      !game.ump2?.hasOwnProperty("Name") ? "{}" : jsonToCsvUsable(JSON.stringify(game.ump2)),
   };
 };
 

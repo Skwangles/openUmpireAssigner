@@ -43,10 +43,10 @@ function Games({
   };
 
   // Disable games by umpire
-  if (highlightType === "umpire" && selectedUmpire.hasOwnProperty("Name")) {
+  if (highlightType === "umpire" && !!selectedUmpire?.hasOwnProperty("Name")) {
     games = games.map((game) => {
       // Check if umpire disabled for game & attach reason
-      let invalidGame = selectedUmpire.blockedGames.find(
+      let invalidGame = selectedUmpire.blockedGames?.find(
         (checkedGame) => gameToId(game) === gameToId(checkedGame)
       );
       if (invalidGame !== undefined)

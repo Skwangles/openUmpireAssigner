@@ -28,7 +28,7 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
     const umpire = JSON.parse(event.dataTransfer.getData("umpire"));
 
     // Handle 'clearing' an umpire
-    if (!umpire.hasOwnProperty("Name"))
+    if (!umpire?.hasOwnProperty("Name"))
       switch (event.target.id) {
         case "ump1name":
           setUmp1({});
