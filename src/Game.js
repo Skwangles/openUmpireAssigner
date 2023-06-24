@@ -57,7 +57,7 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
       // Update overall storage of games
       updateGameValue(id, {...game, ump1:ump1, ump2:ump2});
     }
-  }, [id, ump1, ump2, updateGameValue]);
+  }, [ump1, ump2]);
 
   return (
     <tr
