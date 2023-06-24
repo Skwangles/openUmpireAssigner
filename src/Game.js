@@ -72,11 +72,11 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
       <td> {game.B} </td>
       <td> {game.Turf} </td>
       <td id="ump1name" onDrop={handleDropFromDrag} onDragOver={handleDragOver}>
-        {ump1.hasOwnProperty("Name") ? ump1.Name : "---"}
+        {!!ump1?.hasOwnProperty("Name") ? ump1.Name : "---"}
       </td>
 
       <td id="ump2name" onDrop={handleDropFromDrag} onDragOver={handleDragOver}>
-        {ump2.hasOwnProperty("Name") ? ump2.Name : "---"}
+        {!!ump2?.hasOwnProperty("Name") ? ump2.Name : "---"}
       </td>
       {game.isUnavailable ? (
         game.reason ? (
