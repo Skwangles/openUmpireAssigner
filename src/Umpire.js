@@ -19,6 +19,7 @@ function Umpire(props) {
     Teams,
     RestrictedTurf,
     BlockoutDates,
+    LimitedTimes,
     TBAO,
   } = props.info;
 
@@ -42,6 +43,11 @@ function Umpire(props) {
       <td>
         {BlockoutDates && BlockoutDates.length > 0
           ? BlockoutDates?.join(", ")
+          : "-" || "-"}
+      </td>
+      <td>
+        {LimitedTimes && LimitedTimes.length > 0
+          ? LimitedTimes?.join(", ")
           : "-" || "-"}
       </td>
       <td>{TBAO || "-"}</td>
