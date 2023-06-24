@@ -95,7 +95,7 @@ let isTimewiseIssue = (umpire, checkedGame, games, gameLength) => {
   let gameEnd = getEndTime(gameStart, gameLength);
 
   for (const avoid of avoidTimes) {
-    if (avoid.Date != null && avoid.Date !== checkedGame.Date) continue;
+    if (avoid.date && avoid.date !== checkedGame.Date) continue;
     //Check if any edges overlap
     if (
       (timeLessThanEqual(gameStart, avoid.end) &&
@@ -110,8 +110,8 @@ let isTimewiseIssue = (umpire, checkedGame, games, gameLength) => {
         timeToString(avoid.start) +
         "-" +
         timeToString(avoid.end) +
-        (!avoid.Date ? " (Blockout)" : " on the: " +
-        avoid.Date)
+        (avoid.date ? " on the: " +
+        avoid.date : " (Blockout)")
       );
     }
   }
