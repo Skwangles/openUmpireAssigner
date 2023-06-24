@@ -48,17 +48,16 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
     }
   };
 
+  // Must run after the first 'useEffect' - if game changes from parent, that should update first
   useEffect(() => {
     if (
       umpireToId(game.ump1) !== umpireToId(ump1) ||
       umpireToId(game.ump2) !== umpireToId(ump2)
     ) {
-      game.ump1 = ump1;
-      game.ump2 = ump2;
       // Update overall storage of games
-      updateGameValue(id, game);
+      updateGameValue(id, {...game, ump1:ump1, ump2:ump2});
     }
-  }, [ump1, ump2]);
+  }, [id, game, ump1, ump2, updateGameValue]);
 
   return (
     <tr

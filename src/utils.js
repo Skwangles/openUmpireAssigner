@@ -132,7 +132,13 @@ function timeComparison(a, b) {
 }
 
 function gradeComparison(a, b) {
-  return a.Grade.localeCompare(b.Grade);
+  let result = a.Grade.localeCompare(b.Grade);
+ 
+  if (result === 0) {
+    return timeComparison(a, b) //Sort by time if grade is same
+  }
+
+  return result
 }
 
 function dateStringComparison(a, b, subpredicate = () => 0) {
