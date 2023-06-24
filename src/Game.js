@@ -67,9 +67,9 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
     >
       <td> {game.Date} </td>
       <td> {game.Grade} </td>
-      <td> {game.Time} </td>
       <td> {game.A} </td>
       <td> {game.B} </td>
+      <td> {game.Time} </td>
       <td> {game.Turf} </td>
       <td id="ump1name" onDrop={handleDropFromDrag} onDragOver={handleDragOver}>
         {!!ump1?.hasOwnProperty("Name") ? ump1.Name : "---"}

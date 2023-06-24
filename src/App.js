@@ -218,7 +218,6 @@ function App() {
       <h1>Games</h1>
       <div className="d-flex flex-column align-items-center justify-content-center ">
         <Games
-          className=""
           games={games}
           setGames={setGames}
           highlightType={highlightType}
@@ -232,7 +231,6 @@ function App() {
       <h1>Umpire Profiles</h1>
       <div className="py-3 d-flex flex-row justify-content-center ">
         <Umpires
-          className=""
           umpires={parsedUmpires}
           highlightType={highlightType}
           setSelectedUmpire={setSelectedUmpire}

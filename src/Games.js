@@ -79,9 +79,9 @@ function Games({
         <thead className="table-dark">
           <tr>
             <th scope="col">Date</th>
+            <th scope="col">Grade</th>
             <th scope="col">A</th>
             <th scope="col">B</th>
-            <th scope="col">Grade</th>
             <th scope="col">Time</th>
             <th scope="col">Turf</th>
             <th scope="col">Umpire 1</th>
