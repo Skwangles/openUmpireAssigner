@@ -71,9 +71,6 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
       <td> {game.Turf} </td>
       <td
         id="ump1name"
-        style={
-          !!ump1?.hasOwnProperty("Name") ? {} : { backgroundColor: "#F0F0F0" }
-        }
         onDrop={handleDropFromDrag}
         onDragOver={handleDragOver}
       >
@@ -82,9 +79,6 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
 
       <td
         id="ump2name"
-        style={
-          !!ump2?.hasOwnProperty("Name") ? {} : { backgroundColor: "#F0F0F0" }
-        }
         onDrop={handleDropFromDrag}
         onDragOver={handleDragOver}
       >
