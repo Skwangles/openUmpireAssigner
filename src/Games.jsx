@@ -20,8 +20,9 @@ function Games({
   setGames,
   setSelectedGame,
   selectedUmpire,
+  setSortByTime,
+  sortByTime
 }) {
-  let [sortByTime, setSortByTime] = useState(true); // True
 
   // Update overall game object
   let updateGameValue = (key, newGame) => {
@@ -65,17 +66,7 @@ function Games({
   }
 
   return (
-    <>
-      <div>
-        <Button className="btn-sm m-1" onClick={() => setSortByTime(true)}>
-          Sort by Time
-        </Button>
-        <Button className="btn-sm m-1" onClick={() => setSortByTime(false)}>
-          Sort by Grade
-        </Button>
-      </div>
-
-      <table className="table w-75">
+      <table className="table">
         <thead className="table-dark">
           <tr>
             <th scope="col">Date</th>
@@ -117,7 +108,6 @@ function Games({
           )}
         </tbody>
       </table>
-    </>
   );
 }
 

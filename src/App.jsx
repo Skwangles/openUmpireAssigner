@@ -7,9 +7,10 @@ import CsvDownloadButton from "react-json-to-csv";
 // My components
 import Umpires from "./Umpires";
 import Games from "./Games";
+import GamesButtons from "./GamesButtons";
 
-import example_games from "./example-games.csv"
-import example_umpires from "./example-umpires.csv"
+import example_games from "./example-games.csv";
+import example_umpires from "./example-umpires.csv";
 
 import parseUmpire from "./parseUmpires";
 import { csvToGame, csvToUmpire, gameToPlayHQ } from "./utils";
@@ -43,6 +44,7 @@ function App() {
   let [highlightType, setHighlightType] = useState("umpire");
   let [selectedGame, setSelectedGame] = useState({});
   let [selectedUmpire, setSelectedUmpire] = useState({});
+  let [sortByTime, setSortByTime] = useState(true); 
 
   // CSV files are added which modify these
   let [games, setGames] = useState(
@@ -215,28 +217,44 @@ function App() {
         </div>
       </div>
 
-      {/* Print games */}
-      <h1>Games</h1>
-      <div className="d-flex flex-column align-items-center justify-content-center ">
-        <Games
-          games={games}
-          setGames={setGames}
-          highlightType={highlightType}
-          setSelectedGame={setSelectedGame}
-          selectedUmpire={selectedUmpire}
-        ></Games>
-      </div>
-      <br />
+      <div style={{ display: "flex", flexDirection: "row", gap: "3px", maxHeight: "1000px"}}>
+        {/* Print games */}
+        <div style={{ display: "flex", flexDirection: "column", justifyContent: "center"}}>
+          <div className="listHeader" style={{display: "flex", justifyContent: "center", flexDirection: "column", height: "100px"}}>
+            <h1>Games</h1>
+            <GamesButtons setSortByTime={setSortByTime} sortByTime={sortByTime}></GamesButtons>
+          </div>
+          
 
-      {/* Umpires list and information */}
-      <h1>Umpire Profiles</h1>
-      <div className="py-3 d-flex flex-row justify-content-center ">
-        <Umpires
-          umpires={parsedUmpires}
-          highlightType={highlightType}
-          setSelectedUmpire={setSelectedUmpire}
-          selectedGame={selectedGame}
-        ></Umpires>
+          <div style={{ height:"900px", overflowY: "auto"}}>
+            <Games
+              games={games}
+              setGames={setGames}
+              highlightType={highlightType}
+              setSelectedGame={setSelectedGame}
+              selectedUmpire={selectedUmpire}
+            ></Games>
+          </div>
+        </div>
+
+        {/* Umpires list and information */}
+        <div style={{ display: "flex", flexDirection: "column", overflowY: "auto" }}>
+          
+        <div className="listHeader" style={{display: "flex", justifyContent: "center", flexDirection: "column", height: "100px"}}>
+          <h1>Umpire Profiles</h1>
+        </div>
+          
+
+
+          <div className="d-flex flex-row justify-content-center ">
+            <Umpires
+              umpires={parsedUmpires}
+              highlightType={highlightType}
+              setSelectedUmpire={setSelectedUmpire}
+              selectedGame={selectedGame}
+            ></Umpires>
+          </div>
+        </div>
       </div>
 
       {/* Floating box with controls, selection, and 'undo' box */}

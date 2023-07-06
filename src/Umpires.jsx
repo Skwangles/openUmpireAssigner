@@ -41,7 +41,7 @@ function Umpires({ umpires, highlightType, setSelectedUmpire, selectedGame }) {
     );
 
   return (
-    <table className="table w-75">
+    <table className="table">
       {/* Table headers */}
       <thead className="table-dark">
         <tr>
