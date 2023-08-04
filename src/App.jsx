@@ -1,7 +1,7 @@
 import "./App.css";
 import { Button } from "react-bootstrap";
 import Papa from "papaparse";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import CsvDownloadButton from "react-json-to-csv";
 
 // My components
@@ -43,14 +43,24 @@ function App() {
   let [highlightType, setHighlightType] = useState("umpire");
   let [selectedGame, setSelectedGame] = useState({});
   let [selectedUmpire, setSelectedUmpire] = useState({});
+  let [useSql, setUseSql] = useState<Boolean>(JSON.parse(localStorage.getItem("useSql") || "false"))
 
-  // CSV files are added which modify these
+  // CSV files/localStorage modify these
   let [games, setGames] = useState(
     JSON.parse(localStorage.getItem("games") || "[]")
   );
   let [umpires, setUmpires] = useState(
     JSON.parse(localStorage.getItem("umpires") || "[]")
   );
+
+  // Load umpire entries from SQL
+  useEffect(async () => {
+    if (useSql === true) {
+      fetch("/api/umpires").then(data => {
+        setUmpires(data)
+      }).catch(err => console.log(err))
+    }
+  }, [useSql])
 
   /**
    * Upload umpire profiles from CSV
