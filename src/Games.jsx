@@ -7,7 +7,16 @@ import {
 } from "./utils.js";
 import "./Games.css";
 import { useState } from "react";
-import { Button } from "react-bootstrap";
+import {
+  Button,
+  Paper,
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+} from "@mui/material";
 
 /**
  * Displays games - grays out non-available games
@@ -74,49 +83,50 @@ function Games({
           Sort by Grade
         </Button>
       </div>
+      <TableContainer component={Paper} sx={{ maxWidth: "75vw" }}>
+        <Table aria-label="games table">
+          <TableHead>
+            <TableRow>
+              <TableCell>Date</TableCell>
+              <TableCell>Grade</TableCell>
+              <TableCell>A</TableCell>
+              <TableCell>B</TableCell>
+              <TableCell>Time</TableCell>
+              <TableCell>Turf</TableCell>
+              <TableCell>Umpire 1</TableCell>
+              <TableCell>Umpire 2</TableCell>
+              <TableCell>Notes</TableCell>
+            </TableRow>
+          </TableHead>
 
-      <table className="table w-75">
-        <thead className="table-dark">
-          <tr>
-            <th scope="col">Date</th>
-            <th scope="col">Grade</th>
-            <th scope="col">A</th>
-            <th scope="col">B</th>
-            <th scope="col">Time</th>
-            <th scope="col">Turf</th>
-            <th scope="col">Umpire 1</th>
-            <th scope="col">Umpire 2</th>
-            <th scope="col">Notes</th>
-          </tr>
-        </thead>
-
-        <tbody>
-          {/*Games with info*/}
-          {games.length > 0 ? (
-            games
-              .sort((a, b) =>
-                dateStringComparison(
-                  a,
-                  b,
-                  sortByTime ? timeComparison : gradeComparison
+          <TableBody>
+            {/*Games with info*/}
+            {games.length > 0 ? (
+              games
+                .sort((a, b) =>
+                  dateStringComparison(
+                    a,
+                    b,
+                    sortByTime ? timeComparison : gradeComparison
+                  )
                 )
-              )
-              .map((game) => (
-                <Game
-                  key={gameToId(game)}
-                  id={gameToId(game)}
-                  game={game}
-                  setSelectedGame={setSelectedGame}
-                  updateGameValue={updateGameValue}
-                />
-              ))
-          ) : (
-            <tr>
-              <td colSpan={9}>None</td>
-            </tr>
-          )}
-        </tbody>
-      </table>
+                .map((game) => (
+                  <Game
+                    key={gameToId(game)}
+                    id={gameToId(game)}
+                    game={game}
+                    setSelectedGame={setSelectedGame}
+                    updateGameValue={updateGameValue}
+                  />
+                ))
+            ) : (
+              <TableRow>
+                <TableCell colSpan={9}>None</TableCell>
+              </TableRow>
+            )}
+          </TableBody>
+        </Table>
+      </TableContainer>
     </>
   );
 }

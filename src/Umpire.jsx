@@ -1,4 +1,7 @@
+import { Collapse, IconButton, TableCell, TableRow } from "@mui/material";
+
 function Umpire(props) {
+  const [open, setOpen] = React.useState(false);
   // Highlighting
   let handleClickToFocus = () => {
     props.setSelectedUmpire(props.info);
@@ -24,33 +27,56 @@ function Umpire(props) {
   } = props.info;
 
   return (
-    <tr
+    <TableRow
       onClick={handleClickToFocus}
       draggable
       onDragStart={(event) => handleDragStart(event, props.info)}
       className={isUnavailable === true ? "table-danger" : ""}
     >
-      <td>{Name}</td>
-      <td>{Levels.length > 0 ? Levels.join(", ") : "None"}</td>
-      <td>{Teams.length > 0 ? Teams.join(", ") : "None"}</td>
-      <td>{Club || "-"}</td>
-      <td>{RestrictedTurf && RestrictedTurf.length > 0
-          ? RestrictedTurf?.join(", ")
-          : "-" || "-"}</td>
-      <td>{BlockoutDates && BlockoutDates.length > 0
-          ? BlockoutDates?.join(", ")
-          : "-" || "-"}</td>
-      <td>{LimitedTimes && LimitedTimes.length > 0
-          ? LimitedTimes?.join(", ")
-          : "-" || "-"}</td>
-      <td>{TBAO || "-"}</td>
-      <td>{Notes +
-          (isUnavailable
-            ? props.info.reason
-              ? " Unavailable: " + props.info.reason
-              : ""
-            : "") || "-"}</td>
-    </tr>
+      <TableCell>
+        <IconButton
+          aria-label="expand row"
+          size="small"
+          onClick={() => setOpen(!open)}
+        >
+          {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+        </IconButton>
+      </TableCell>
+      <TableCell>{Name}</TableCell>
+      <TableCell>{Levels.length > 0 ? Levels.join(", ") : "None"}</TableCell>
+      <TableCell>{Teams.length > 0 ? Teams.join(", ") : "None"}</TableCell>
+      <Collapse in={open} timeout="auto" unmountOnExit>
+        <Box>
+          <Table>
+            <TableCell>{Club || "-"}</TableCell>
+            <TableCell>
+              {RestrictedTurf && RestrictedTurf.length > 0
+                ? RestrictedTurf?.join(", ")
+                : "-" || "-"}
+            </TableCell>
+            <TableCell>
+              {BlockoutDates && BlockoutDates.length > 0
+                ? BlockoutDates?.join(", ")
+                : "-" || "-"}
+            </TableCell>
+            <TableCell>
+              {LimitedTimes && LimitedTimes.length > 0
+                ? LimitedTimes?.join(", ")
+                : "-" || "-"}
+            </TableCell>
+            <TableCell>{TBAO || "-"}</TableCell>
+            <TableCell>
+              {Notes +
+                (isUnavailable
+                  ? props.info.reason
+                    ? " Unavailable: " + props.info.reason
+                    : ""
+                  : "") || "-"}
+            </TableCell>
+          </Table>
+        </Box>
+      </Collapse>
+    </TableRow>
   );
 }
 

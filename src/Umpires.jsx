@@ -1,3 +1,12 @@
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableContainer,
+  TableHead,
+  TableRow,
+  Paper,
+} from "@mui/material";
 import Umpire from "./Umpire";
 import { gameToId } from "./utils";
 
@@ -37,30 +46,34 @@ function Umpires({ umpires, highlightType, setSelectedUmpire, selectedGame }) {
           ></Umpire>
         ))
     ) : (
-      <tr><td colSpan={9}>No umpires Found</td></tr>
+      <tr>
+        <td colSpan={9}>No umpires Found</td>
+      </tr>
     );
 
   return (
-    <table className="table w-75">
-      {/* Table headers */}
-      <thead className="table-dark">
-        <tr>
-          <th scope="col">Name</th>
-          <th scope="col">Levels</th>
-          <th scope="col">Teams</th>
-          <th scope="col">Club</th>
-          <th scope="col">Restricted Turf</th>
-          <th scope="col">Blockout Dates</th>
-          <th scope="col">Limited Times</th>
-          <th scope="col">To be aware of</th>
-          <th scope="col">Notes</th>
-        </tr>
-      </thead>
-      <tbody>
-        {/* Umpire rows*/}
-        {umpComponents}
-      </tbody>
-    </table>
+    <TableContainer component={Paper} sx={{ maxWidth: "75vw" }}>
+      <Table>
+        {/* Table headers */}
+        <TableHead>
+          <TableRow>
+            <TableCell scope="col">Name</TableCell>
+            <TableCell scope="col">Levels</TableCell>
+            <TableCell scope="col">Teams</TableCell>
+            <TableCell scope="col">Club</TableCell>
+            <TableCell scope="col">Restricted Turf</TableCell>
+            <TableCell scope="col">Blockout Dates</TableCell>
+            <TableCell scope="col">Limited Times</TableCell>
+            <TableCell scope="col">To be aware of</TableCell>
+            <TableCell scope="col">Notes</TableCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          {/* Umpire rows*/}
+          {umpComponents}
+        </TableBody>
+      </Table>
+    </TableContainer>
   );
 }
 

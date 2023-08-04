@@ -1,3 +1,4 @@
+import { TableCell, TableRow } from "@mui/material";
 import { umpireToId } from "./utils";
 import { useEffect, useState } from "react";
 
@@ -59,41 +60,41 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
   }, [ump1, ump2]);
 
   return (
-    <tr
+    <TableRow
       onClick={handleClickToFocus}
       className={game.isUnavailable === true ? "table-danger" : ""}
     >
-      <td> {game.Date} </td>
-      <td> {game.Grade} </td>
-      <td> {game.A} </td>
-      <td> {game.B} </td>
-      <td> {game.Time} </td>
-      <td> {game.Turf} </td>
-      <td
+      <TableCell> {game.Date} </TableCell>
+      <TableCell> {game.Grade} </TableCell>
+      <TableCell> {game.A} </TableCell>
+      <TableCell> {game.B} </TableCell>
+      <TableCell> {game.Time} </TableCell>
+      <TableCell> {game.Turf} </TableCell>
+      <TableCell
         id="ump1name"
         onDrop={handleDropFromDrag}
         onDragOver={handleDragOver}
       >
-        {!!ump1?.hasOwnProperty("Name") ? ump1.Name : <b>---</b>}
-      </td>
+        {ump1["Name"] ? ump1.Name : <b>---</b>}
+      </TableCell>
 
-      <td
+      <TableCell
         id="ump2name"
         onDrop={handleDropFromDrag}
         onDragOver={handleDragOver}
       >
-        {!!ump2?.hasOwnProperty("Name") ? ump2.Name : <b>---</b>}
-      </td>
+        {ump2["Name"] ? ump2.Name : <b>---</b>}
+      </TableCell>
       {game.isUnavailable ? (
         game.reason ? (
-          <td>Unavailable: {game.reason}</td>
+          <TableCell>Unavailable: {game.reason}</TableCell>
         ) : (
-          <td></td>
+          <TableCell>{/* Empty for notes */}</TableCell>
         )
       ) : (
-        <td></td>
+        <TableCell>{/* Empty for notes */}</TableCell>
       )}
-    </tr>
+    </TableRow>
   );
 }
 
