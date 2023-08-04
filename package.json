@@ -5,6 +5,9 @@
   "type": "module",
   "homepage": "http://umpires.xanderstokes.com/",
   "dependencies": {
+    "@emotion/react": "^11.11.1",
+    "@emotion/styled": "^11.11.0",
+    "@mui/material": "^5.14.3",
     "bootstrap": "^5.3.0",
     "papaparse": "^5.4.1",
     "react": "^18.2.0",
@@ -18,8 +21,8 @@
     "build": "vite build",
     "lint": "eslint src --ext js,jsx --report-unused-disable-directives --max-warnings 0",
     "preview": "vite preview",
-    "predeploy":"vite build",
-    "deploy":"gh-pages -d dist"
+    "predeploy": "vite build",
+    "deploy": "gh-pages -d dist"
   },
   "devDependencies": {
     "@types/react": "^18.0.37",
