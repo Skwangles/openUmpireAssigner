@@ -1,4 +1,5 @@
-import { Button, Box } from "@mui/material";
+import { Button, Box, Stack, Typography, Switch } from "@mui/material";
+import { useState } from "react";
 
 let FloatingBox = (props) => {
   let {
@@ -9,6 +10,20 @@ let FloatingBox = (props) => {
     setSelectedUmpire,
     setHighlightType,
   } = props;
+
+  const [checked, setChecked] = useState(highlightType === "game");
+
+  const handleFilterByChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    if (event.target.checked === true) {
+      setHighlightType("game");
+      setSelectedUmpire({});
+    } else {
+      setHighlightType("umpire");
+      setSelectedGame({});
+    }
+
+    setChecked(event.target.checked);
+  };
 
   /**
    * Drag and drop handling
@@ -91,30 +106,21 @@ let FloatingBox = (props) => {
           <Box sx={{ py: 1 }}>
             <Box sx={{ pb: 2 }}>
               <b>Filtering by: </b>
-              {highlightType === "game"
-                ? "Game"
-                : highlightType === "umpire"
-                ? "Umpire"
-                : "-"}
             </Box>
-            <Button
-              sx={{ mx: 2 }}
-              onClick={() => {
-                setHighlightType("umpire");
-                setSelectedGame({});
-              }}
+            <Box
+              display={"flex"}
+              alignItems={"center"}
+              justifyContent={"center"}
+              flexDirection={"row"}
             >
-              Filter by Umpire
-            </Button>
-            <Button
-              sx={{ mx: 2 }}
-              onClick={() => {
-                setHighlightType("game");
-                setSelectedUmpire({});
-              }}
-            >
-              Filter by Game
-            </Button>
+              <Typography>Umpire</Typography>
+              <Switch
+                checked={checked}
+                onChange={handleFilterByChange}
+                inputProps={{ "aria-label": "controlled" }}
+              />
+              <Typography>Game</Typography>
+            </Box>
           </Box>
           <Button
             sx={{ mx: 2 }}
