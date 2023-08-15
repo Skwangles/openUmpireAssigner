@@ -2,6 +2,7 @@ import db from "./db";
 import { verifyPassword, isAuthenticated } from "./auth";
 import { Router } from "express";
 import bcrypt from "bcrypt";
+import { UserAccount } from "database";
 
 const app = Router();
 
@@ -10,11 +11,15 @@ app.post("/api/login", async (req, res) => {
   const { username, password } = req.body;
 
   // Check if the user exists in the 'users' table
-  const user = await new Promise((resolve, reject) => {
-    db.get("SELECT * FROM users WHERE username = ?", [username], (err, row) => {
-      if (err) reject(err);
-      resolve(row);
-    });
+  const user: UserAccount = await new Promise((resolve, reject) => {
+    db.get(
+      "SELECT * FROM users WHERE username = ?",
+      [username],
+      (err, row: any) => {
+        if (err) reject(err);
+        resolve(row);
+      }
+    );
   });
 
   if (user && (await verifyPassword(password, user.password_hash))) {
