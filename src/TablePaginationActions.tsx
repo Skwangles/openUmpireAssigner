@@ -1,5 +1,11 @@
-import { KeyboardArrowLeft, KeyboardArrowRight } from "@material-ui/icons";
-import { Box, IconButton, LastPageIcon, FirstPageIcon } from "@mui/material";
+import {
+  KeyboardArrowLeft,
+  KeyboardArrowRight,
+  LastPage,
+  FirstPage,
+} from "@mui/icons-material";
+import { useTheme } from "@mui/material/styles";
+import { Box, IconButton } from "@mui/material";
 function TablePaginationActions(props) {
   const theme = useTheme();
   const { count, page, rowsPerPage, onPageChange } = props;
@@ -27,7 +33,7 @@ function TablePaginationActions(props) {
         disabled={page === 0}
         aria-label="first page"
       >
-        {theme.direction === "rtl" ? <LastPageIcon /> : <FirstPageIcon />}
+        {theme.direction === "rtl" ? <LastPage /> : <FirstPage />}
       </IconButton>
       <IconButton
         onClick={handleBackButtonClick}
@@ -56,7 +62,7 @@ function TablePaginationActions(props) {
         disabled={page >= Math.ceil(count / rowsPerPage) - 1}
         aria-label="last page"
       >
-        {theme.direction === "rtl" ? <FirstPageIcon /> : <LastPageIcon />}
+        {theme.direction === "rtl" ? <FirstPage /> : <LastPage />}
       </IconButton>
     </Box>
   );
