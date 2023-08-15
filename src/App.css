@@ -2,13 +2,13 @@
   margin: 2rem;
 }
 
-h1{
+h1 {
   text-align: center;
 }
 
 .control-panel {
-  background-color: rgb(231, 228, 228);
-  opacity: 0.90;
+  background-color: rgb(238, 234, 234);
+  opacity: 0.9;
   text-align: center;
   width: fit-content;
 }
