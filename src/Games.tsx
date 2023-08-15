@@ -16,6 +16,7 @@ import {
   TableContainer,
   TableHead,
   TableRow,
+  Box,
 } from "@mui/material";
 
 /**
@@ -75,14 +76,14 @@ function Games({
 
   return (
     <>
-      <div>
-        <Button className="btn-sm m-1" onClick={() => setSortByTime(true)}>
+      <Box>
+        <Button sx={{ m: 1 }} onClick={() => setSortByTime(true)}>
           Sort by Time
         </Button>
-        <Button className="btn-sm m-1" onClick={() => setSortByTime(false)}>
+        <Button sx={{ m: 1 }} onClick={() => setSortByTime(false)}>
           Sort by Grade
         </Button>
-      </div>
+      </Box>
       <TableContainer component={Paper} sx={{ maxWidth: "75vw" }}>
         <Table aria-label="games table">
           <TableHead>

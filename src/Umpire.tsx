@@ -1,4 +1,6 @@
+import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
 import { Collapse, IconButton, TableCell, TableRow } from "@mui/material";
+import React from "react";
 
 function Umpire(props) {
   const [open, setOpen] = React.useState(false);
@@ -39,7 +41,7 @@ function Umpire(props) {
           size="small"
           onClick={() => setOpen(!open)}
         >
-          {open ? <KeyboardArrowUpIcon /> : <KeyboardArrowDownIcon />}
+          {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
         </IconButton>
       </TableCell>
       <TableCell>{Name}</TableCell>

@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 import example_games from "./example-games.csv";
 import example_umpires from "./example-umpires.csv";
 
@@ -36,7 +36,7 @@ let Instructions = (props) => {
   }
 
   return (
-    <div className="container">
+    <Box sx={{ container: 1 }}>
       <h2>How to use:</h2>
       <br />- This is a <b>drag and drop</b> system, you drag and drop the
       desired umpire profile into the umpire 1 or umpire 2 column to
@@ -58,16 +58,12 @@ let Instructions = (props) => {
         Note: 'Teams' of an umpire mean they cannot be umpiring during those
         teams' games - i.e. playing, coaching, managing, etc.
       </i>
-      <div className="py-2">
-        <Button
-          className="btn btn-sm"
-          variant="contained"
-          onClick={loadExamples}
-        >
+      <Box sx={{ py: 2 }}>
+        <Button variant="contained" onClick={loadExamples}>
           Load Demo Data
         </Button>
-      </div>
-    </div>
+      </Box>
+    </Box>
   );
 };
 

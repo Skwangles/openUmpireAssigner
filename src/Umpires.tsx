@@ -19,7 +19,7 @@ interface UmpireProps {
   highlightType: string;
   setSelectedUmpire: any;
   selectedGame: any;
-} {
+}
 
 function Umpires({ umpires, highlightType, setSelectedUmpire, selectedGame }) {
   const [page, setPage] = useState(0);

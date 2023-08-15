@@ -1,7 +1,8 @@
 import "./App.css";
 import { useEffect, useState } from "react";
+import { Box } from "@mui/material";
 import CsvDownloadButton from "react-json-to-csv";
-
+import * as Papa from "papaparse";
 // My components
 import Umpires from "./Umpires";
 import Games from "./Games";
@@ -127,7 +128,7 @@ function App() {
   });
 
   return (
-    <div className="App">
+    <Box className="App">
       <Instructions
         handleGamesUpload={handleGamesUpload}
         handleUmpiresUpload={handleUmpiresUpload}
@@ -135,35 +136,41 @@ function App() {
       <br />
 
       {/* CSV Upload container */}
-      <div className="py-5 container">
-        <div className="py-4 d-flex border border-3 rounded justify-content-lg-evenly ">
-          <div>
+      <Box sx={{ py: 5, container: 1 }}>
+        <Box sx={{ py: 4, display: "flex", justifyContent: "space-evenly" }}>
+          <Box>
             <h2>Umpires CSV</h2>
             <input type="file" accept=".csv" onChange={handleUmpiresUpload} />
-          </div>
+          </Box>
 
-          <div className="py-2">
+          <Box sx={{ py: 2 }}>
             <h2>Games CSV</h2>
             <input type="file" accept=".csv" onChange={handleGamesUpload} />
-            <h4 className="mt-3">(Optional) More Games</h4>
+            <h4>(Optional) More Games</h4>
             <input type="file" accept=".csv" onChange={addSecondCSV} />
-          </div>
-          <div>
+          </Box>
+          <Box>
             <CsvDownloadButton
               filename="allocations.csv"
               delimiter=","
-              className="btn btn-lg btn-primary"
               data={games.map((game) => gameToPlayHQ(game))}
             >
               Save Current Allocations
             </CsvDownloadButton>
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
 
       {/* Print games */}
       <h1>Games</h1>
-      <div className="d-flex flex-column align-items-center justify-content-center ">
+      <Box
+        sx={{
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          justifyContent: "center",
+        }}
+      >
         <Games
           games={games}
           setGames={setGames}
@@ -171,19 +178,26 @@ function App() {
           setSelectedGame={setSelectedGame}
           selectedUmpire={selectedUmpire}
         ></Games>
-      </div>
+      </Box>
       <br />
 
       {/* Umpires list and information */}
       <h1>Umpire Profiles</h1>
-      <div className="py-3 d-flex flex-row justify-content-center ">
+      <Box
+        sx={{
+          py: 3,
+          display: "flex",
+          flexDirection: "row",
+          justifyContent: "center",
+        }}
+      >
         <Umpires
           umpires={parsedUmpires}
           highlightType={highlightType}
           setSelectedUmpire={setSelectedUmpire}
           selectedGame={selectedGame}
         ></Umpires>
-      </div>
+      </Box>
 
       {/* Floating box with controls, selection, and 'undo' box */}
       <FloatingBox
@@ -194,7 +208,7 @@ function App() {
         setSelectedUmpire={setSelectedUmpire}
         setHighlightType={setHighlightType}
       />
-    </div>
+    </Box>
   );
 }
 

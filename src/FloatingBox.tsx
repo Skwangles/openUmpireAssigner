@@ -1,4 +1,4 @@
-import { Button } from "@mui/material";
+import { Button, Box } from "@mui/material";
 
 let FloatingBox = (props) => {
   let {
@@ -24,15 +24,28 @@ let FloatingBox = (props) => {
   };
 
   return (
-    <div
-      className="sticky-bottom py-3 container-sm d-flex justify-content-center"
-      style={{ width: "auto", pointerEvents: "none" }}
+    <Box
+      sx={{
+        sticky: "bottom",
+        py: 3,
+        display: "flex",
+        justifyContent: "center",
+        width: "auto",
+        pointerEvents: "none",
+      }}
     >
-      <div
-        className=" control-panel p-3 border border-dark rounded"
+      <Box
+        sx={{
+          pointerEvents: "auto",
+          p: 3,
+          border: 1,
+          borderColor: "black",
+          borderRadius: 1,
+        }}
+        className="control-panel"
         style={{ pointerEvents: "auto" }}
       >
-        <div className="pb-2">
+        <Box sx={{ pb: 2 }}>
           <b>Checking availability for: </b>
           {highlightType === "game" ? (
             selectedGame["A"] ? (
@@ -47,8 +60,9 @@ let FloatingBox = (props) => {
               "None"
             )
           ) : selectedUmpire["Name"] ? (
-            <span
-              className="border border-1 border-dark rounded p-1"
+            <Box
+              component={"span"}
+              sx={{ border: 1, borderColor: "black", borderRadius: 1, p: 1 }}
               draggable
               onDragStart={(event) => {
                 handleDragStart(event, selectedUmpire);
@@ -59,29 +73,32 @@ let FloatingBox = (props) => {
                 selectedUmpire.Levels +
                 " - Teams: " +
                 selectedUmpire.Teams}
-            </span>
+            </Box>
           ) : (
             "None"
           )}
-        </div>
-        <div draggable onDragStart={handleDragStartOfEmpty} className="mt-2">
-          <i className="border border-dark rounded p-1">
+        </Box>
+        <Box sx={{ mt: 2 }} draggable onDragStart={handleDragStartOfEmpty}>
+          <Box
+            component={"i"}
+            sx={{ border: 1, borderColor: "black", borderRadius: 16, p: 1 }}
+          >
             Drag/Drop me to clear an allocation
-          </i>
-        </div>
+          </Box>
+        </Box>
 
-        <div className="py-2">
-          <div className="py-1">
-            <div className="pb-2">
+        <Box sx={{ py: 2 }}>
+          <Box sx={{ py: 1 }}>
+            <Box sx={{ pb: 2 }}>
               <b>Filtering by: </b>
               {highlightType === "game"
                 ? "Game"
                 : highlightType === "umpire"
                 ? "Umpire"
                 : "-"}
-            </div>
+            </Box>
             <Button
-              className="btn-sm mx-2"
+              sx={{ mx: 2 }}
               onClick={() => {
                 setHighlightType("umpire");
                 setSelectedGame({});
@@ -90,7 +107,7 @@ let FloatingBox = (props) => {
               Filter by Umpire
             </Button>
             <Button
-              className="btn-sm mx-2"
+              sx={{ mx: 2 }}
               onClick={() => {
                 setHighlightType("game");
                 setSelectedUmpire({});
@@ -98,9 +115,9 @@ let FloatingBox = (props) => {
             >
               Filter by Game
             </Button>
-          </div>
+          </Box>
           <Button
-            className="btn-sm mx-2"
+            sx={{ mx: 2 }}
             onClick={() => {
               setSelectedUmpire({});
               setSelectedGame({});
@@ -108,9 +125,9 @@ let FloatingBox = (props) => {
           >
             Clear Unavailabilities
           </Button>
-        </div>
-      </div>
-    </div>
+        </Box>
+      </Box>
+    </Box>
   );
 };
 
