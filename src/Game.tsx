@@ -59,10 +59,13 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
     }
   }, [ump1, ump2]);
 
+  let unavailableBackgroundColour =
+    game.isUnavailable === true ? "#f78b8b" : "";
+
   return (
     <TableRow
       onClick={handleClickToFocus}
-      className={game.isUnavailable === true ? "table-danger" : ""}
+      sx={{ backgroundColor: unavailableBackgroundColour }}
     >
       <TableCell> {game.Date} </TableCell>
       <TableCell> {game.Grade} </TableCell>

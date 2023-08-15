@@ -1,5 +1,14 @@
 import { KeyboardArrowDown, KeyboardArrowUp } from "@mui/icons-material";
-import { Collapse, IconButton, TableCell, TableRow, Box, Table } from "@mui/material";
+import {
+  Collapse,
+  IconButton,
+  TableCell,
+  TableRow,
+  Box,
+  Table,
+  TableBody,
+  TableHead,
+} from "@mui/material";
 import React from "react";
 
 function Umpire(props) {
@@ -28,57 +37,79 @@ function Umpire(props) {
     TBAO,
   } = props.info;
 
+  let isUnavailableStyle = isUnavailable ? "#f57878" : "";
+
   return (
-    <TableRow
-      onClick={handleClickToFocus}
-      draggable
-      onDragStart={(event) => handleDragStart(event, props.info)}
-      className={isUnavailable === true ? "table-danger" : ""}
-    >
-      <TableCell>
-        <IconButton
-          aria-label="expand row"
-          size="small"
-          onClick={() => setOpen(!open)}
-        >
-          {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
-        </IconButton>
-      </TableCell>
-      <TableCell>{Name}</TableCell>
-      <TableCell>{Levels.length > 0 ? Levels.join(", ") : "None"}</TableCell>
-      <TableCell>{Teams.length > 0 ? Teams.join(", ") : "None"}</TableCell>
-      <Collapse in={open} timeout="auto" unmountOnExit>
-        <Box>
-          <Table>
-            <TableCell>{Club || "-"}</TableCell>
-            <TableCell>
-              {RestrictedTurf && RestrictedTurf.length > 0
-                ? RestrictedTurf?.join(", ")
-                : "-" || "-"}
-            </TableCell>
-            <TableCell>
-              {BlockoutDates && BlockoutDates.length > 0
-                ? BlockoutDates?.join(", ")
-                : "-" || "-"}
-            </TableCell>
-            <TableCell>
-              {LimitedTimes && LimitedTimes.length > 0
-                ? LimitedTimes?.join(", ")
-                : "-" || "-"}
-            </TableCell>
-            <TableCell>{TBAO || "-"}</TableCell>
-            <TableCell>
-              {Notes +
-                (isUnavailable
-                  ? props.info.reason
-                    ? " Unavailable: " + props.info.reason
-                    : ""
-                  : "") || "-"}
-            </TableCell>
-          </Table>
-        </Box>
-      </Collapse>
-    </TableRow>
+    <>
+      <TableRow
+        onClick={handleClickToFocus}
+        draggable
+        onDragStart={(event) => handleDragStart(event, props.info)}
+        sx={{ backgroundColor: isUnavailableStyle }}
+      >
+        <TableCell>
+          <IconButton
+            aria-label="expand row"
+            size="small"
+            onClick={() => setOpen(!open)}
+          >
+            {open ? <KeyboardArrowUp /> : <KeyboardArrowDown />}
+          </IconButton>
+        </TableCell>
+        <TableCell>{Name}</TableCell>
+        <TableCell>{Levels.length > 0 ? Levels.join(", ") : "None"}</TableCell>
+        <TableCell>{Teams.length > 0 ? Teams.join(", ") : "None"}</TableCell>
+      </TableRow>
+      <TableRow>
+        <TableCell style={{ paddingBottom: 0, paddingTop: 0 }} colSpan={4}>
+          <Collapse in={open} timeout="auto" unmountOnExit>
+            <Box>
+              <Table>
+                <TableHead>
+                  <TableRow>
+                    <TableCell>Club</TableCell>
+                    <TableCell>Restricted Turf</TableCell>
+                    <TableCell>Blockout Dates</TableCell>
+                    <TableCell>Limited Times</TableCell>
+                    <TableCell>TBAO</TableCell>
+                    <TableCell>Notes</TableCell>
+                  </TableRow>
+                </TableHead>
+                <TableBody>
+                  <TableRow>
+                    <TableCell>{Club || "-"}</TableCell>
+                    <TableCell>
+                      {RestrictedTurf && RestrictedTurf.length > 0
+                        ? RestrictedTurf?.join(", ")
+                        : "-" || "-"}
+                    </TableCell>
+                    <TableCell>
+                      {BlockoutDates && BlockoutDates.length > 0
+                        ? BlockoutDates?.join(", ")
+                        : "-" || "-"}
+                    </TableCell>
+                    <TableCell>
+                      {LimitedTimes && LimitedTimes.length > 0
+                        ? LimitedTimes?.join(", ")
+                        : "-" || "-"}
+                    </TableCell>
+                    <TableCell>{TBAO || "-"}</TableCell>
+                    <TableCell>
+                      {Notes +
+                        (isUnavailable
+                          ? props.info.reason
+                            ? " Unavailable: " + props.info.reason
+                            : ""
+                          : "") || "-"}
+                    </TableCell>
+                  </TableRow>
+                </TableBody>
+              </Table>
+            </Box>
+          </Collapse>
+        </TableCell>
+      </TableRow>
+    </>
   );
 }
 
