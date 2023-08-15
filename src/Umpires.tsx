@@ -6,8 +6,8 @@ import {
   TableHead,
   TableRow,
   Paper,
-  TableFooter,
-  TablePagination,
+  TextField,
+  Tooltip,
 } from "@mui/material";
 import Umpire from "./Umpire";
 import { gameToId } from "./utils";
@@ -22,8 +22,7 @@ interface UmpireProps {
 }
 
 function Umpires({ umpires, highlightType, setSelectedUmpire, selectedGame }) {
-  const [page, setPage] = useState(0);
-  const [rowsPerPage, setRowsPerPage] = useState(5);
+  const [searchTerms, setSearchTerms] = useState<string[]>([]);
 
   // Disable umpires by game - by highlight mode
   if (highlightType === "game" && selectedGame["Time"]) {
@@ -50,6 +49,25 @@ function Umpires({ umpires, highlightType, setSelectedUmpire, selectedGame }) {
   let umpComponents =
     umpires.length > 0
       ? umpires
+          .filter((umpire) => {
+            for (const rawTerm of searchTerms) {
+              const term = rawTerm.toLowerCase().trim();
+              if (
+                !(
+                  umpire.Name.toLowerCase().trim().includes(term) ||
+                  umpire.Teams.find((team) =>
+                    team.toLowerCase().trim().includes(term)
+                  ) ||
+                  umpire.Levels.find((level) =>
+                    level.toLowerCase().trim().includes(term)
+                  ) ||
+                  umpire.Club.toLowerCase().trim().includes(term)
+                )
+              )
+                return false;
+            }
+            return true;
+          })
           .sort((a, b) => a.Name.localeCompare(b.Name))
           .map((umpire) => (
             <Umpire
@@ -61,74 +79,41 @@ function Umpires({ umpires, highlightType, setSelectedUmpire, selectedGame }) {
           ))
       : [];
 
-  // Avoid a layout jump when reaching the last page with empty rows.
-  const emptyRows =
-    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - umpComponents.length) : 0;
-
-  const handleChangePage = (event, newPage) => {
-    setPage(newPage);
-  };
-
-  const handleChangeRowsPerPage = (event) => {
-    setRowsPerPage(parseInt(event.target.value, 10));
-    setPage(0);
-  };
-
   return (
     <TableContainer component={Paper} sx={{ maxWidth: "75vw" }}>
       <Table>
         {/* Table headers */}
         <TableHead>
           <TableRow>
+            <TableCell colSpan={4}>
+              <Tooltip title="Use commas for multiple search terms">
+                <TextField
+                  label="Search..."
+                  onChange={(event) =>
+                    setSearchTerms(event.target.value.split(","))
+                  }
+                />
+              </Tooltip>
+            </TableCell>
+          </TableRow>
+          <TableRow>
+            <TableCell />
             <TableCell scope="col">Name</TableCell>
             <TableCell scope="col">Levels</TableCell>
             <TableCell scope="col">Teams</TableCell>
-            <TableCell scope="col">Club</TableCell>
-            <TableCell scope="col">Restricted Turf</TableCell>
-            <TableCell scope="col">Blockout Dates</TableCell>
-            <TableCell scope="col">Limited Times</TableCell>
-            <TableCell scope="col">To be aware of</TableCell>
-            <TableCell scope="col">Notes</TableCell>
           </TableRow>
         </TableHead>
         <TableBody>
           {/* Umpire rows*/}
-          {umpComponents}
 
-          {(rowsPerPage > 0
-            ? umpComponents.slice(
-                page * rowsPerPage,
-                page * rowsPerPage + rowsPerPage
-              )
-            : umpComponents
-          ).map((row) => row)}
-
-          {emptyRows > 0 && (
-            <TableRow style={{ height: 53 * emptyRows }}>
-              <TableCell colSpan={6} />
+          {umpComponents.length > 0 ? (
+            umpComponents
+          ) : (
+            <TableRow>
+              <TableCell colSpan={5}>No umpires found</TableCell>
             </TableRow>
           )}
         </TableBody>
-        <TableFooter>
-          <TableRow>
-            <TablePagination
-              rowsPerPageOptions={[5, 10, 25, { label: "All", value: -1 }]}
-              colSpan={3}
-              count={umpComponents.length}
-              rowsPerPage={rowsPerPage}
-              page={page}
-              SelectProps={{
-                inputProps: {
-                  "aria-label": "rows per page",
-                },
-                native: true,
-              }}
-              onPageChange={handleChangePage}
-              onRowsPerPageChange={handleChangeRowsPerPage}
-              ActionsComponent={TablePaginationActions}
-            />
-          </TableRow>
-        </TableFooter>
       </Table>
     </TableContainer>
   );

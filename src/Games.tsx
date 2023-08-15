@@ -17,6 +17,8 @@ import {
   TableHead,
   TableRow,
   Box,
+  TextField,
+  Tooltip,
 } from "@mui/material";
 
 /**
@@ -31,7 +33,8 @@ function Games({
   setSelectedGame,
   selectedUmpire,
 }) {
-  let [sortByTime, setSortByTime] = useState(true); // True
+  let [searchTerms, setSearchTerms] = useState<string[]>([]);
+  let [sortByTime, setSortByTime] = useState<boolean>(true); // True
 
   // Update overall game object
   let updateGameValue = (key, newGame) => {
@@ -74,6 +77,26 @@ function Games({
     });
   }
 
+  // Filter games by search terms - do before hand, so '0 games' is handled
+  games = games.filter((game) => {
+    // ALL search terms must match
+    for (const rawTerm of searchTerms) {
+      const term = rawTerm.trim().toLowerCase();
+      if (
+        !(
+          game.A.toLowerCase().trim().includes(term) ||
+          game.B.toLowerCase().trim().includes(term) ||
+          game.Turf.toLowerCase().trim().includes(term) ||
+          game.Grade.toLowerCase().trim().includes(term) ||
+          game.Time.toLowerCase().trim().includes(term) ||
+          game.Date.toLowerCase().trim().includes(term)
+        )
+      )
+        return false;
+    }
+    return true;
+  });
+
   return (
     <>
       <Box>
@@ -87,6 +110,18 @@ function Games({
       <TableContainer component={Paper} sx={{ maxWidth: "75vw" }}>
         <Table aria-label="games table">
           <TableHead>
+            <TableRow>
+              <TableCell colSpan={4}>
+                <Tooltip title="Use commas for multiple search terms">
+                  <TextField
+                    label="Search..."
+                    onChange={(event) =>
+                      setSearchTerms(event.target.value.split(","))
+                    }
+                  />
+                </Tooltip>
+              </TableCell>
+            </TableRow>
             <TableRow>
               <TableCell>Date</TableCell>
               <TableCell>Grade</TableCell>
