@@ -1,1 +1,1 @@
-export const unavailableRowColour = "#f2f2f2";
+export const unavailableRowColour = "#f78b8b";
