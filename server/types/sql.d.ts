@@ -56,13 +56,4 @@ declare module "database" {
     access_type: UserAccountAccessType;
     umpire_id: number;
   };
-
-  // Usage example
-  const userAccount: UserAccount = {
-    id: 1,
-    username: "admin",
-    password_hash: "admin_password_hash",
-    access_type: "Admin",
-    umpire_id: 1,
-  };
 }
