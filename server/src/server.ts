@@ -1,8 +1,8 @@
-import express from 'express';
-import { session } from "express-session";
-import cors from 'cors';
-import { json } from 'body-parser';
-import routesRouter from './routes';
+import express from "express";
+import session from "express-session";
+import cors from "cors";
+import { json } from "body-parser";
+import routesRouter from "./routes";
 
 const app = express();
 const port = 5000;
@@ -17,11 +17,13 @@ app.use(cors());
 app.use(json());
 
 // Set up express-session
-app.use(session({
-  secret: 'abc123',
-  resave: false,
-  saveUninitialized: true
-}));
+app.use(
+  session({
+    secret: "abc123",
+    resave: false,
+    saveUninitialized: true,
+  })
+);
 
 // Parse incoming request data as JSON
 app.use(json());
