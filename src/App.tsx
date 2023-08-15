@@ -136,7 +136,7 @@ function App() {
       <br />
 
       {/* CSV Upload container */}
-      <Box sx={{ py: 5, container: 1 }}>
+      <Box sx={{ py: 5, container: 1, border: 1, borderRadius: 4 }}>
         <Box sx={{ py: 4, display: "flex", justifyContent: "space-evenly" }}>
           <Box>
             <h2>Umpires CSV</h2>

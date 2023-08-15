@@ -26,8 +26,8 @@ let FloatingBox = (props) => {
   return (
     <Box
       sx={{
-        sticky: "bottom",
-        py: 3,
+        position: "sticky",
+        bottom: 0,
         display: "flex",
         justifyContent: "center",
         width: "auto",
