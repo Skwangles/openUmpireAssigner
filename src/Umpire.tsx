@@ -10,6 +10,7 @@ import {
   TableHead,
 } from "@mui/material";
 import React from "react";
+import { unavailableRowColour } from "./constants";
 
 function Umpire(props) {
   const [open, setOpen] = React.useState(false);
@@ -37,15 +38,13 @@ function Umpire(props) {
     TBAO,
   } = props.info;
 
-  let isUnavailableStyle = isUnavailable ? "#f57878" : "";
-
   return (
     <>
       <TableRow
         onClick={handleClickToFocus}
         draggable
         onDragStart={(event) => handleDragStart(event, props.info)}
-        sx={{ backgroundColor: isUnavailableStyle }}
+        sx={{ backgroundColor: isUnavailable ? unavailableRowColour : "" }}
       >
         <TableCell>
           <IconButton

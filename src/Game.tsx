@@ -1,6 +1,7 @@
 import { TableCell, TableRow } from "@mui/material";
 import { umpireToId } from "./utils";
 import { useEffect, useState } from "react";
+import { unavailableRowColour } from "./constants";
 
 function Game({ game, updateGameValue, setSelectedGame, id }) {
   let [ump1, setUmp1] = useState(game.ump1 || {});
@@ -59,13 +60,10 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
     }
   }, [ump1, ump2]);
 
-  let unavailableBackgroundColour =
-    game.isUnavailable === true ? "#f78b8b" : "";
-
   return (
     <TableRow
       onClick={handleClickToFocus}
-      sx={{ backgroundColor: unavailableBackgroundColour }}
+      sx={{ backgroundColor: game.isUnavailable ? unavailableRowColour : "" }}
     >
       <TableCell> {game.Date} </TableCell>
       <TableCell> {game.Grade} </TableCell>
