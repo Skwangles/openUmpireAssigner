@@ -1,16 +1,30 @@
-import { Link } from "react-router-dom";
+import { Button } from "@mui/material";
+import { Link, useNavigate } from "react-router-dom";
 
 const Navigation = () => {
+  const navigate = useNavigate();
   return (
-    <nav>
-      <ul>
-        <li>
-          <Link to="/">Appointments</Link>
-        </li>
-        <li>
-          <Link to="/dashboard">Dashboard</Link>
-        </li>
-      </ul>
+    <nav style={{ position: "sticky", top: 0, zIndex: 100000 }}>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={(e) => {
+          e.preventDefault();
+          navigate("/");
+        }}
+      >
+        Appointments
+      </Button>
+      <Button
+        variant="contained"
+        color="primary"
+        onClick={(e) => {
+          e.preventDefault();
+          navigate("/dashboard");
+        }}
+      >
+        Dashboard
+      </Button>
     </nav>
   );
 };
