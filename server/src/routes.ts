@@ -1,40 +1,8 @@
 import db from "./db";
 import { verifyPassword, isAuthenticated } from "./auth";
 import { Router } from "express";
-import bcrypt from "bcrypt";
-import { UserAccount } from "database";
 
 const app = Router();
-
-// Login endpoint
-app.post("/api/login", async (req, res) => {
-  const { username, password } = req.body;
-
-  // Check if the user exists in the 'users' table
-  const user: UserAccount = await new Promise((resolve, reject) => {
-    db.get(
-      "SELECT * FROM users WHERE username = ?",
-      [username],
-      (err, row: any) => {
-        if (err) reject(err);
-        resolve(row);
-      }
-    );
-  });
-
-  if (user && (await verifyPassword(password, user.password_hash))) {
-    // Set isAuthenticated flag in the session
-    req.session.authenticated = true;
-    req.session.user = user;
-
-    res.json({ ok: true, message: "Login successful" });
-
-    return;
-  }
-
-  // Default deny
-  res.status(401).json({ error: "Invalid username or password" });
-});
 
 export const getUmpire = async (username) => {
   // Check if the user exists in the 'users' table
@@ -48,7 +16,7 @@ export const getUmpire = async (username) => {
 };
 
 // API endpoint to get all umpires (Sensitive data hidden for unauthenticated users)
-const getUmpires = async (req, res) => {
+app.get("/umpires", isAuthenticated, async (req, res) => {
   const { username, password } = req.headers;
   if (!username || !password) {
     res.status(401).json({ error: "Authentication required" });
@@ -80,10 +48,10 @@ const getUmpires = async (req, res) => {
       }
     }
   );
-};
+});
 
 // API endpoint to add a new umpire
-const addUmpire = (req, res) => {
+app.post("/umpires", isAuthenticated, (req, res) => {
   const {
     Name,
     Email,
@@ -146,10 +114,10 @@ const addUmpire = (req, res) => {
       }
     }
   );
-};
+});
 
 // API endpoint to update an umpire
-const updateUmpire = (req, res) => {
+app.patch("/umpires/:id", isAuthenticated, (req, res) => {
   const id = req.params.id;
   const updatedFields = req.body;
   const selectedLevels = req.body.selectedLevels; // Array of selected level IDs
@@ -195,10 +163,10 @@ const updateUmpire = (req, res) => {
       }
     }
   );
-};
+});
 
 // API endpoint to delete an umpire
-const deleteUmpire = (req, res) => {
+app.delete("/umpires/:id", isAuthenticated, (req, res) => {
   const id = req.params.id;
   db.run("DELETE FROM umpires WHERE id = ?", [id], (err) => {
     if (err) {
@@ -214,12 +182,6 @@ const deleteUmpire = (req, res) => {
       });
     }
   });
-};
-
-// Set up API routes
-app.get("/umpires", isAuthenticated, getUmpires);
-app.post("/umpires", isAuthenticated, addUmpire);
-app.patch("/umpires/:id", isAuthenticated, updateUmpire);
-app.delete("/umpires/:id", isAuthenticated, deleteUmpire);
+});
 
 export default app;
