@@ -3,7 +3,6 @@ import { Box, ToggleButton } from "@mui/material";
 
 export default function UseSql({ useSql, setUseSql, isAuthenticated }) {
   if (isAuthenticated !== true) {
-    setUseSql(false);
     return;
   }
 
