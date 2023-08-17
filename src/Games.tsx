@@ -111,7 +111,7 @@ function Games({
         <Table aria-label="games table">
           <TableHead>
             <TableRow>
-              <TableCell colSpan={4}>
+              <TableCell colSpan={9}>
                 <Tooltip title="Use commas for multiple search terms">
                   <TextField
                     label="Search..."
