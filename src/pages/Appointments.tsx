@@ -2,7 +2,6 @@ import "../Appointments.css";
 import { useEffect, useState } from "react";
 import { Box } from "@mui/material";
 
-import * as Papa from "papaparse";
 // My components
 import Umpires from "../AppointmentsComponent/Umpires";
 import Games from "../AppointmentsComponent/Games";
@@ -11,6 +10,7 @@ import parseUmpire from "../AppointmentsComponent/parseUmpires";
 import Instructions from "../AppointmentsComponent/Instructions";
 import FloatingBox from "../AppointmentsComponent/FloatingBox";
 import UploadCsv from "../AppointmentsComponent/UploadCsv";
+import UseSql from "../AppointmentsComponent/UseSql";
 
 const GAME_LENGTH_MIN = 60;
 
@@ -65,8 +65,14 @@ function App({ isAuthenticated }) {
 
   return (
     <Box className="App">
+      <h1>Appointments</h1>
       <Instructions setGames={setGames} setUmpires={setUmpires} />
       <br />
+      <UseSql
+        useSql={useSql}
+        setUseSql={setUseSql}
+        isAuthenticated={isAuthenticated}
+      />
       <UploadCsv
         setGames={setGames}
         setUmpires={setUmpires}
