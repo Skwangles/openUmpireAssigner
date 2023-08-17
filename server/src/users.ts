@@ -2,7 +2,6 @@ import { Request, Response } from "express";
 import { hashString, verifyPassword } from "./auth"; // Import your hashString and verifyPassword functions
 import db from "./db"; // Import your database connection
 import { Router } from "express";
-import { UserAccount } from "database";
 
 const app = Router();
 
