@@ -18,7 +18,10 @@ const App = () => {
       <Router>
         <Navigation />
         <Routes>
-          <Route index element={<Appointments />} />
+          <Route
+            index
+            element={<Appointments isAuthenticated={isAuthenticated} />}
+          />
           <Route path="login" element={<LoginPage onLogin={handleLogin} />} />
           <Route
             path="dashboard"
