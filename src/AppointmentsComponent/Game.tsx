@@ -1,7 +1,11 @@
 import { Box, TableCell, TableRow } from "@mui/material";
 import { umpireToId } from "./utils";
 import { useEffect, useState } from "react";
-import { emptyCellColour, emptyCellColourRed, unavailableRowColour } from "./constants";
+import {
+  emptyCellColour,
+  emptyCellColourRed,
+  unavailableRowColour,
+} from "../constants";
 
 function Game({ game, updateGameValue, setSelectedGame, id }) {
   let [ump1, setUmp1] = useState(game.ump1 || {});
@@ -60,11 +64,14 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
     }
   }, [ump1, ump2]);
 
-
   return (
     <TableRow
       onClick={handleClickToFocus}
-      sx={{ backgroundColor: game.isUnavailable ? unavailableRowColour + " !important" : "" }}
+      sx={{
+        backgroundColor: game.isUnavailable
+          ? unavailableRowColour + " !important"
+          : "",
+      }}
     >
       <TableCell> {game.Date} </TableCell>
       <TableCell> {game.Grade} </TableCell>
@@ -76,7 +83,13 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
         id="ump1name"
         onDrop={handleDropFromDrag}
         onDragOver={handleDragOver}
-        sx={{backgroundColor: ump1["Name"] ? "" : (game.isUnavailable ? emptyCellColourRed : emptyCellColour)}}
+        sx={{
+          backgroundColor: ump1["Name"]
+            ? ""
+            : game.isUnavailable
+            ? emptyCellColourRed
+            : emptyCellColour,
+        }}
       >
         {ump1["Name"] ? ump1.Name : ""}
       </TableCell>
@@ -85,9 +98,15 @@ function Game({ game, updateGameValue, setSelectedGame, id }) {
         id="ump2name"
         onDrop={handleDropFromDrag}
         onDragOver={handleDragOver}
-        sx={{backgroundColor: ump2["Name"] ?  "" : (game.isUnavailable ? emptyCellColourRed : emptyCellColour) }}
+        sx={{
+          backgroundColor: ump2["Name"]
+            ? ""
+            : game.isUnavailable
+            ? emptyCellColourRed
+            : emptyCellColour,
+        }}
       >
-        {ump2["Name"] ? ump2.Name : "" }
+        {ump2["Name"] ? ump2.Name : ""}
       </TableCell>
       {game.isUnavailable ? (
         game.reason ? (

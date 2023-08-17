@@ -1,15 +1,12 @@
 import { Button, Box } from "@mui/material";
-import example_games from "./example-games.csv";
-import example_umpires from "./example-umpires.csv";
 
-let Instructions = (props) => {
-  let { handleGamesUpload, handleUmpiresUpload } = props;
+let Instructions = ({ setUmpires, setGames }) => {
   /**
    * Demo data loading
    */
   let loadExamples = () => {
-    loadLocalFile(example_games, handleGamesUpload);
-    loadLocalFile(example_umpires, handleUmpiresUpload);
+    loadLocalFile("example-games", handleGamesUpload);
+    loadLocalFile("example-umpires", handleUmpiresUpload);
   };
 
   /**
@@ -34,6 +31,54 @@ let Instructions = (props) => {
         console.log("Error:", error);
       });
   }
+
+  //TODO: REMOVE THE REPEATED handleXUpload FUNCTIONS
+  /**
+   * Upload umpire profiles from CSV
+   * @param {*} event
+   */
+  const handleUmpiresUpload = (event) => {
+    const file = event.target.files[0];
+
+    // Parse contents
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => {
+        let umpireList = [];
+        for (const umpire of results.data) {
+          umpireList.push(csvToUmpire(umpire));
+        }
+
+        localStorage.setItem("umpires", JSON.stringify(umpireList));
+        setUmpires(Array.from(umpireList));
+      },
+    });
+  };
+
+  /**
+   *  Overwrite games from new CSV
+   * Load Games from a CSV file in playerHQ format
+   */
+  const handleGamesUpload = (event) => {
+    const file = event.target.files[0];
+    // Parse contents
+    Papa.parse(file, {
+      header: true,
+      skipEmptyLines: true,
+      complete: (results) => {
+        let gameList = [];
+        for (const game of results.data) {
+          //Add extra entries to game info
+          if (game["bye"] && game.bye !== "") continue; //Bye row
+          gameList.push(csvToGame(game));
+        }
+
+        localStorage.setItem("games", JSON.stringify(gameList));
+        setGames(Array.from(gameList));
+      },
+    });
+  };
 
   return (
     <Box sx={{ container: 1 }}>

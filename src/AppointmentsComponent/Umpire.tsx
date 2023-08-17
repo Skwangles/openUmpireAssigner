@@ -10,7 +10,7 @@ import {
   TableHead,
 } from "@mui/material";
 import React from "react";
-import { unavailableRowColour } from "./constants";
+import { unavailableRowColour } from "../constants";
 
 function Umpire(props) {
   const [open, setOpen] = React.useState(false);

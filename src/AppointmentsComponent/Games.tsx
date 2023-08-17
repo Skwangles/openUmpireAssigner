@@ -125,8 +125,8 @@ function Games({
             <TableRow>
               <TableCell>Date</TableCell>
               <TableCell>Grade</TableCell>
-              <TableCell>A</TableCell>
-              <TableCell>B</TableCell>
+              <TableCell>Team A</TableCell>
+              <TableCell>Team B</TableCell>
               <TableCell>Time</TableCell>
               <TableCell>Turf</TableCell>
               <TableCell>Umpire 1</TableCell>
