@@ -33,7 +33,7 @@ app.use(
 app.use(json());
 
 // Login endpoint
-app.post("/api/login", async (req, res) => {
+app.post("/login", async (req, res) => {
   const { username, password } = req.body;
 
   // Check if the user exists in the 'users' table
@@ -62,10 +62,10 @@ app.post("/api/login", async (req, res) => {
   res.status(401).json({ error: "Invalid username or password" });
 });
 
-app.use("/api/users", userRoutes);
+app.use("/users", userRoutes);
 
 // Set up API routes
-app.use("/api", routesRouter);
+app.use("/", routesRouter);
 
 // Start the server
 app.listen(port, () => {
